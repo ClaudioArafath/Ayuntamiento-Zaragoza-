@@ -191,6 +191,27 @@ $conn_lycaios->close();
             border: 1px solid #d1d5db;
             background-color: white;
         }
+        /* Animaciones para la caja de búsqueda */
+#caja-busqueda {
+    transition: all 0.3s ease-in-out;
+    max-height: 0;
+}
+
+#caja-busqueda.mostrar {
+    max-height: 200px;
+}
+
+#resultado-busqueda {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.btn-imprimir-resultado {
+    transition: all 0.2s ease;
+}
+
+.btn-imprimir-resultado:hover {
+    transform: scale(1.05);
+}
     </style>
 </head>
 <body class="bg-gray-100">
@@ -203,6 +224,31 @@ $conn_lycaios->close();
             <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
         </div>
     </header>
+
+    <!-- Caja de búsqueda por folio -->
+<div class="bg-white shadow-md p-3">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center">
+            <button id="toggle-busqueda" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg mr-2">
+                🔍
+            </button>
+            <span class="text-gray-700">Buscar comprobante por folio</span>
+        </div>
+    </div>
+    
+    <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
+        <div class="flex space-x-2">
+            <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="btn-buscar" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Buscar
+            </button>
+        </div>
+        <div id="resultado-busqueda" class="mt-3 hidden">
+            <!-- Aquí se mostrarán los resultados -->
+        </div>
+    </div>
+</div>
 
     <!-- Contenido -->
     <main class="p-4 max-w-7xl mx-auto">
@@ -541,6 +587,93 @@ $conn_lycaios->close();
             // Actualizar datos cada 5 segundos
             setInterval(actualizarDatos, 5000);
         });
+        
+        // Variables y funciones para la búsqueda
+        let busquedaAbierta = false;
+
+        // Alternar visibilidad de la caja de búsqueda
+        function toggleBusqueda() {
+            const cajaBusqueda = document.getElementById('caja-busqueda');
+            const toggleBtn = document.getElementById('toggle-busqueda');
+            
+            if (busquedaAbierta) {
+                cajaBusqueda.classList.add('hidden');
+                cajaBusqueda.classList.remove('mostrar');
+                toggleBtn.innerHTML = '🔍';
+            } else {
+                cajaBusqueda.classList.remove('hidden');
+                cajaBusqueda.classList.add('mostrar');
+                toggleBtn.innerHTML = '▼';
+            }
+            
+            busquedaAbierta = !busquedaAbierta;
+        }
+
+// Buscar comprobante por folio
+function buscarPorFolio() {
+    const folio = document.getElementById('input-busqueda').value.trim();
+    const resultadoDiv = document.getElementById('resultado-busqueda');
+    
+    if (!folio) {
+        resultadoDiv.innerHTML = '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">Por favor ingrese un folio válido</div>';
+        resultadoDiv.classList.remove('hidden');
+        return;
+    }
+    
+    // Mostrar loading
+    resultadoDiv.innerHTML = '<div class="text-center py-4"><div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div><p class="mt-2">Buscando...</p></div>';
+    resultadoDiv.classList.remove('hidden');
+    
+    // Realizar búsqueda via AJAX
+    $.ajax({
+        url: 'buscar_comprobante.php',
+        type: 'GET',
+        data: { folio: folio },
+        dataType: 'json',
+        success: function(data) {
+            if (data.success) {
+                resultadoDiv.innerHTML = `
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-semibold text-green-800">Comprobante Encontrado</h4>
+                                <p class="text-sm text-green-600">Folio: ${data.comprobante.folio}</p>
+                                <p class="text-sm text-green-600">Fecha: ${data.comprobante.fecha}</p>
+                                <p class="text-sm text-green-600">Total: $${data.comprobante.total}</p>
+                                <p class="text-sm text-green-600">Concepto: ${data.comprobante.concepto || 'N/A'}</p>
+                            </div>
+                            <button onclick="imprimirComprobante(${data.comprobante.id})" 
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm btn-imprimir-resultado">
+                                🖨️ Imprimir
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultadoDiv.innerHTML = `<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">${data.message}</div>`;
+            }
+        },
+        error: function() {
+            resultadoDiv.innerHTML = '<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">Error al realizar la búsqueda</div>';
+        }
+    });
+}
+
+// Event listeners para la búsqueda
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle búsqueda
+    document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
+    
+    // Buscar al hacer clic en el botón
+    document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
+    
+    // Buscar al presionar Enter en el input
+    document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            buscarPorFolio();
+        }
+    });
+});
     </script>
 
 </body>
