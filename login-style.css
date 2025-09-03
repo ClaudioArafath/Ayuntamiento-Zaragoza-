@@ -1,0 +1,13 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Animación suave al cargar */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+div {
+  animation: fadeIn 1s ease-in-out;
+}
