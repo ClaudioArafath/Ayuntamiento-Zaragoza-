@@ -133,7 +133,7 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
 }
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
-$sql_facturas = "SELECT id, invoicecode, date, total FROM invoice ORDER BY date DESC LIMIT 8";
+$sql_facturas = "SELECT id, invoicecode, date, total, employee as departamento FROM invoice ORDER BY date DESC LIMIT 8";
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 // === CONSULTA 6: Total de condonaciones (descuentos) del mes ===
@@ -317,6 +317,7 @@ $conn_lycaios->close();
                     <th class="px-4 py-2 border">Folio</th>
                     <th class="px-4 py-2 border">Fecha y hora</th>
                     <th class="px-4 py-2 border">Total</th>
+                    <th class="px-4 py-2 border">Departamento</th>
                     <th class="px-4 py-2 border">Comprobante</th>
                 </tr>
             </thead>
@@ -328,6 +329,7 @@ $conn_lycaios->close();
                             <td class="px-4 py-2 border"><?php echo $row['invoicecode']; ?></td>
                             <td class="px-4 py-2 border"><?php echo $row['date']; ?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($row['total'], 2); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['departamento'] ?? 'N/A'); ?></td>
                             <td class="px-4 py-2 border text-center">
                                 <button onclick="imprimirComprobante(<?php echo $row['id']; ?>)" 
                                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
@@ -337,7 +339,7 @@ $conn_lycaios->close();
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>
+                    <tr><td colspan="6" class="text-center p-4">No hay cobros registradas.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
@@ -502,6 +504,7 @@ $conn_lycaios->close();
                                     <td class="px-4 py-2 border">${factura.invoicecode}</td>
                                     <td class="px-4 py-2 border">${factura.date}</td>
                                     <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
+                                    <td class="px-4 py-2 border">${factura.departamento || 'N/A'}</td>
                                     <td class="px-4 py-2 border text-center">
                                 <button onclick="imprimirComprobante(${factura.id})" 
                                     class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
@@ -512,7 +515,7 @@ $conn_lycaios->close();
             `;
         });
     } else {
-        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>';
+        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay cobros registradas.</td></tr>';
     }
     $('#tabla-facturas tbody').html(tablaBody);
 }
@@ -587,7 +590,7 @@ $conn_lycaios->close();
             // Actualizar datos cada 5 segundos
             setInterval(actualizarDatos, 5000);
         });
-        
+
         // Variables y funciones para la búsqueda
         let busquedaAbierta = false;
 
