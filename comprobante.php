@@ -22,13 +22,13 @@ if ($conn_lycaios->connect_error) {
 // Obtener ID de la factura desde parámetro GET
 $factura_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Consultar datos de la factura
+// Consultar datos de la factura - CORREGIDO: variable fuera de comillas
 $sql_factura = "
-    SELECT i.*, c.name as categoria, t.item_name as concepto
+    SELECT i.*, c.name as categoria
     FROM invoice i
     LEFT JOIN topseller t ON i.id = t.invoiceid
     LEFT JOIN categorias c ON t.categoryid = c.id
-    WHERE i.id = $factura_id
+    WHERE i.id = " . $factura_id . "
     LIMIT 1
 ";
 
@@ -37,6 +37,51 @@ $factura = null;
 
 if ($result_factura && $result_factura->num_rows > 0) {
     $factura = $result_factura->fetch_assoc();
+    
+    // Consultar los items de la factura - CORREGIDO: variable fuera de comillas
+    $sql_items = "SELECT items FROM invoice WHERE id = " . $factura_id;
+    $result_items = $conn_lycaios->query($sql_items);
+    $items_data = [];
+    
+    if ($result_items && $result_items->num_rows > 0) {
+        $row_items = $result_items->fetch_assoc();
+        if (!empty($row_items['items'])) {
+            // Intentar decodificar el JSON de items
+            $items_json = $row_items['items'];
+            $items_data = json_decode($items_json, true);
+            
+            // Si json_decode falla, intentar limpiar el JSON
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                // Limpiar posibles caracteres especiales
+                $cleaned_json = preg_replace('/[^\x20-\x7E]/', '', $items_json);
+                $items_data = json_decode($cleaned_json, true);
+                
+                // Si aún falla, mostrar error en log pero continuar
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    error_log("Error decodificando JSON de items: " . json_last_error_msg());
+                    $items_data = [];
+                }
+            }
+        }
+    }
+    
+    // Extraer conceptos de los items
+    $conceptos = [];
+    $total_items = 0;
+    
+    if (is_array($items_data) && count($items_data) > 0) {
+        foreach ($items_data as $item) {
+            if (isset($item['Description'])) {
+                $conceptos[] = $item['Description'];
+            }
+            if (isset($item['Units']) && isset($item['Price'])) {
+                $total_items += floatval($item['Units']) * floatval($item['Price']);
+            }
+        }
+    }
+    
+    $factura['conceptos'] = $conceptos;
+    $factura['total_items'] = $total_items;
 }
 
 $conn_lycaios->close();
@@ -89,6 +134,11 @@ if (!$factura) {
             margin-top: 15px;
             color: #666;
         }
+        .concepto-item {
+            margin: 3px 0;
+            padding: 2px;
+            border-bottom: 1px dotted #eee;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -118,8 +168,20 @@ if (!$factura) {
             <div class="datos">
                 <p><strong>Folio:</strong> <?php echo htmlspecialchars($factura['invoicecode']); ?></p>
                 <p><strong>Fecha:</strong> <?php echo date('d/m/Y H:i', strtotime($factura['date'])); ?></p>
-                <p><strong>Concepto:</strong> <?php echo htmlspecialchars($factura['concepto'] ?? 'Pago general'); ?></p>
-                <p><strong>Categoría:</strong> <?php echo htmlspecialchars($factura['categoria'] ?? 'General'); ?></p>
+                
+                <?php if (!empty($factura['categoria'])): ?>
+                <p><strong>Categoría:</strong> <?php echo htmlspecialchars($factura['categoria']); ?></p>
+                <?php endif; ?>
+                
+                <?php if (!empty($factura['conceptos'])): ?>
+                <hr class="my-2">
+                <p><strong>Conceptos:</strong></p>
+                <div class="conceptos">
+                    <?php foreach ($factura['conceptos'] as $concepto): ?>
+                        <div class="concepto-item">• <?php echo htmlspecialchars($concepto); ?></div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
                 
                 <hr class="my-2">
                 
@@ -129,7 +191,11 @@ if (!$factura) {
                 <hr class="my-2">
                 
                 <p><strong>Descuento:</strong> $<?php echo number_format($factura['descuento'] ?? 0, 2); ?></p>
-                <p><strong>Subtotal:</strong> $<?php echo number_format($factura['total'] + ($factura['descuento'] ?? 0), 2); ?></p>
+                <p><strong>Subtotal:</strong> $<?php echo number_format(($factura['total'] + ($factura['descuento'] ?? 0)), 2); ?></p>
+                
+                <?php if (isset($factura['total_items']) && $factura['total_items'] > 0): ?>
+                <p><strong>Total Items:</strong> $<?php echo number_format($factura['total_items'], 2); ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Código QR -->
@@ -150,18 +216,5 @@ if (!$factura) {
             </div>
         </div>
     </div>
-
-    <script>
-        // Función para generar QR (se implementará posteriormente)
-        function generarQR(codigo) {
-            console.log('Generando QR para:', codigo);
-            // Aquí integrarás la librería de generación de QR
-        }
-
-        // Generar QR al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            generarQR('<?php echo $factura['invoicecode']; ?>');
-        });
-    </script>
 </body>
 </html>
