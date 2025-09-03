@@ -197,8 +197,11 @@ $conn_lycaios->close();
 
     <!-- Header -->
     <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
-        <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
+            <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
+        <div class="flex space-x-2">
+            <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button>
+            <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
+        </div>
     </header>
 
     <!-- Contenido -->
