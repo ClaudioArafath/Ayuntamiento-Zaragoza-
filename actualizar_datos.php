@@ -152,7 +152,7 @@ $response['resumen'] = [
 ];
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
-$sql_facturas = "SELECT id, invoicecode, date, total FROM invoice ORDER BY date DESC LIMIT 5";
+$sql_facturas = "SELECT id, invoicecode, date, total FROM invoice ORDER BY date DESC LIMIT 8";
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 $facturas = [];
