@@ -469,16 +469,16 @@ $conn_lycaios->close();
 
         // === Cambiar filtro ===
         function cambiarFiltro(nuevoFiltro) {
-            // Actualizar estado de botones
-            $('.filtro-btn').removeClass('bg-blue-500 text-white').addClass('bg-gray-200');
-            $(`#filtro-${nuevoFiltro}`).removeClass('bg-gray-200').addClass('bg-blue-500 text-white');
-            
+            // Actualizar estado de botones - USANDO LAS CLASES CORRECTAS
+            $('.filtro-btn').removeClass('bg-red-500 text-white').addClass('bg-orange-200');
+            $(`#filtro-${nuevoFiltro}`).removeClass('bg-orange-200').addClass('bg-red-500 text-white');
+        
             // Actualizar filtro actual
             filtroActual = nuevoFiltro;
-            
+        
             // Actualizar datos inmediatamente
             actualizarDatos();
-        }
+    }
 
         // === Cambiar mes ===
         function cambiarMes(nuevoMes) {
