@@ -133,7 +133,7 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
 }
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
-$sql_facturas = "SELECT id, invoicecode, date, total FROM invoice ORDER BY date DESC LIMIT 5";
+$sql_facturas = "SELECT id, invoicecode, date, total FROM invoice ORDER BY date DESC LIMIT 8";
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 // === CONSULTA 6: Total de condonaciones (descuentos) del mes ===
@@ -261,35 +261,42 @@ $conn_lycaios->close();
         </div>
         
         <!-- Tabla de facturas -->
-        <div class="data-card">
-            <h2 class="text-xl font-semibold mb-4">Últimos cobros</h2>
-            <div class="overflow-x-auto">
-                <table id="tabla-facturas" class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200 text-left">
-                            <th class="px-4 py-2 border">ID</th>
-                            <th class="px-4 py-2 border">Folio</th>
-                            <th class="px-4 py-2 border">Fecha y hora</th>
-                            <th class="px-4 py-2 border">Total</th>
+<div class="data-card">
+    <h2 class="text-xl font-semibold mb-4">Últimos cobros</h2>
+    <div class="overflow-x-auto">
+        <table id="tabla-facturas" class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-200 text-left">
+                    <th class="px-4 py-2 border">ID</th>
+                    <th class="px-4 py-2 border">Folio</th>
+                    <th class="px-4 py-2 border">Fecha y hora</th>
+                    <th class="px-4 py-2 border">Total</th>
+                    <th class="px-4 py-2 border">Comprobante</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result_facturas && $result_facturas->num_rows > 0): ?>
+                    <?php while ($row = $result_facturas->fetch_assoc()): ?>
+                        <tr class="hover:bg-gray-100">
+                            <td class="px-4 py-2 border"><?php echo $row['id']; ?></td>
+                            <td class="px-4 py-2 border"><?php echo $row['invoicecode']; ?></td>
+                            <td class="px-4 py-2 border"><?php echo $row['date']; ?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($row['total'], 2); ?></td>
+                            <td class="px-4 py-2 border text-center">
+                                <button onclick="imprimirComprobante(<?php echo $row['id']; ?>)" 
+                                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                    🖨️ Imprimir
+                                </button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($result_facturas && $result_facturas->num_rows > 0): ?>
-                            <?php while ($row = $result_facturas->fetch_assoc()): ?>
-                                <tr class="hover:bg-gray-100">
-                                    <td class="px-4 py-2 border"><?php echo $row['id']; ?></td>
-                                    <td class="px-4 py-2 border"><?php echo $row['invoicecode']; ?></td>
-                                    <td class="px-4 py-2 border"><?php echo $row['date']; ?></td>
-                                    <td class="px-4 py-2 border">$<?php echo number_format($row['total'], 2); ?></td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr><td colspan="4" class="text-center p-4">No hay facturas registradas.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
     </main>
 
@@ -445,18 +452,24 @@ $conn_lycaios->close();
                             data.facturas.forEach(function(factura) {
                                 tablaBody += `
                                     <tr class="hover:bg-gray-100">
-                                        <td class="px-4 py-2 border">${factura.id}</td>
-                                        <td class="px-4 py-2 border">${factura.invoicecode}</td>
-                                        <td class="px-4 py-2 border">${factura.date}</td>
-                                        <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
-                                    </tr>
-                                `;
-                            });
-                        } else {
-                            tablaBody = '<tr><td colspan="4" class="text-center p-4">No hay facturas registradas.</td></tr>';
-                        }
-                        $('#tabla-facturas tbody').html(tablaBody);
-                    }
+                                    <td class="px-4 py-2 border">${factura.id}</td>
+                                    <td class="px-4 py-2 border">${factura.invoicecode}</td>
+                                    <td class="px-4 py-2 border">${factura.date}</td>
+                                    <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
+                                    <td class="px-4 py-2 border text-center">
+                                <button onclick="imprimirComprobante(${factura.id})" 
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                            🖨️ Imprimir
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    } else {
+        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>';
+    }
+    $('#tabla-facturas tbody').html(tablaBody);
+}
                 },
                 error: function(xhr, status, error) {
                     console.log('Error al actualizar los datos:', error);
@@ -469,7 +482,7 @@ $conn_lycaios->close();
 
         // === Cambiar filtro ===
         function cambiarFiltro(nuevoFiltro) {
-            // Actualizar estado de botones - USANDO LAS CLASES CORRECTAS
+            // Actualizar estado de botones
             $('.filtro-btn').removeClass('bg-red-500 text-white').addClass('bg-orange-200');
             $(`#filtro-${nuevoFiltro}`).removeClass('bg-orange-200').addClass('bg-red-500 text-white');
         
@@ -497,6 +510,16 @@ $conn_lycaios->close();
         // Función auxiliar para capitalizar la primera letra
         function capitalizarPrimeraLetra(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        // Función para imprimir comprobante
+        function imprimirComprobante(facturaId) {
+            // Abrir el comprobante en una nueva ventana
+            const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
+    
+            // Esperar a que la ventana se cargue para imprimir
+            ventana.onload = function() {
+                ventana.print();
+            };
         }
 
         // Inicializar gráficos al cargar la página
