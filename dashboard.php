@@ -133,8 +133,58 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
 }
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
-$sql_facturas = "SELECT id, invoicecode, date, total, employee as departamento FROM invoice ORDER BY date DESC LIMIT 8";
+$sql_facturas = "SELECT id, invoicecode, date, total, items FROM invoice ORDER BY date DESC LIMIT 8";
 $result_facturas = $conn_lycaios->query($sql_facturas);
+
+// Procesar los resultados para extraer la categoría
+$cobros_con_categoria = [];
+if ($result_facturas && $result_facturas->num_rows > 0) {
+    while ($row = $result_facturas->fetch_assoc()) {
+        $categoria = 'N/A';
+        
+        // Intentar extraer la categoría del JSON
+        if (!empty($row['items'])) {
+            $items_data = json_decode($row['items'], true);
+            if (is_array($items_data) && count($items_data) > 0) {
+                // Tomar la categoría del primer item
+                $primer_item = $items_data[0];
+                if (isset($primer_item['Category'])) {
+                    // Mapear el número de categoría al nombre
+                    $categoria = obtenerNombreCategoria($primer_item['Category']);
+                }
+            }
+        }
+        
+        $cobros_con_categoria[] = [
+            'id' => $row['id'],
+            'invoicecode' => $row['invoicecode'],
+            'date' => $row['date'],
+            'total' => $row['total'],
+            'categoria' => $categoria
+        ];
+    }
+}
+
+// Función para obtener el nombre de la categoría según el número
+function obtenerNombreCategoria($categoryId) {
+    $categorias = [
+        2 => 'INDUSTRIA Y COMERCIO',
+        3 => 'REGISTRO CIVIL',
+        4 => 'SECRETARÍA DEL AYUNTAMIENTO',
+        5 => 'PANTEONES, PARQUES Y JARDINES',
+        6 => 'VIALIDAD',
+        7 => 'JUZGADO',
+        8 => 'SINDICATURA',
+        10 => 'PROTECCIÓN CIVIL',
+        11 => 'RECAUDACIÓN',
+        12 => 'PATRIMONIO Y HACIENDA PÚBLICA',
+        13 => 'OBRAS PÚBLICAS',
+        14 => 'CONTRALORÍA',
+        15 => 'DESARROLLO RURAL',    
+    ];
+    
+    return $categorias[$categoryId] ?? 'CATEGORÍA ' . $categoryId;
+}
 
 // === CONSULTA 6: Total de condonaciones (descuentos) del mes ===
 $sql_condonaciones = "
@@ -306,14 +356,13 @@ $conn_lycaios->close();
             </div>
         </div>
         
-        <!-- Tabla de facturas -->
+<!-- Tabla de facturas -->
 <div class="data-card">
     <h2 class="text-xl font-semibold mb-4">Últimos cobros</h2>
     <div class="overflow-x-auto">
         <table id="tabla-facturas" class="w-full border-collapse">
             <thead>
                 <tr class="bg-gray-200 text-left">
-                    <th class="px-4 py-2 border">ID</th>
                     <th class="px-4 py-2 border">Folio</th>
                     <th class="px-4 py-2 border">Fecha y hora</th>
                     <th class="px-4 py-2 border">Total</th>
@@ -322,24 +371,23 @@ $conn_lycaios->close();
                 </tr>
             </thead>
             <tbody>
-                <?php if ($result_facturas && $result_facturas->num_rows > 0): ?>
-                    <?php while ($row = $result_facturas->fetch_assoc()): ?>
+                <?php if (!empty($cobros_con_categoria)): ?>
+                    <?php foreach ($cobros_con_categoria as $cobro): ?>
                         <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2 border"><?php echo $row['id']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $row['invoicecode']; ?></td>
-                            <td class="px-4 py-2 border"><?php echo $row['date']; ?></td>
-                            <td class="px-4 py-2 border">$<?php echo number_format($row['total'], 2); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['departamento'] ?? 'N/A'); ?></td>
+                            <td class="px-4 py-2 border"><?php echo $cobro['invoicecode']; ?></td>
+                            <td class="px-4 py-2 border"><?php echo $cobro['date']; ?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['categoria']); ?></td>
                             <td class="px-4 py-2 border text-center">
-                                <button onclick="imprimirComprobante(<?php echo $row['id']; ?>)" 
+                                <button onclick="imprimirComprobante(<?php echo $cobro['id']; ?>)" 
                                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
                                     🖨️ Imprimir
                                 </button>
                             </td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                    <tr><td colspan="6" class="text-center p-4">No hay cobros registradas.</td></tr>
+                    <tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
@@ -494,31 +542,30 @@ $conn_lycaios->close();
                     }
 
                     if (data.facturas) {
-                        // Actualizar tabla de facturas
-                        let tablaBody = '';
-                        if (data.facturas.length > 0) {
-                            data.facturas.forEach(function(factura) {
-                                tablaBody += `
-                                    <tr class="hover:bg-gray-100">
-                                    <td class="px-4 py-2 border">${factura.id}</td>
+                    // Actualizar tabla de facturas
+                    let tablaBody = '';
+                    if (data.facturas.length > 0) {
+                        data.facturas.forEach(function(factura) {
+                            tablaBody += `
+                                <tr class="hover:bg-gray-100">
                                     <td class="px-4 py-2 border">${factura.invoicecode}</td>
                                     <td class="px-4 py-2 border">${factura.date}</td>
                                     <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
-                                    <td class="px-4 py-2 border">${factura.departamento || 'N/A'}</td>
+                                    <td class="px-4 py-2 border">${factura.categoria}</td>
                                     <td class="px-4 py-2 border text-center">
-                                <button onclick="imprimirComprobante(${factura.id})" 
-                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
-                            🖨️ Imprimir
-                        </button>
-                    </td>
-                </tr>
-            `;
-        });
-    } else {
-        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay cobros registradas.</td></tr>';
-    }
-    $('#tabla-facturas tbody').html(tablaBody);
-}
+                                        <button onclick="imprimirComprobante(${factura.id})" 
+                                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                            🖨️ Imprimir
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    } else {
+                        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>';
+                    }
+                    $('#tabla-facturas tbody').html(tablaBody);
+                }
                 },
                 error: function(xhr, status, error) {
                     console.log('Error al actualizar los datos:', error);

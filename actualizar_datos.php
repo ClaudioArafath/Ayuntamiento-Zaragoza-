@@ -152,21 +152,58 @@ $response['resumen'] = [
 ];
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
-$sql_facturas = "SELECT id, invoicecode, date, total, employee as departamento FROM invoice ORDER BY date DESC LIMIT 8";
+// Modificada para extraer la categoría desde el JSON en items
+$sql_facturas = "SELECT id, invoicecode, date, total, items FROM invoice ORDER BY date DESC LIMIT 8";
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 $facturas = [];
 
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
+        $categoria = 'N/A';
+        
+        // Intentar extraer la categoría del JSON
+        if (!empty($row['items'])) {
+            $items_data = json_decode($row['items'], true);
+            if (is_array($items_data) && count($items_data) > 0) {
+                // Tomar la categoría del primer item
+                $primer_item = $items_data[0];
+                if (isset($primer_item['Category'])) {
+                    // Mapear el número de categoría al nombre
+                    $categoria = obtenerNombreCategoria($primer_item['Category']);
+                }
+            }
+        }
+        
         $facturas[] = [
             'id' => (int)$row['id'],
             'invoicecode' => $row['invoicecode'],
             'date' => $row['date'],
             'total' => (float)$row['total'],
-            'departamento' => $row['departamento']
+            'categoria' => $categoria
         ];
     }
+}
+
+// Función para obtener el nombre de la categoría
+function obtenerNombreCategoria($categoryId) {
+    $categorias = [
+        2 => 'INDUSTRIA Y COMERCIO',
+        3 => 'REGISTRO CIVIL',
+        4 => 'SECRETARÍA DEL AYUNTAMIENTO',
+        5 => 'PANTEONES, PARQUES Y JARDINES',
+        6 => 'VIALIDAD',
+        7 => 'JUZGADO',
+        8 => 'SINDICATURA',
+        10 => 'PROTECCIÓN CIVIL',
+        11 => 'RECAUDACIÓN',
+        12 => 'PATRIMONIO Y HACIENDA PÚBLICA',
+        13 => 'OBRAS PÚBLICAS',
+        14 => 'CONTRALORÍA',
+        15 => 'DESARROLLO RURAL',
+    ];
+    
+    return $categorias[$categoryId] ?? 'CATEGORÍA ' . $categoryId;
 }
 
 $response['facturas'] = $facturas;
