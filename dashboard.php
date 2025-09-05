@@ -16,13 +16,13 @@ $database = "lycaios_pos";
 
 $conn_lycaios = new mysqli($host, $user, $password, $database, $port);
 if ($conn_lycaios->connect_error) {
-    die("Error de conexión: " . $conn_lycaios->connect_error);
+    die("Error de conexión: " . $conn_lycaios->connect_error); // Manejo de error de conexión
 }
 
-// Obtener el filtro seleccionado (si existe)
+// Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'mes';
 
-// Obtener el mes seleccionado (si existe)
+// Obtener el mes seleccionado
 $mes_seleccionado = isset($_GET['mes']) ? $_GET['mes'] : date('Y-m');
 
 // === CONSULTA 1: Ingresos según filtro ===
@@ -141,16 +141,24 @@ $cobros_con_categoria = [];
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
         $categoria = 'N/A';
+        $folio = $row['invoicecode'];
+
+        // Intentar obtener el departamento de múltiples fuentes
+        $departamento = obtenerDepartamentoPorFolio($folio, $conn_lycaios);
         
-        // Intentar extraer la categoría del JSON
+        if ($departamento !== 'N/A') {
+            $categoria = $departamento;
+        } else {
+        
+        // Extraxxion la categoría del JSON
         if (!empty($row['items'])) {
             $items_data = json_decode($row['items'], true);
             if (is_array($items_data) && count($items_data) > 0) {
                 // Tomar la categoría del primer item
                 $primer_item = $items_data[0];
-                if (isset($primer_item['Category'])) {
-                    // Mapear el número de categoría al nombre
-                    $categoria = obtenerNombreCategoria($primer_item['Category']);
+                if (isset($primer_item['Category']) && $primer_item['Category'] != 0) {
+                        $categoria = obtenerNombreCategoria($primer_item['Category']);
+                    }
                 }
             }
         }
@@ -163,6 +171,18 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'categoria' => $categoria
         ];
     }
+}
+
+// Función auxiliar para buscar departamento por folio
+function obtenerDepartamentoPorFolio($folio, $conn) {
+    // Intentar desde la tabla ordenes
+    $sql_ordenes = "SELECT employee FROM ordenes WHERE id = '$folio' LIMIT 1";
+    $result = $conn->query($sql_ordenes);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['employee'];
+    }
+        return 'N/A';
 }
 
 // Función para obtener el nombre de la categoría según el número
@@ -202,6 +222,7 @@ if ($result_condonaciones && $result_condonaciones->num_rows > 0) {
 $conn_lycaios->close();
 ?>
 
+    <!-- ===== HTML y Tailwind CSS para el dashboard ==== -->
 <!DOCTYPE html>
 <html lang="es">
 <head>

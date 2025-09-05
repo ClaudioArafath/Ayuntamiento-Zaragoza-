@@ -161,6 +161,14 @@ $facturas = [];
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
         $categoria = 'N/A';
+        $folio = $row['invoicecode'];
+
+        // Intentar obtener el departamento
+        $departamento = obtenerDepartamentoPorFolio($folio, $conn_lycaios);
+        
+        if ($departamento !== 'N/A') {
+            $categoria = $departamento;
+        } else {
         
         // Intentar extraer la categoría del JSON
         if (!empty($row['items'])) {
@@ -168,9 +176,9 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             if (is_array($items_data) && count($items_data) > 0) {
                 // Tomar la categoría del primer item
                 $primer_item = $items_data[0];
-                if (isset($primer_item['Category'])) {
-                    // Mapear el número de categoría al nombre
-                    $categoria = obtenerNombreCategoria($primer_item['Category']);
+                if (isset($primer_item['Category']) && $primer_item['Category'] != 0) {
+                        $categoria = obtenerNombreCategoria($primer_item['Category']);
+                    }
                 }
             }
         }
@@ -183,6 +191,17 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'categoria' => $categoria
         ];
     }
+}
+
+function obtenerDepartamentoPorFolio($folio, $conn) {
+    // Intentar desde la tabla ordenes
+    $sql_ordenes = "SELECT employee FROM ordenes WHERE id = '$folio' LIMIT 1";
+    $result = $conn->query($sql_ordenes);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['employee'];
+    }
+            return 'N/A';
 }
 
 // Función para obtener el nombre de la categoría
