@@ -344,49 +344,25 @@ if ($rol === 'Empleado') {
         transform: scale(1.05);
     }
         </style>
-    </head>
+
+</head>
     <body class="bg-gray-100">
 
         <!-- Header -->
         <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
             <div class="flex space-x-2 items-center">
-                <span class="bg-blue-500 px-3 py-1 rounded-lg">Rol: <?php echo $rol; ?></span>
+                <span class="bg-blue-500 px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
                 <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button>
                 <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
             </div>
         </header>
 
-    <!-- Caja de búsqueda por folio -->
-<div class="bg-white shadow-md p-3">
-    <div class="flex items-center justify-between">
-        <div class="flex items-center">
-            <button id="toggle-busqueda" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg mr-2">
-                🔍
-            </button>
-            <span class="text-gray-700">Buscar comprobante por folio</span>
-        </div>
-    </div>
-    
-    <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
-        <div class="flex space-x-2">
-            <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
-                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button id="btn-buscar" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                Buscar
-            </button>
-        </div>
-        <div id="resultado-busqueda" class="mt-3 hidden">
-            <!-- Aquí se mostrarán los resultados -->
-        </div>
-    </div>
-</div>
-
-    <!-- Contenido -->
+        <!-- DASHBOARD PARA ADMINISTRADORES/PRESIDENTES -->
+    <?php if ($rol === 'Administrador' || $rol === 'Presidente'): ?>
     <main class="p-4 max-w-7xl mx-auto">
-        
-    <!-- Resumen de ingresos --> 
-        <!-- Tarjetas de resumen -->
+
+        <!-- Tarjetas de resumen de ingresos -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="data-card bg-blue-50 border-l-4 border-blue-500">
                 <h3 class="text-sm font-semibold text-blue-700">Ingresos del Mes</h3>
@@ -403,8 +379,7 @@ if ($rol === 'Empleado') {
         </div>
         
         <!-- Grid de gráficas -->
-        <div class="dashboard-grid mb-6">
-            
+        <div class="dashboard-grid mb-6">          
             <!-- Gráfica de ingresos mensuales -->
             <div class="data-card">
                 <div class="flex justify-between items-center mb-4">
@@ -437,6 +412,31 @@ if ($rol === 'Empleado') {
                 </div>
             </div>
         </div>
+
+        <!-- Caja de búsqueda por folio -->
+<div class="bg-white shadow-md p-3">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center">
+            <button id="toggle-busqueda" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg mr-2">
+                🔍
+            </button>
+            <span class="text-gray-700">Buscar comprobante por folio</span>
+        </div>
+    </div>
+    
+    <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
+        <div class="flex space-x-2">
+            <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="btn-buscar" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Buscar
+            </button>
+        </div>
+        <div id="resultado-busqueda" class="mt-3 hidden">
+            <!-- Aquí se mostrarán los resultados -->
+        </div>
+    </div>
+</div>
         
 <!-- Tabla de facturas -->
 <div class="data-card">
@@ -475,8 +475,135 @@ if ($rol === 'Empleado') {
         </table>
     </div>
 </div>
+</main>
+<?php else: ?>
 
-    </main>
+        <!-- DASHBOARD PARA EMPLEADOS -->
+        <main class="p-4 max-w-6xl mx-auto">
+            <!-- Header para empleados -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800">Panel de Empleado - Módulo de Recaudación</h2>
+                <p class="text-blue-600">Bienvenido <?php echo $_SESSION['username']; ?>, aquí puedes gestionar cobros e imprimir comprobantes.</p>
+            </div>
+
+            <!-- Herramientas rápidas para empleados -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Tarjeta de acciones rápidas -->
+                <div class="data-card bg-white shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4">Acciones Rápidas</h3>
+                    <div class="space-y-3">
+                        <button onclick="abrirModalQR()" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">📱</span>
+                            Escanear QR para cobro
+                        </button>
+                        <button onclick="buscarPorFolio()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">🔍</span>
+                            Buscar comprobante por folio
+                        </button>
+                        <button onclick="window.open('nuevo_cobro.php', '_blank')" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">💳</span>
+                            Registrar nuevo cobro
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de estadísticas personales -->
+                <div class="data-card bg-white shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4">Mis Estadísticas</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Cobros hoy:</span>
+                            <span class="font-bold">12</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Total cobrado hoy:</span>
+                            <span class="font-bold">$4,567.89</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Comprobantes emitidos:</span>
+                            <span class="font-bold">8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caja de búsqueda para empleados -->
+            <div class="bg-white shadow-md p-4 mb-6 rounded-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-lg font-semibold">Búsqueda de Comprobantes</h3>
+                    <button onclick="toggleBusqueda()" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-lg">
+                        🔍
+                    </button>
+                </div>
+                
+                <div id="caja-busqueda" class="hidden">
+                    <div class="flex space-x-2 mb-3">
+                        <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
+                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button onclick="buscarPorFolio()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                            Buscar
+                        </button>
+                    </div>
+                    <div id="resultado-busqueda" class="hidden"></div>
+                </div>
+            </div>
+
+            <!-- Tabla de últimos cobros (misma que para admin pero sin gráficas) -->
+            <div class="data-card bg-white shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Últimos cobros realizados</h2>
+                    <button onclick="actualizarDatos()" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg">
+                        🔄 Actualizar
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table id="tabla-facturas" class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200 text-left">
+                                <th class="px-4 py-2 border">Folio</th>
+                                <th class="px-4 py-2 border">Fecha y hora</th>
+                                <th class="px-4 py-2 border">Total</th>
+                                <th class="px-4 py-2 border">Departamento</th>
+                                <th class="px-4 py-2 border">Comprobante</th>
+                                <th class="px-4 py-2 border">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($cobros_con_categoria)): ?>
+                                <?php foreach ($cobros_con_categoria as $cobro): ?>
+                                    <tr class="hover:bg-gray-100">
+                                        <td class="px-4 py-2 border"><?php echo $cobro['invoicecode']; ?></td>
+                                        <td class="px-4 py-2 border"><?php echo $cobro['date']; ?></td>
+                                        <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
+                                        <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['categoria']); ?></td>
+                                        <td class="px-4 py-2 border text-center">
+                                            <button onclick="imprimirComprobante(<?php echo $cobro['id']; ?>)" 
+                                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                                🖨️ Imprimir
+                                            </button>
+                                        </td>
+                                        <td class="px-4 py-2 border text-center">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                                                Completado
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr><td colspan="6" class="text-center p-4">No hay cobros registrados.</td></tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    <?php endif; ?>
+
+    <!-- Modal para escanear QR (compartido) -->
+    <div id="modalQR" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <!-- ... (código existente del modal) -->
+    </div>
 
     <!-- Scripts de las gráficas -->
     <script>
@@ -806,6 +933,18 @@ function buscarPorFolio() {
             }
         });
     });
+
+    // Determinar el rol para personalizar comportamientos JS
+        const userRole = '<?php echo $rol; ?>';
+        
+        // Configuración diferente según el rol
+        if (userRole === 'Empleado') {
+            // Para empleados, deshabilitar actualización automática o hacerla menos frecuente
+            setInterval(actualizarDatos, 30000); // 30 segundos en lugar de 5
+        } else {
+            // Para administradores, actualización normal cada 5 segundos
+            setInterval(actualizarDatos, 5000);
+        }
         </script>
 
     </body>
