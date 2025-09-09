@@ -143,14 +143,15 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
         $categoria = 'N/A';
         $folio = $row['invoicecode'];
 
-        // Intentar obtener el departamento de múltiples fuentes
-        $departamento = obtenerDepartamentoPorFolio($folio, $conn_lycaios);
+        // Extraer la categoría del JSON
+        $categoryFromJson = obtenerCategoryDesdeItems($row['items']);
         
-        if ($departamento !== 'N/A') {
-            $categoria = $departamento;
+        if ($categoryFromJson == 0) {
+            // Si Category es 0, buscar en la tabla ordenes
+            $categoria = obtenerDepartamentoDesdeOrdenes($folio, $conn_lycaios);
         } else {
         
-        // Extraxxion la categoría del JSON
+        // Extraccion la categoría del JSON
         if (!empty($row['items'])) {
             $items_data = json_decode($row['items'], true);
             if (is_array($items_data) && count($items_data) > 0) {
@@ -173,16 +174,38 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
     }
 }
 
-// Función auxiliar para buscar departamento por folio
-function obtenerDepartamentoPorFolio($folio, $conn) {
-    // Intentar desde la tabla ordenes
-    $sql_ordenes = "SELECT employee FROM ordenes WHERE id = '$folio' LIMIT 1";
-    $result = $conn->query($sql_ordenes);
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['employee'];
+// Función para extraer el valor de Category desde el JSON
+function obtenerCategoryDesdeItems($items_json) {
+    if (empty($items_json)) {
+        return 0;
     }
-        return 'N/A';
+    
+    $items_data = json_decode($items_json, true);
+    if (is_array($items_data) && count($items_data) > 0) {
+        $primer_item = $items_data[0];
+        if (isset($primer_item['Category'])) {
+            return (int)$primer_item['Category'];
+        }
+    }
+    
+    return 0;
+}
+// Función para obtener departamento desde la tabla ordenes
+function obtenerDepartamentoDesdeOrdenes($folio, $conn) {
+    // Primero verificar si la tabla ordenes existe
+    $tabla_existe = $conn->query("SHOW TABLES LIKE 'ordenes'");
+    if ($tabla_existe && $tabla_existe->num_rows > 0) {
+        // Buscar el employee en la tabla ordenes
+        $sql_ordenes = "SELECT employee FROM ordenes WHERE employee = '" . $conn->real_escape_string($folio) . "' LIMIT 1";
+        $result = $conn->query($sql_ordenes);
+        
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return !empty($row['employee']) ? $row['employee'] : 'N/A';
+        }
+    }
+    
+    return 'N/A';
 }
 
 // Función para obtener el nombre de la categoría según el número
@@ -324,7 +347,7 @@ $conn_lycaios->close();
     <!-- Contenido -->
     <main class="p-4 max-w-7xl mx-auto">
         
-        <!-- Resumen de ingresos --> 
+    <!-- Resumen de ingresos --> 
         <!-- Tarjetas de resumen -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="data-card bg-blue-50 border-l-4 border-blue-500">
