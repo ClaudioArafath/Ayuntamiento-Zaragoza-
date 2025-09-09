@@ -353,7 +353,7 @@ if ($rol === 'Empleado') {
                 <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
             <div class="flex space-x-2 items-center">
                 <span class="bg-blue-500 px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
-                <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button>
+            <!--    <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button> -->
                 <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
             </div>
         </header>
@@ -413,7 +413,7 @@ if ($rol === 'Empleado') {
             </div>
         </div>
 
-        <!-- Caja de búsqueda por folio -->
+        <!-- Caja de búsqueda por folio 
 <div class="bg-white shadow-md p-3">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -423,6 +423,7 @@ if ($rol === 'Empleado') {
             <span class="text-gray-700">Buscar comprobante por folio</span>
         </div>
     </div>
+    -->
     
     <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
         <div class="flex space-x-2">
@@ -507,27 +508,27 @@ if ($rol === 'Empleado') {
                     </div>
                 </div>
 
-                <!-- Tarjeta de estadísticas personales -->
+                <!-- Tarjeta de herramientas extras -->
                 <div class="data-card bg-white shadow-lg">
-                    <h3 class="text-lg font-semibold mb-4">Mis Estadísticas</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Cobros hoy:</span>
-                            <span class="font-bold">12</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Total cobrado hoy:</span>
-                            <span class="font-bold">$4,567.89</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Comprobantes emitidos:</span>
-                            <span class="font-bold">8</span>
-                        </div>
+                    <h3 class="text-lg font-semibold mb-4">Más herramientas</h3>
+                    <div class="space-y-3">
+                        <button onclick="abrirModalQR()" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">📊</span>
+                            Exportar XML
+                        </button>
+                        <button onclick="buscarPorFolio()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">⚙</span>
+                            Contactar soporte
+                        </button>
+                        <button onclick="window.open('nuevo_cobro.php', '_blank')" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">💳</span>
+                            Registrar nuevo cobro
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Caja de búsqueda para empleados -->
+            <!-- Caja de búsqueda para empleados 
             <div class="bg-white shadow-md p-4 mb-6 rounded-lg">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-lg font-semibold">Búsqueda de Comprobantes</h3>
@@ -547,6 +548,7 @@ if ($rol === 'Empleado') {
                     <div id="resultado-busqueda" class="hidden"></div>
                 </div>
             </div>
+            -->
 
             <!-- Tabla de últimos cobros (misma que para admin pero sin gráficas) -->
             <div class="data-card bg-white shadow-lg">
@@ -934,7 +936,7 @@ function buscarPorFolio() {
         });
     });
 
-    // Determinar el rol para personalizar comportamientos JS
+    /* Determinar el rol para personalizar comportamientos JS
         const userRole = '<?php echo $rol; ?>';
         
         // Configuración diferente según el rol
@@ -945,6 +947,7 @@ function buscarPorFolio() {
             // Para administradores, actualización normal cada 5 segundos
             setInterval(actualizarDatos, 5000);
         }
+            */
         </script>
 
     </body>
