@@ -19,12 +19,40 @@ if ($conn_lycaios->connect_error) {
     die("Error de conexión: " . $conn_lycaios->connect_error); // Manejo de error de conexión
 }
 
+//Conexion a la base de datos secundaria (usuarios) de PHPmyAdmin
+$host = "localhost";
+$port = 3306;
+$user = "root";
+$password = "";
+$database = "ayuntamiento";
+
+$conn_ayuntamiento = new mysqli($host, $user, $password, $database, $port);
+if ($conn_ayuntamiento->connect_error) {
+    die("Error de conexión: " . $conn_ayuntamiento->connect_error);
+}
+// Obtener información del usuario logueado
+$username = $_SESSION['username'];
+$sql_usuario = "SELECT rol FROM usuarios WHERE username = '" . $conn_ayuntamiento->real_escape_string($username) . "'";
+$result_usuario = $conn_ayuntamiento->query($sql_usuario);
+
+if ($result_usuario && $result_usuario->num_rows > 0) {
+    $usuario = $result_usuario->fetch_assoc();
+    $rol = $usuario['rol'];
+    $_SESSION['rol'] = $rol; // Guardar rol en sesión
+} else {
+    // Si no encuentra el usuario, cerrar sesión
+    session_destroy();
+    header("Location: login.html");
+    exit();
+}
+
 // Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'mes';
 
 // Obtener el mes seleccionado
 $mes_seleccionado = isset($_GET['mes']) ? $_GET['mes'] : date('Y-m');
 
+if ($rol === 'Administrador' || $rol === 'Presidente') {
 // === CONSULTA 1: Ingresos según filtro ===
 $sql_ingresos = "";
 switch($filtro) {
@@ -120,16 +148,17 @@ if ($result_meses && $result_meses->num_rows > 0) {
 }
 
 // === CONSULTA 4: Total de facturas del mes ===
-$sql_total_facturas = "
-    SELECT COUNT(*) as total_facturas 
-    FROM invoice 
-    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
-";
-$result_total_facturas = $conn_lycaios->query($sql_total_facturas);
-$total_facturas = 0;
-if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
-    $row = $result_total_facturas->fetch_assoc();
-    $total_facturas = $row['total_facturas'];
+    $sql_total_facturas = "
+        SELECT COUNT(*) as total_facturas 
+        FROM invoice 
+        WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    ";
+    $result_total_facturas = $conn_lycaios->query($sql_total_facturas);
+    $total_facturas = 0;
+    if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
+        $row = $result_total_facturas->fetch_assoc();
+        $total_facturas = $row['total_facturas'];
+    }
 }
 
 // === CONSULTA 5: Últimos cobros en tiempo real ===
@@ -242,82 +271,91 @@ if ($result_condonaciones && $result_condonaciones->num_rows > 0) {
     $total_condonaciones = $row['total_condonaciones'];
 }
 
-$conn_lycaios->close();
-?>
+// Para empleados, no necesitamos las otras consultas pesadas
+if ($rol === 'Empleado') {
+    // Consultas ligeras o vacías para empleados
+    $periodos = $ingresos = $etiquetas = $categorias = $ingresos_cat = [];
+    $total_ingresos_mes = $total_facturas = $total_condonaciones = 0;
+    $meses_disponibles = [];
+}
+    // Cerrar la conexión
+    $conn_lycaios->close();
+    ?>
 
     <!-- ===== HTML y Tailwind CSS para el dashboard ==== -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Dashboard - <?php echo $rol; ?></title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        @media (max-width: 1024px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
+        <style>
+            .chart-container {
+                position: relative;
+                height: 300px;
+                width: 100%;
             }
-        }
-        .filtro-btn {
-            transition: all 0.3s ease;
-        }
-        .data-card {
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .mes-selector {
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            border: 1px solid #d1d5db;
-            background-color: white;
-        }
-        /* Animaciones para la caja de búsqueda */
-#caja-busqueda {
-    transition: all 0.3s ease-in-out;
-    max-height: 0;
-}
+            .dashboard-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            @media (max-width: 1024px) {
+                .dashboard-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .filtro-btn {
+                transition: all 0.3s ease;
+            }
+            .data-card {
+                background: white;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .mes-selector {
+                padding: 0.5rem;
+                border-radius: 0.25rem;
+                border: 1px solid #d1d5db;
+                background-color: white;
+            }
+            /* Animaciones para la caja de búsqueda */
+    #caja-busqueda {
+        transition: all 0.3s ease-in-out;
+        max-height: 0;
+    }
 
-#caja-busqueda.mostrar {
-    max-height: 200px;
-}
+    #caja-busqueda.mostrar {
+        max-height: 200px;
+    }
 
-#resultado-busqueda {
-    transition: opacity 0.3s ease-in-out;
-}
+    #resultado-busqueda {
+        transition: opacity 0.3s ease-in-out;
+    }
 
-.btn-imprimir-resultado {
-    transition: all 0.2s ease;
-}
+    .btn-imprimir-resultado {
+        transition: all 0.2s ease;
+    }
 
-.btn-imprimir-resultado:hover {
-    transform: scale(1.05);
-}
-    </style>
-</head>
-<body class="bg-gray-100">
+    .btn-imprimir-resultado:hover {
+        transform: scale(1.05);
+    }
+        </style>
+    </head>
+    <body class="bg-gray-100">
 
-    <!-- Header -->
-    <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
-        <div class="flex space-x-2">
-            <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button>
-            <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
-        </div>
-    </header>
+        <!-- Header -->
+        <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
+            <div class="flex space-x-2 items-center">
+                <span class="bg-blue-500 px-3 py-1 rounded-lg">Rol: <?php echo $rol; ?></span>
+                <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button>
+                <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
+            </div>
+        </header>
 
     <!-- Caja de búsqueda por folio -->
 <div class="bg-white shadow-md p-3">
@@ -753,22 +791,22 @@ function buscarPorFolio() {
     });
 }
 
-// Event listeners para la búsqueda
-document.addEventListener('DOMContentLoaded', function() {
-    // Toggle búsqueda
-    document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
-    
-    // Buscar al hacer clic en el botón
-    document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
-    
-    // Buscar al presionar Enter en el input
-    document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            buscarPorFolio();
-        }
+    // Event listeners para la búsqueda
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle búsqueda
+        document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
+        
+        // Buscar al hacer clic en el botón
+        document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
+        
+        // Buscar al presionar Enter en el input
+        document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarPorFolio();
+            }
+        });
     });
-});
-    </script>
+        </script>
 
-</body>
+    </body>
 </html>
