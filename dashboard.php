@@ -412,19 +412,7 @@ if ($rol === 'Empleado') {
                 </div>
             </div>
         </div>
-
-        <!-- Caja de búsqueda por folio 
-<div class="bg-white shadow-md p-3">
-    <div class="flex items-center justify-between">
-        <div class="flex items-center">
-            <button id="toggle-busqueda" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg mr-2">
-                🔍
-            </button>
-            <span class="text-gray-700">Buscar comprobante por folio</span>
-        </div>
-    </div>
-    -->
-    
+        <!-- Caja de búsqueda -->
     <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
         <div class="flex space-x-2">
             <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
@@ -517,39 +505,16 @@ if ($rol === 'Empleado') {
                             Exportar XML
                         </button>
                         <button onclick="buscarPorFolio()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
-                            <span class="text-2xl mr-2">⚙</span>
-                            Contactar soporte
+                            <span class="text-2xl mr-2">✂</span>
+                            Corte Z
                         </button>
                         <button onclick="window.open('nuevo_cobro.php', '_blank')" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg flex items-center">
-                            <span class="text-2xl mr-2">💳</span>
-                            Registrar nuevo cobro
+                            <span class="text-2xl mr-2">⚔</span>
+                            Corte X
                         </button>
                     </div>
                 </div>
             </div>
-
-            <!-- Caja de búsqueda para empleados 
-            <div class="bg-white shadow-md p-4 mb-6 rounded-lg">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-lg font-semibold">Búsqueda de Comprobantes</h3>
-                    <button onclick="toggleBusqueda()" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-lg">
-                        🔍
-                    </button>
-                </div>
-                
-                <div id="caja-busqueda" class="hidden">
-                    <div class="flex space-x-2 mb-3">
-                        <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
-                               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <button onclick="buscarPorFolio()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                            Buscar
-                        </button>
-                    </div>
-                    <div id="resultado-busqueda" class="hidden"></div>
-                </div>
-            </div>
-            -->
-
             <!-- Tabla de últimos cobros (misma que para admin pero sin gráficas) -->
             <div class="data-card bg-white shadow-lg">
                 <div class="flex justify-between items-center mb-4">
@@ -920,35 +885,21 @@ function buscarPorFolio() {
     });
 }
 
-    // Event listeners para la búsqueda
-    document.addEventListener('DOMContentLoaded', function() {
-        // Toggle búsqueda
-        document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
-        
-        // Buscar al hacer clic en el botón
-        document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
-        
-        // Buscar al presionar Enter en el input
-        document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                buscarPorFolio();
-            }
+        // Event listeners para la búsqueda
+            document.addEventListener('DOMContentLoaded', function() {
+            // Toggle búsqueda
+            document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
+            
+            // Buscar al hacer clic en el botón
+            document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
+            
+            // Buscar al presionar Enter en el input
+            document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    buscarPorFolio();
+                }
+            });
         });
-    });
-
-    /* Determinar el rol para personalizar comportamientos JS
-        const userRole = '<?php echo $rol; ?>';
-        
-        // Configuración diferente según el rol
-        if (userRole === 'Empleado') {
-            // Para empleados, deshabilitar actualización automática o hacerla menos frecuente
-            setInterval(actualizarDatos, 30000); // 30 segundos en lugar de 5
-        } else {
-            // Para administradores, actualización normal cada 5 segundos
-            setInterval(actualizarDatos, 5000);
-        }
-            */
         </script>
-
     </body>
 </html>
