@@ -349,13 +349,17 @@ if ($rol === 'Empleado') {
     <body class="bg-gray-100">
 
         <!-- Header -->
-        <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
+            <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold"> Sistema integral de analisis estadistico</h1>
-            <div class="flex space-x-2 items-center">
-                <span class="bg-neutral px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
-                <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
-            </div>
-        </header>
+                <div class="flex space-x-2 items-center">
+                    <span class="bg-neutral px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
+                    <!-- AGREGAR ESTE BOTÓN -->
+                    <button id="escanear-qr-admin" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">
+                        Escanear QR
+                    </button>
+                    <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
+                </div>
+            </header>
 
         <!-- DASHBOARD PARA ADMINISTRADORES/PRESIDENTES -->
     <?php if ($rol === 'Administrador' || $rol === 'Presidente'): ?>
@@ -480,9 +484,8 @@ if ($rol === 'Empleado') {
                 <div class="data-card bg-white shadow-lg">
                     <h3 class="text-lg font-semibold mb-4">Acciones Rápidas</h3>
                     <div class="space-y-3">
-                        <button onclick="abrirModalQR()" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg flex items-center">
-                            <span class="text-2xl mr-2">📱</span>
-                            Escanear QR para cobro
+                        <button id="escanear-qr-empleado" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg flex items-center">
+                            <span class="text-2xl mr-2">📱</span>Escanear QR para cobro
                         </button>
                         <button onclick="buscarPorFolio()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
                             <span class="text-2xl mr-2">🔍</span>
@@ -567,277 +570,405 @@ if ($rol === 'Empleado') {
     <?php endif; ?>
 
     <!-- Modal para escanear QR (compartido) -->
-    <div id="modalQR" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <!-- ... (código existente del modal) -->
+    <!-- Modal para Escanear QR y Procesar Cobro -->
+<div id="modalCobroQR" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Escanear QR para Cobro</h3>
+            <button onclick="cerrarModalCobroQR()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                ✕
+            </button>
+        </div>
+        
+        <!-- Paso 1: Selección de método -->
+        <div id="paso-seleccion" class="space-y-4">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                <p class="text-blue-700">Seleccione el método para escanear el código QR de la orden:</p>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-3">
+                <button onclick="iniciarCamara()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl mr-2">📷</span>
+                    Usar Cámara del Dispositivo
+                </button>
+                
+                <button onclick="mostrarSubirImagen()" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl mr-2">🖼️</span>
+                    Subir Imagen QR
+                </button>
+                
+                <button onclick="mostrarIngresoManual()" class="bg-purple-500 hover:bg-purple-600 text-white p-4 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl mr-2">⌨️</span>
+                    Ingresar Código Manualmente
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 2: Área de cámara -->
+        <div id="paso-camara" class="hidden">
+            <div class="mb-4">
+                <div id="lector-camara" class="w-full h-64 bg-black rounded-lg flex items-center justify-center">
+                    <p class="text-white">Iniciando cámara...</p>
+                </div>
+                <p class="text-sm text-gray-600 mt-2 text-center">Apunte la cámara hacia el código QR de la orden</p>
+            </div>
+            
+            <div class="flex justify-between">
+                <button onclick="volverASeleccion()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    ← Volver
+                </button>
+                <button onclick="detenerCamara()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                    Detener Cámara
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 3: Subir imagen -->
+        <div id="paso-imagen" class="hidden">
+            <div class="mb-4">
+                <input type="file" id="input-imagen-qr" accept="image/*" class="hidden">
+                <div id="area-subida" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer" onclick="document.getElementById('input-imagen-qr').click()">
+                    <span class="text-4xl">📁</span>
+                    <p class="text-gray-600">Haga clic para seleccionar imagen QR</p>
+                    <p class="text-sm text-gray-400">Formatos: JPG, PNG, GIF</p>
+                </div>
+                <div id="vista-previa" class="hidden mt-4">
+                    <img id="imagen-previa" class="mx-auto max-h-48 rounded">
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button onclick="volverASeleccion()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    ← Volver
+                </button>
+                <button onclick="procesarImagenQR()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    Procesar Imagen
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 4: Ingreso manual -->
+        <div id="paso-manual" class="hidden">
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Ingrese el código de la orden:</label>
+                <input type="text" id="codigo-manual" placeholder="Ej: ORD-2024-001" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <div class="flex justify-between">
+                <button onclick="volverASeleccion()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    ← Volver
+                </button>
+                <button onclick="validarCodigoManual()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
+                    Validar Código
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 5: Información de la orden -->
+        <div id="paso-orden" class="hidden">
+            <div id="info-orden" class="bg-gray-50 p-4 rounded-lg mb-4">
+                <!-- Aquí se cargará la información de la orden -->
+            </div>
+            
+            <div class="flex justify-between">
+                <button onclick="volverASeleccion()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    ← Nueva Búsqueda
+                </button>
+                <button onclick="procesarCobro()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                    💳 Procesar Cobro
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 6: Resultado del cobro -->
+        <div id="paso-resultado" class="hidden">
+            <div id="resultado-cobro" class="p-4 rounded-lg mb-4">
+                <!-- Aquí se mostrará el resultado del cobro -->
+            </div>
+            
+            <div class="flex justify-between">
+                <button onclick="volverASeleccion()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                    ← Nuevo Cobro
+                </button>
+                <button onclick="imprimirComprobanteResultado()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    🖨️ Imprimir Comprobante
+                </button>
+            </div>
+        </div>
     </div>
+</div>
 
     <!-- Scripts de las gráficas -->
     <script>
         // Variables globales para los gráficos
-        let ingresosChart = null;
-        let departamentosChart = null;
-        let filtroActual = '<?php echo $filtro; ?>';
-        let mesSeleccionado = '<?php echo $mes_seleccionado; ?>';
-        let totalIngresosMes = <?php echo $total_ingresos_mes; ?>;
-        let porcentajes = <?php echo json_encode($porcentajes); ?>;
+let ingresosChart = null;
+let departamentosChart = null;
+let filtroActual = '<?php echo $filtro; ?>';
+let mesSeleccionado = '<?php echo $mes_seleccionado; ?>';
+let totalIngresosMes = <?php echo $total_ingresos_mes; ?>;
+let porcentajes = <?php echo json_encode($porcentajes); ?>;
 
-        // === Inicializar gráficos ===
-        function inicializarGraficos() {
-            // === Gráfico de ingresos ===
-            const ctxLine = document.getElementById('ingresosChart').getContext('2d');
-            ingresosChart = new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: <?php echo json_encode($etiquetas); ?>,
-                    datasets: [{
-                        label: 'Ingresos $',
-                        data: <?php echo json_encode($ingresos); ?>,
-                        borderColor: 'rgba(37, 99, 235, 1)',
-                        backgroundColor: 'rgba(37, 99, 235, 0.3)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.3
-                    }]
+// Variables globales para el modal de cobro QR
+let scanner = null;
+let ordenActual = null;
+let facturaGenerada = null;
+
+// === Inicializar gráficos ===
+function inicializarGraficos() {
+    // === Gráfico de ingresos ===
+    const ctxLine = document.getElementById('ingresosChart');
+    if (ctxLine) {
+        ingresosChart = new Chart(ctxLine.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($etiquetas); ?>,
+                datasets: [{
+                    label: 'Ingresos $',
+                    data: <?php echo json_encode($ingresos); ?>,
+                    borderColor: 'rgba(37, 99, 235, 1)',
+                    backgroundColor: 'rgba(37, 99, 235, 0.3)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Ingresos por <?php echo ucfirst($filtro); ?>'
+                    }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: true },
-                        title: {
-                            display: true,
-                            text: 'Ingresos por <?php echo ucfirst($filtro); ?>'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
                             }
                         }
                     }
                 }
-            });
-
-            // === Gráfico de pastel ===
-            const ctxPie = document.getElementById('departamentosChart').getContext('2d');
-            departamentosChart = new Chart(ctxPie, {
-                type: 'pie',
-                data: {
-                    labels: <?php echo json_encode($categorias); ?>,
-                    datasets: [{
-                        data: <?php echo json_encode($ingresos_cat); ?>,
-                        backgroundColor: [
-                            'rgba(37, 99, 235, 0.7)',
-                            'rgba(16, 185, 129, 0.7)',
-                            'rgba(249, 115, 22, 0.7)',
-                            'rgba(236, 72, 153, 0.7)',
-                            'rgba(234, 179, 8, 0.7)',
-                            'rgba(139, 92, 246, 0.7)',
-                            'rgba(239, 68, 68, 0.7)',
-                            'rgba(101, 163, 13, 0.7)',
-                            'rgba(5, 150, 105, 0.7)',
-                            'rgba(20, 184, 166, 0.7)'
-                        ],
-                        borderColor: 'white',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            position: 'right',
-                            labels: {
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const labelIndex = context.dataIndex;
-                                    const value = context.dataset.data[labelIndex];
-                                    const percentage = porcentajes[labelIndex];
-                                    return `${context.label}: $${value.toLocaleString()} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // === Actualizar datos mediante AJAX ===
-        function actualizarDatos() {
-            console.log('Actualizando datos...', {filtro: filtroActual, mes: mesSeleccionado});
-            
-            $.ajax({
-                url: 'actualizar_datos.php',
-                type: 'GET',
-                data: {
-                    filtro: filtroActual,
-                    mes: mesSeleccionado
-                },
-                dataType: 'json',
-                success: function(data) {
-                    console.log('Datos recibidos:', data);
-                    
-                    if (data.ingresos) {
-                        // Actualizar gráfica de ingresos
-                        ingresosChart.data.labels = data.ingresos.labels;
-                        ingresosChart.data.datasets[0].data = data.ingresos.data;
-                        ingresosChart.options.plugins.title.text = 'Ingresos por ' + capitalizarPrimeraLetra(filtroActual);
-                        ingresosChart.update();
-                    }
-
-                    if (data.departamentos) {
-                        // Actualizar gráfica de departamentos
-                        departamentosChart.data.labels = data.departamentos.labels;
-                        departamentosChart.data.datasets[0].data = data.departamentos.data;
-                        
-                        // Actualizar porcentajes
-                        if (data.porcentajes) {
-                            porcentajes = data.porcentajes;
-                        }
-                        
-                        departamentosChart.update();
-                    }
-
-                    if (data.resumen) {
-                        // Actualizar tarjetas de resumen
-                        $('#ingresos-mes').text('$' + data.resumen.ingresos_mes.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                        $('#total-facturas').text(data.resumen.total_facturas);
-                        $('#total-condonaciones').text('$' + data.resumen.total_condonaciones.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    }
-
-                    if (data.facturas) {
-                    // Actualizar tabla de facturas
-                    let tablaBody = '';
-                    if (data.facturas.length > 0) {
-                        data.facturas.forEach(function(factura) {
-                            tablaBody += `
-                                <tr class="hover:bg-gray-100">
-                                    <td class="px-4 py-2 border">${factura.invoicecode}</td>
-                                    <td class="px-4 py-2 border">${factura.date}</td>
-                                    <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
-                                    <td class="px-4 py-2 border">${factura.categoria}</td>
-                                    <td class="px-4 py-2 border text-center">
-                                        <button onclick="imprimirComprobante(${factura.id})" 
-                                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
-                                            🖨️ Imprimir
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        });
-                    } else {
-                        tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>';
-                    }
-                    $('#tabla-facturas tbody').html(tablaBody);
-                }
-                },
-                error: function(xhr, status, error) {
-                    console.log('Error al actualizar los datos:', error);
-                    console.log('Respuesta del servidor:', xhr.responseText);
-                    // En caso de error, intentar nuevamente después de 5 segundos
-                    setTimeout(actualizarDatos, 5000);
-                }
-            });
-        }
-
-        // === Cambiar filtro ===
-        function cambiarFiltro(nuevoFiltro) {
-            // Actualizar estado de botones
-            $('.filtro-btn').removeClass('bg-red-500 text-white').addClass('bg-orange-200');
-            $(`#filtro-${nuevoFiltro}`).removeClass('bg-orange-200').addClass('bg-red-500 text-white');
-        
-            // Actualizar filtro actual
-            filtroActual = nuevoFiltro;
-        
-            // Actualizar datos inmediatamente
-            actualizarDatos();
+            }
+        });
     }
 
-        // === Cambiar mes ===
-        function cambiarMes(nuevoMes) {
-            // Actualizar mes seleccionado
-            mesSeleccionado = nuevoMes;
-            
-            // Actualizar URL para mantener el estado
-            const url = new URL(window.location);
-            url.searchParams.set('mes', nuevoMes);
-            window.history.replaceState({}, '', url);
-            
-            // Actualizar datos inmediatamente
-            actualizarDatos();
-        }
-
-        // Función auxiliar para capitalizar la primera letra
-        function capitalizarPrimeraLetra(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        // Función para imprimir comprobante
-        function imprimirComprobante(facturaId) {
-            // Abrir el comprobante en una nueva ventana
-            const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
-    
-            // Esperar a que la ventana se cargue para imprimir
-            ventana.onload = function() {
-                ventana.print();
-            };
-        }
-
-        // Inicializar gráficos al cargar la página
-        $(document).ready(function() {
-            inicializarGraficos();
-            
-            // Configurar eventos de los botones de filtro
-            $('.filtro-btn').click(function() {
-                const filtro = $(this).data('filtro');
-                cambiarFiltro(filtro);
-            });
-            
-            // Configurar evento del selector de mes
-            $('#mes-selector').change(function() {
-                const mes = $(this).val();
-                cambiarMes(mes);
-            });
-            
-            // Actualizar datos cada 5 segundos
-            setInterval(actualizarDatos, 5000);
-        });
-
-        // Variables y funciones para la búsqueda
-        let busquedaAbierta = false;
-
-        // Alternar visibilidad de la caja de búsqueda
-        function toggleBusqueda() {
-            const cajaBusqueda = document.getElementById('caja-busqueda');
-            const toggleBtn = document.getElementById('toggle-busqueda');
-            
-            if (busquedaAbierta) {
-                cajaBusqueda.classList.add('hidden');
-                cajaBusqueda.classList.remove('mostrar');
-                toggleBtn.innerHTML = '🔍';
-            } else {
-                cajaBusqueda.classList.remove('hidden');
-                cajaBusqueda.classList.add('mostrar');
-                toggleBtn.innerHTML = '▼';
+    // === Gráfico de pastel ===
+    const ctxPie = document.getElementById('departamentosChart');
+    if (ctxPie) {
+        departamentosChart = new Chart(ctxPie.getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: <?php echo json_encode($categorias); ?>,
+                datasets: [{
+                    data: <?php echo json_encode($ingresos_cat); ?>,
+                    backgroundColor: [
+                        'rgba(37, 99, 235, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(249, 115, 22, 0.7)',
+                        'rgba(236, 72, 153, 0.7)',
+                        'rgba(234, 179, 8, 0.7)',
+                        'rgba(139, 92, 246, 0.7)',
+                        'rgba(239, 68, 68, 0.7)',
+                        'rgba(101, 163, 13, 0.7)',
+                        'rgba(5, 150, 105, 0.7)',
+                        'rgba(20, 184, 166, 0.7)'
+                    ],
+                    borderColor: 'white',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'right',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const labelIndex = context.dataIndex;
+                                const value = context.dataset.data[labelIndex];
+                                const percentage = porcentajes[labelIndex];
+                                return `${context.label}: $${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
             }
+        });
+    }
+}
+
+// === Actualizar datos mediante AJAX ===
+function actualizarDatos() {
+    console.log('Actualizando datos...', {filtro: filtroActual, mes: mesSeleccionado});
+    
+    $.ajax({
+        url: 'actualizar_datos.php',
+        type: 'GET',
+        data: {
+            filtro: filtroActual,
+            mes: mesSeleccionado
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log('Datos recibidos:', data);
             
-            busquedaAbierta = !busquedaAbierta;
+            if (data.ingresos && ingresosChart) {
+                // Actualizar gráfica de ingresos
+                ingresosChart.data.labels = data.ingresos.labels;
+                ingresosChart.data.datasets[0].data = data.ingresos.data;
+                ingresosChart.options.plugins.title.text = 'Ingresos por ' + capitalizarPrimeraLetra(filtroActual);
+                ingresosChart.update();
+            }
+
+            if (data.departamentos && departamentosChart) {
+                // Actualizar gráfica de departamentos
+                departamentosChart.data.labels = data.departamentos.labels;
+                departamentosChart.data.datasets[0].data = data.departamentos.data;
+                
+                // Actualizar porcentajes
+                if (data.porcentajes) {
+                    porcentajes = data.porcentajes;
+                }
+                
+                departamentosChart.update();
+            }
+
+            if (data.resumen) {
+                // Actualizar tarjetas de resumen
+                const ingresosMes = document.getElementById('ingresos-mes');
+                const totalFacturas = document.getElementById('total-facturas');
+                const totalCondonaciones = document.getElementById('total-condonaciones');
+                
+                if (ingresosMes) ingresosMes.textContent = '$' + data.resumen.ingresos_mes.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                if (totalFacturas) totalFacturas.textContent = data.resumen.total_facturas;
+                if (totalCondonaciones) totalCondonaciones.textContent = '$' + data.resumen.total_condonaciones.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }
+
+            if (data.facturas) {
+                // Actualizar tabla de facturas
+                let tablaBody = '';
+                if (data.facturas.length > 0) {
+                    data.facturas.forEach(function(factura) {
+                        tablaBody += `
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-4 py-2 border">${factura.invoicecode}</td>
+                                <td class="px-4 py-2 border">${factura.date}</td>
+                                <td class="px-4 py-2 border">$${parseFloat(factura.total).toFixed(2)}</td>
+                                <td class="px-4 py-2 border">${factura.categoria}</td>
+                                <td class="px-4 py-2 border text-center">
+                                    <button onclick="imprimirComprobante(${factura.id})" 
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                        🖨️ Imprimir
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    tablaBody = '<tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>';
+                }
+                $('#tabla-facturas tbody').html(tablaBody);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('Error al actualizar los datos:', error);
+            console.log('Respuesta del servidor:', xhr.responseText);
+            // En caso de error, intentar nuevamente después de 5 segundos
+            setTimeout(actualizarDatos, 5000);
         }
+    });
+}
+
+// === Cambiar filtro ===
+function cambiarFiltro(nuevoFiltro) {
+    // Actualizar estado de botones
+    $('.filtro-btn').removeClass('bg-red-500 text-white').addClass('bg-orange-200');
+    $(`#filtro-${nuevoFiltro}`).removeClass('bg-orange-200').addClass('bg-red-500 text-white');
+    
+    // Actualizar filtro actual
+    filtroActual = nuevoFiltro;
+    
+    // Actualizar datos inmediatamente
+    actualizarDatos();
+}
+
+// === Cambiar mes ===
+function cambiarMes(nuevoMes) {
+    // Actualizar mes seleccionado
+    mesSeleccionado = nuevoMes;
+    
+    // Actualizar URL para mantener el estado
+    const url = new URL(window.location);
+    url.searchParams.set('mes', nuevoMes);
+    window.history.replaceState({}, '', url);
+    
+    // Actualizar datos inmediatamente
+    actualizarDatos();
+}
+
+// Función auxiliar para capitalizar la primera letra
+function capitalizarPrimeraLetra(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Función para imprimir comprobante
+function imprimirComprobante(facturaId) {
+    // Abrir el comprobante en una nueva ventana
+    const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
+    
+    // Esperar a que la ventana se cargue para imprimir
+    ventana.onload = function() {
+        ventana.print();
+    };
+}
+
+// =============================================
+// MÓDULO DE BÚSQUEDA POR FOLIO
+// =============================================
+
+let busquedaAbierta = false;
+
+// Alternar visibilidad de la caja de búsqueda
+function toggleBusqueda() {
+    const cajaBusqueda = document.getElementById('caja-busqueda');
+    const toggleBtn = document.getElementById('toggle-busqueda');
+    
+    if (cajaBusqueda && toggleBtn) {
+        if (busquedaAbierta) {
+            cajaBusqueda.classList.add('hidden');
+            cajaBusqueda.classList.remove('mostrar');
+            toggleBtn.innerHTML = '🔍';
+        } else {
+            cajaBusqueda.classList.remove('hidden');
+            cajaBusqueda.classList.add('mostrar');
+            toggleBtn.innerHTML = '▼';
+        }
+        
+        busquedaAbierta = !busquedaAbierta;
+    }
+}
 
 // Buscar comprobante por folio
 function buscarPorFolio() {
-    const folio = document.getElementById('input-busqueda').value.trim();
+    const inputBusqueda = document.getElementById('input-busqueda');
     const resultadoDiv = document.getElementById('resultado-busqueda');
+    
+    if (!inputBusqueda || !resultadoDiv) return;
+    
+    const folio = inputBusqueda.value.trim();
     
     if (!folio) {
         resultadoDiv.innerHTML = '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">Por favor ingrese un folio válido</div>';
@@ -884,21 +1015,327 @@ function buscarPorFolio() {
     });
 }
 
-        // Event listeners para la búsqueda
-            document.addEventListener('DOMContentLoaded', function() {
-            // Toggle búsqueda
-           //document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
-            
-            // Buscar al hacer clic en el botón
-            document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
-            
-            // Buscar al presionar Enter en el input
-            document.getElementById('input-busqueda').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    buscarPorFolio();
-                }
-            });
+// =============================================
+// MÓDULO DE COBRO QR - VERSIÓN CORREGIDA
+// =============================================
+
+// FUNCIONES PRINCIPALES DEL MODAL
+function abrirModalCobroQR() {
+    console.log('Abriendo modal de cobro QR...');
+    const modal = document.getElementById('modalCobroQR');
+    if (modal) {
+        modal.classList.remove('hidden');
+        mostrarPaso('seleccion');
+    }
+}
+
+function cerrarModalCobroQR() {
+    const modal = document.getElementById('modalCobroQR');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+    detenerCamara();
+    limpiarModal();
+}
+
+function limpiarModal() {
+    ordenActual = null;
+    facturaGenerada = null;
+    const codigoManual = document.getElementById('codigo-manual');
+    const inputImagen = document.getElementById('input-imagen-qr');
+    const vistaPrevia = document.getElementById('vista-previa');
+    
+    if (codigoManual) codigoManual.value = '';
+    if (inputImagen) inputImagen.value = '';
+    if (vistaPrevia) vistaPrevia.classList.add('hidden');
+}
+
+function mostrarPaso(paso) {
+    console.log('Mostrando paso:', paso);
+    // Ocultar todos los pasos
+    const pasos = ['seleccion', 'camara', 'imagen', 'manual', 'orden', 'resultado'];
+    pasos.forEach(p => {
+        const elemento = document.getElementById(`paso-${p}`);
+        if (elemento) {
+            elemento.classList.add('hidden');
+        }
+    });
+    
+    // Mostrar el paso solicitado
+    const pasoActual = document.getElementById(`paso-${paso}`);
+    if (pasoActual) {
+        pasoActual.classList.remove('hidden');
+    }
+}
+
+function volverASeleccion() {
+    detenerCamara();
+    mostrarPaso('seleccion');
+    limpiarModal();
+}
+
+// MÉTODO 1: CÁMARA
+function iniciarCamara() {
+    console.log('Iniciando cámara...');
+    mostrarPaso('camara');
+    
+    // Simulación de cámara (para desarrollo)
+    const lector = document.getElementById('lector-camara');
+    if (lector) {
+        lector.innerHTML = `
+            <div class="text-center">
+                <div class="inline-block border-2 border-green-500 p-8 rounded-lg mb-4">
+                    <span class="text-4xl">📷</span>
+                </div>
+                <p class="text-white">Cámara activa - Buscando códigos QR...</p>
+                <p class="text-yellow-300 text-sm mt-2">MODO SIMULACIÓN</p>
+                <button onclick="simularDeteccionQR()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4">
+                    Simular Detección QR
+                </button>
+            </div>
+        `;
+    }
+}
+
+function simularDeteccionQR() {
+    const codigoSimulado = 'ORD-' + new Date().getTime();
+    console.log('Código QR simulado:', codigoSimulado);
+    procesarCodigoQR(codigoSimulado);
+}
+
+function detenerCamara() {
+    if (scanner) {
+        scanner.stop();
+        scanner = null;
+    }
+}
+
+// MÉTODO 2: SUBIR IMAGEN
+function mostrarSubirImagen() {
+    console.log('Mostrando subida de imagen...');
+    mostrarPaso('imagen');
+}
+
+function procesarImagenQR() {
+    const fileInput = document.getElementById('input-imagen-qr');
+    if (!fileInput || !fileInput.files[0]) {
+        alert('Por favor seleccione una imagen');
+        return;
+    }
+    
+    mostrarCargando('Procesando imagen QR...');
+    setTimeout(() => {
+        const codigoSimulado = 'ORD-' + new Date().getTime();
+        procesarCodigoQR(codigoSimulado);
+    }, 2000);
+}
+
+// MÉTODO 3: INGRESO MANUAL
+function mostrarIngresoManual() {
+    console.log('Mostrando ingreso manual...');
+    mostrarPaso('manual');
+}
+
+function validarCodigoManual() {
+    const codigoManual = document.getElementById('codigo-manual');
+    if (!codigoManual) return;
+    
+    const codigo = codigoManual.value.trim();
+    if (!codigo) {
+        alert('Por favor ingrese un código');
+        return;
+    }
+    
+    procesarCodigoQR(codigo);
+}
+
+// PROCESAMIENTO COMÚN
+function procesarCodigoQR(codigo) {
+    console.log('Procesando código QR:', codigo);
+    mostrarCargando('Buscando información de la orden...');
+    
+    setTimeout(() => {
+        // Datos de ejemplo
+        ordenActual = {
+            id: Math.floor(Math.random() * 1000),
+            codigo: codigo,
+            fecha: new Date().toLocaleString(),
+            departamento: 'REGISTRO CIVIL',
+            concepto: 'Trámite de actas',
+            monto: 250.00,
+            descuento: 0.00,
+            total: 250.00,
+            estado: 'PENDIENTE'
+        };
+        
+        mostrarInformacionOrden();
+    }, 1500);
+}
+
+function mostrarInformacionOrden() {
+    const infoDiv = document.getElementById('info-orden');
+    if (infoDiv && ordenActual) {
+        infoDiv.innerHTML = `
+            <h4 class="font-semibold text-lg mb-2">Información de la Orden</h4>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <div><strong>Código:</strong></div><div>${ordenActual.codigo}</div>
+                <div><strong>Fecha:</strong></div><div>${ordenActual.fecha}</div>
+                <div><strong>Departamento:</strong></div><div>${ordenActual.departamento}</div>
+                <div><strong>Concepto:</strong></div><div>${ordenActual.concepto}</div>
+                <div><strong>Monto:</strong></div><div>$${ordenActual.monto.toFixed(2)}</div>
+                <div><strong>Descuento:</strong></div><div>$${ordenActual.descuento.toFixed(2)}</div>
+                <div><strong>Total a pagar:</strong></div><div class="font-bold text-green-600">$${ordenActual.total.toFixed(2)}</div>
+                <div><strong>Estado:</strong></div><div><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">${ordenActual.estado}</span></div>
+            </div>
+        `;
+    }
+    mostrarPaso('orden');
+}
+
+function procesarCobro() {
+    mostrarCargando('Procesando pago...');
+    
+    setTimeout(() => {
+        facturaGenerada = {
+            id: Math.floor(Math.random() * 10000),
+            folio: 'FAC-' + new Date().getTime(),
+            fecha: new Date().toLocaleString(),
+            monto: ordenActual.total,
+            orden_id: ordenActual.id
+        };
+        
+        mostrarResultadoCobro(true, 'Pago procesado exitosamente');
+    }, 2000);
+}
+
+function mostrarResultadoCobro(exitoso, mensaje) {
+    const resultadoDiv = document.getElementById('resultado-cobro');
+    if (resultadoDiv) {
+        if (exitoso) {
+            resultadoDiv.innerHTML = `
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">✅</span>
+                        <div>
+                            <h4 class="font-semibold">${mensaje}</h4>
+                            <p class="text-sm">Folio: ${facturaGenerada.folio}</p>
+                            <p class="text-sm">Monto: $${facturaGenerada.monto.toFixed(2)}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            resultadoDiv.innerHTML = `
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">❌</span>
+                        <div>
+                            <h4 class="font-semibold">${mensaje}</h4>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    mostrarPaso('resultado');
+}
+
+function imprimirComprobanteResultado() {
+    if (facturaGenerada) {
+        imprimirComprobante(facturaGenerada.id);
+        cerrarModalCobroQR();
+    }
+}
+
+function mostrarCargando(mensaje) {
+    const infoOrden = document.getElementById('info-orden');
+    if (infoOrden) {
+        infoOrden.innerHTML = `
+            <div class="text-center py-4">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p class="mt-2">${mensaje}</p>
+            </div>
+        `;
+    }
+}
+
+// =============================================
+// CONFIGURACIÓN DE EVENT LISTENERS AL CARGAR LA PÁGINA
+// =============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Dashboard cargado - Configurando event listeners...');
+    
+    // Inicializar gráficos si existen
+    inicializarGraficos();
+    
+    // Configurar eventos de los botones de filtro
+    $('.filtro-btn').click(function() {
+        const filtro = $(this).data('filtro');
+        cambiarFiltro(filtro);
+    });
+    
+    // Configurar evento del selector de mes
+    $('#mes-selector').change(function() {
+        const mes = $(this).val();
+        cambiarMes(mes);
+    });
+    
+    // Configurar botones de escaneo QR
+    const botonesQR = [
+        'escanear-qr-admin',    // Botón del header para admin
+        'escanear-qr-empleado'  // Botón del panel para empleados
+    ];
+    
+    botonesQR.forEach(id => {
+        const boton = document.getElementById(id);
+        if (boton) {
+            console.log('Configurando botón QR:', id);
+            boton.addEventListener('click', abrirModalCobroQR);
+        }
+    });
+    
+    // Configurar eventos de búsqueda
+    const btnBuscar = document.getElementById('btn-buscar');
+    const inputBusqueda = document.getElementById('input-busqueda');
+    
+    if (btnBuscar) {
+        btnBuscar.addEventListener('click', buscarPorFolio);
+    }
+    
+    if (inputBusqueda) {
+        inputBusqueda.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarPorFolio();
+            }
         });
+    }
+    
+    // Configurar eventos dentro del modal de QR
+    const inputImagen = document.getElementById('input-imagen-qr');
+    if (inputImagen) {
+        inputImagen.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagen-previa');
+                    const vistaPrevia = document.getElementById('vista-previa');
+                    if (img && vistaPrevia) {
+                        img.src = e.target.result;
+                        vistaPrevia.classList.remove('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Actualizar datos cada 5 segundos
+    setInterval(actualizarDatos, 5000);
+    
+    console.log('Event listeners configurados correctamente');
+});
         </script>
     </body>
 </html>
