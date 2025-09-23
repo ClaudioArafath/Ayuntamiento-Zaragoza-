@@ -352,8 +352,7 @@ if ($rol === 'Empleado') {
         <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold"> Sistema integral de analisis estadistico</h1>
             <div class="flex space-x-2 items-center">
-                <span class="bg-blue-500 px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
-            <!--    <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button> -->
+                <span class="bg-neutral px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
                 <a href="logout.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Cerrar sesión</a>
             </div>
         </header>
