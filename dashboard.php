@@ -350,7 +350,7 @@ if ($rol === 'Empleado') {
 
         <!-- Header -->
         <header class="bg-orange-300 text-white p-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold"> 🏛📊Sistema integral de analisis estadistico - Zaragoza </h1>
+                <h1 class="text-2xl font-bold"> Sistema integral de analisis estadistico</h1>
             <div class="flex space-x-2 items-center">
                 <span class="bg-blue-500 px-4 py-2 rounded-lg">Rol: <?php echo $rol; ?></span>
             <!--    <button id="escanear-qr" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg">Escanear QR</button> -->
@@ -888,7 +888,7 @@ function buscarPorFolio() {
         // Event listeners para la búsqueda
             document.addEventListener('DOMContentLoaded', function() {
             // Toggle búsqueda
-            document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
+           //document.getElementById('toggle-busqueda').addEventListener('click', toggleBusqueda);
             
             // Buscar al hacer clic en el botón
             document.getElementById('btn-buscar').addEventListener('click', buscarPorFolio);
