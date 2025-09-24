@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $user['username'];
             $_SESSION['rol'] = $user['rol'];
 
-            header("Location: dashboard.php"); // Redirige si es correcto
+            header("Location: index.php"); // Redirige si es correcto
             exit;
         }
 
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $user['username'];
             $_SESSION['rol'] = $user['rol'];
 
-            header("Location: dashboard.php");
+            header("Location: index.php");
             exit;
         }
 

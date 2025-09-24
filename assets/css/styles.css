@@ -1,0 +1,44 @@
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.filtro-btn {
+    transition: all 0.3s ease;
+}
+
+.data-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mes-selector {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d1d5db;
+    background-color: white;
+}
+
+#caja-busqueda {
+    transition: all 0.3s ease-in-out;
+    max-height: 0;
+}
+
+#caja-busqueda.mostrar {
+    max-height: 200px;
+}
