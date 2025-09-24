@@ -520,10 +520,7 @@ if ($rol === 'Empleado') {
             <!-- Tabla de últimos cobros (misma que para admin pero sin gráficas) -->
             <div class="data-card bg-white shadow-lg">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">Últimos cobros realizados</h2>
-                    <button onclick="actualizarDatos()" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-lg">
-                        🔄 Actualizar
-                    </button>
+                    <h2 class="text-xl font-semibold">Nuevas ordenes</h2>
                 </div>
                 
                 <div class="overflow-x-auto">
@@ -569,7 +566,6 @@ if ($rol === 'Empleado') {
         </main>
     <?php endif; ?>
 
-    <!-- Modal para escanear QR (compartido) -->
     <!-- Modal para Escanear QR y Procesar Cobro -->
 <div id="modalCobroQR" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
