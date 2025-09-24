@@ -52,7 +52,22 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
 ?>
 
 <?php include 'components/modal_qr.php'; ?>
-
+<script>
+// Pasar datos PHP a JavaScript
+const datosApp = {
+    // Datos para gráficas
+    etiquetas: <?php echo json_encode($etiquetas); ?>,
+    ingresos: <?php echo json_encode($ingresos); ?>,
+    categorias: <?php echo json_encode($categorias); ?>,
+    ingresosCat: <?php echo json_encode($ingresos_cat); ?>,
+    porcentajes: <?php echo json_encode($porcentajes); ?>,
+    
+    // Variables de estado
+    filtro: '<?php echo $filtro; ?>',
+    mesSeleccionado: '<?php echo $mes_seleccionado; ?>',
+    rol: '<?php echo $rol; ?>'
+};
+</script>
 <script src="assets/js/charts.js"></script>
 <script src="assets/js/search.js"></script>
 <script src="assets/js/qr_scanner.js"></script>
