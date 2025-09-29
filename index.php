@@ -34,7 +34,7 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
     $meses_disponibles = [];
 }
 
-// Consulta de últimos cobros (común para todos)
+// Consulta de últimos cobros
 require_once 'includes/queries_common.php';
 
 $conn_lycaios->close();

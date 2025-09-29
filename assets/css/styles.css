@@ -2,22 +2,45 @@
     position: relative;
     height: 300px;
     width: 100%;
+    min-height: 250px; /* Altura mínima */
 }
 
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
+    width: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .chart-container {
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        gap: 0.75rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+        min-height: 200px;
+    }
+    
+    .data-card {
+        padding: 0.75rem;
     }
 }
 
 .filtro-btn {
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .data-card {
@@ -25,6 +48,9 @@
     border-radius: 0.5rem;
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .mes-selector {
@@ -32,13 +58,43 @@
     border-radius: 0.25rem;
     border: 1px solid #d1d5db;
     background-color: white;
+    min-width: 150px;
 }
 
-#caja-busqueda {
-    transition: all 0.3s ease-in-out;
-    max-height: 0;
+/* Estilos para asegurar que los gráficos sean responsivos */
+canvas {
+    max-width: 100%;
+    height: auto !important;
 }
 
-#caja-busqueda.mostrar {
-    max-height: 200px;
+/* Clase para forzar redimensionamiento */
+.force-resize {
+    transform: translateZ(0);
+}
+
+/* Mejoras para el header responsivo */
+@media (max-width: 640px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    header .flex {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* Prevenir desbordamiento en tablas */
+.overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Asegurar que el grid se ajuste correctamente */
+main {
+    width: 100%;
+    overflow-x: hidden;
 }
