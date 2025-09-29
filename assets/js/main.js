@@ -13,6 +13,7 @@ function inicializarAplicacion() {
     // Verificar que los datos de PHP estén disponibles
     if (typeof datosApp === 'undefined') {
         console.error('Error: datosApp no está definido');
+        console.log('Asegúrate de que datosApp se defina antes de cargar main.js');
         return;
     }
     
@@ -39,6 +40,9 @@ function inicializarAplicacion() {
     }
     
     configurarEventListeners();
+    
+    // Inicializar componentes específicos que dependen de datosApp
+    inicializarComponentesEspecificos();
 }
 
 // Configurar event listeners
@@ -81,6 +85,53 @@ function configurarEventListeners() {
             }
         });
     }
+}
+
+// Inicializar componentes específicos que dependen de datosApp
+function inicializarComponentesEspecificos() {
+    console.log('Inicializando componentes específicos...');
+    
+    // Si hay datos de órdenes, inicializar la tabla
+    if (datosApp.ordenes && Array.isArray(datosApp.ordenes)) {
+        inicializarTablaOrdenes(datosApp.ordenes);
+    }
+    
+    // Si hay datos de resumen, actualizar el dashboard
+    if (datosApp.resumen) {
+        actualizarResumenDashboard(datosApp.resumen);
+    }
+}
+
+// Función para inicializar la tabla de órdenes
+function inicializarTablaOrdenes(ordenes) {
+    console.log('Inicializando tabla con', ordenes.length, 'órdenes');
+    
+    // Aquí puedes agregar lógica específica para la tabla de órdenes
+    // Por ejemplo, ordenamiento, filtros, etc.
+    
+    const tabla = document.getElementById('tabla-ordenes');
+    if (tabla && ordenes.length > 0) {
+        console.log('Tabla de órdenes encontrada, mostrando datos...');
+        // Tu lógica para llenar la tabla
+    }
+}
+
+// Función para actualizar el resumen del dashboard
+function actualizarResumenDashboard(resumen) {
+    // Actualizar elementos del resumen si existen
+    const elementosResumen = [
+        { id: 'total-ingresos', valor: resumen.totalIngresos },
+        { id: 'ordenes-hoy', valor: resumen.ordenesHoy },
+        { id: 'ordenes-pendientes', valor: resumen.ordenesPendientes },
+        // Agrega más elementos según tu estructura
+    ];
+    
+    elementosResumen.forEach(elemento => {
+        const domElement = document.getElementById(elemento.id);
+        if (domElement) {
+            domElement.textContent = elemento.valor;
+        }
+    });
 }
 
 // Actualizar datos mediante AJAX
@@ -171,14 +222,32 @@ function imprimirComprobante(facturaId) {
     };
 }
 
+// =============================================
+// INICIALIZACIÓN PRINCIPAL
+// =============================================
+
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado - Inicializando aplicación...');
-    inicializarAplicacion();
     
-    // Actualizar datos cada 5 segundos (solo si es admin/presidente)
-    if (typeof datosApp !== 'undefined' && 
-        (datosApp.rol === 'Administrador' || datosApp.rol === 'Presidente')) {
-        setInterval(actualizarDatos, 5000);
-    }
+    // Pequeño delay para asegurar que todos los scripts estén cargados
+    setTimeout(function() {
+        inicializarAplicacion();
+        
+        // Actualizar datos cada 5 segundos (solo si es admin/presidente)
+        if (typeof datosApp !== 'undefined' && datosApp.rol) {
+            const rolesPermitidos = ['Administrador', 'Presidente', 'admin', 'presidente'];
+            if (rolesPermitidos.includes(datosApp.rol)) {
+                console.log('Iniciando actualización automática para rol:', datosApp.rol);
+                setInterval(actualizarDatos, 5000);
+            }
+        }
+    }, 100);
 });
+
+// Función global para debugging
+window.mostrarDatosApp = function() {
+    console.log('Estado actual de datosApp:', datosApp);
+    console.log('Filtro actual:', filtroActual);
+    console.log('Mes seleccionado:', mesSeleccionado);
+};

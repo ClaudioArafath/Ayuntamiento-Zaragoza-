@@ -52,22 +52,30 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
 ?>
 
 <?php include 'components/modal_qr.php'; ?>
+
+<!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
 // Pasar datos PHP a JavaScript
 const datosApp = {
     // Datos para gráficas
-    etiquetas: <?php echo json_encode($etiquetas); ?>,
-    ingresos: <?php echo json_encode($ingresos); ?>,
-    categorias: <?php echo json_encode($categorias); ?>,
-    ingresosCat: <?php echo json_encode($ingresos_cat); ?>,
-    porcentajes: <?php echo json_encode($porcentajes); ?>,
+    etiquetas: <?php echo json_encode($etiquetas ?? []); ?>,
+    ingresos: <?php echo json_encode($ingresos ?? []); ?>,
+    categorias: <?php echo json_encode($categorias ?? []); ?>,
+    ingresosCat: <?php echo json_encode($ingresos_cat ?? []); ?>,
+    porcentajes: <?php echo json_encode($porcentajes ?? []); ?>,
+    ordenes: <?php echo json_encode($cobros_con_categoria ?? []); ?>,
     
     // Variables de estado
     filtro: '<?php echo $filtro; ?>',
     mesSeleccionado: '<?php echo $mes_seleccionado; ?>',
     rol: '<?php echo $rol; ?>'
 };
+
+// Verificar en consola que se cargó correctamente
+console.log('datosApp definido:', datosApp);
 </script>
+
+<!-- Cargar scripts DESPUÉS de definir datosApp -->
 <script src="assets/js/charts.js"></script>
 <script src="assets/js/search.js"></script>
 <script src="assets/js/qr_scanner.js"></script>
