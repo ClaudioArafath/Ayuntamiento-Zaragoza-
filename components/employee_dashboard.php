@@ -46,7 +46,7 @@ if ($rol === 'Empleado'):
                             <td><?php echo htmlspecialchars($cobro['code']); ?></td>
                             <td><?php echo htmlspecialchars($cobro['date']); ?></td>
                             <td><?php echo htmlspecialchars($cobro['employee']); ?></td>
-                            <td><?php echo htmlspecialchars($cobro['descripcion']); ?></td>
+                            <td><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
                             <td>$<?php echo number_format($cobro['subtotal']);?></td>
                             <td>$<?php echo number_format($cobro['total'], 2); ?></td>
                             <td>
