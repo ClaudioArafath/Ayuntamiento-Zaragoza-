@@ -5,12 +5,10 @@
 $sql_facturas = "SELECT id, code, date, total, items, employee, estatus FROM ordenes_backup ORDER BY date DESC LIMIT 10";
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
-// Procesar los resultados para extraer la categoría
+// Procesar los resultados para extraer descripciones y calcular subtotal real
 $cobros_con_categoria = [];
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
-        $categoria = 'N/A';
-        $folio = $row['code'];
         $descripciones_articulos = [];
         $subtotal_real = 0;
         $cantidad_articulos = 0;
@@ -47,12 +45,17 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
                     $subtotal_real += $subtotal_articulo;
                 }
                 
-                // Limitar las descripciones a las primeras 3 para mostrar
-                $descripciones_mostrar = array_slice($descripciones_articulos, 0, 3);
+                // Limitar las descripciones a las primeras 2 para mostrar
+                $descripciones_mostrar = array_slice($descripciones_articulos, 0, 2);
                 $descripcion_texto = implode(', ', $descripciones_mostrar);
-                if (count($descripciones_articulos) > 3) {
-                    $descripcion_texto .= '... (+' . (count($descripciones_articulos) - 3) . ' más)';
+                if (count($descripciones_articulos) > 2) {
+                    $descripcion_texto .= '... (+' . (count($descripciones_articulos) - 2) . ' más)';
                 }
+            }
+        } else {
+            $descripcion_texto = 'Sin artículos';
+            $subtotal_real = $row['total'];
+        }
 
         $cobros_con_categoria[] = [
             'id' => $row['id'],
@@ -60,15 +63,13 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'date' => $row['date'],
             'total' => $row['total'],
             'employee' => $row['employee'],
-            'estatus' => $estado, // Estado (Pagado/Pendiente)
-            'estatus_num' => $row['estatus'], // Valor numérico para filtros aun que no se usa por el momento.
+            'estatus' => $estado,
+            'estatus_num' => $row['estatus'],
             'descripcion_articulos' => $descripcion_texto,
-            'subtotal' => $subtotal_real,
+            'subtotal_real' => $subtotal_real,
             'cantidad_articulos' => $cantidad_articulos,
-            'descripciones_completas' => $descripciones_articulos // Para uso detallado si se necesita
+            'descripciones_completas' => $descripciones_articulos
         ];
-            }
-        }
     }
 }
 ?>

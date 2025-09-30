@@ -40,16 +40,16 @@ if ($rol === 'Empleado'):
                         <th class="px-4 py-2 border">Estatus</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabla-ordenes-body">
                     <?php foreach ($cobros_con_categoria as $cobro): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cobro['code']); ?></td>
-                            <td><?php echo htmlspecialchars($cobro['date']); ?></td>
-                            <td><?php echo htmlspecialchars($cobro['employee']); ?></td>
-                            <td><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
-                            <td>$<?php echo number_format($cobro['subtotal']);?></td>
-                            <td>$<?php echo number_format($cobro['total'], 2); ?></td>
-                            <td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['code']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['date']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['employee']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['subtotal_real'], 2);?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
+                            <td class="px-4 py-2 border">
                                 <span class="badge badge-<?php echo ($cobro['estatus_num'] == 1) ? 'success' : 'warning'; ?>">
                                     <?php echo htmlspecialchars($cobro['estatus']); ?>
                                 </span>

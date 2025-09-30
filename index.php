@@ -38,18 +38,17 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
 require_once 'includes/queries_common.php';
 
 $conn_lycaios->close();
-?>
+    ?>
+        <?php include 'includes/header.php'; ?>
 
-<?php include 'includes/header.php'; ?>
-
-<?php 
-// Incluir dashboard según rol
-if ($rol === 'Administrador' || $rol === 'Presidente') {
-    include 'components/admin_dashboard.php';
-} else {
-    include 'components/employee_dashboard.php';
-}
-?>
+        <?php 
+        // Incluir dashboard según rol
+        if ($rol === 'Administrador' || $rol === 'Presidente') {
+            include 'components/admin_dashboard.php';
+        } else {
+            include 'components/employee_dashboard.php';
+        }
+    ?>
 
 <?php include 'components/modal_qr.php'; ?>
 

@@ -31,13 +31,13 @@ $mes_seleccionado = isset($_GET['mes']) ? $_GET['mes'] : date('Y-m');
 // Preparar respuesta
 $response = [];
 
-// === CONSULTA 1: Ingresos según filtro ===
+// === CONSULTA 1: Ingresos según filtro (desde ordenes_backup) ===
 $sql_ingresos = "";
 switch($filtro) {
     case 'dia':
         $sql_ingresos = "
             SELECT DATE_FORMAT(date, '%Y-%m-%d') as periodo, SUM(total) as ingresos
-            FROM invoice
+            FROM ordenes_backup
             WHERE date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
             GROUP BY periodo
             ORDER BY periodo ASC
@@ -46,7 +46,7 @@ switch($filtro) {
     case 'semana':
         $sql_ingresos = "
             SELECT YEARWEEK(date) as periodo, CONCAT('Sem ', YEARWEEK(date)) as etiqueta, SUM(total) as ingresos
-            FROM invoice
+            FROM ordenes_backup
             WHERE date >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
             GROUP BY YEARWEEK(date)
             ORDER BY periodo ASC
@@ -56,7 +56,7 @@ switch($filtro) {
     default:
         $sql_ingresos = "
             SELECT DATE_FORMAT(date, '%Y-%m') as periodo, DATE_FORMAT(date, '%b %Y') as etiqueta, SUM(total) as ingresos
-            FROM invoice
+            FROM ordenes_backup
             GROUP BY periodo
             ORDER BY periodo ASC
         ";
@@ -80,15 +80,18 @@ $response['ingresos'] = [
     'data' => $ingresos_data
 ];
 
-//  === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
+// === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
+// Simplificada - usa directamente la columna employee como departamento
 $sql_pie = "
-    SELECT c.name as categoria, SUM(t.total) as ingresos
-    FROM topseller t
-    INNER JOIN categorias c ON t.categoryid = c.id
-    WHERE DATE_FORMAT(t.date, '%Y-%m') = '$mes_seleccionado'
-    GROUP BY c.name
+    SELECT 
+        employee as categoria,
+        SUM(total) as ingresos
+    FROM ordenes_backup 
+    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    GROUP BY employee
     ORDER BY ingresos DESC
 ";
+
 $result_pie = $conn_lycaios->query($sql_pie);
 
 $departamentos_labels = [];
@@ -121,7 +124,7 @@ $response['porcentajes'] = $porcentajes;
 // === CONSULTA 3: Total de facturas del mes ===
 $sql_total_facturas = "
     SELECT COUNT(*) as total_facturas 
-    FROM invoice 
+    FROM ordenes_backup 
     WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
 ";
 $result_total_facturas = $conn_lycaios->query($sql_total_facturas);
@@ -131,124 +134,125 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
     $total_facturas = (int)$row['total_facturas'];
 }
 
-// === CONSULTA 4: Total de condonaciones (descuentos) del mes ===
-$sql_condonaciones = "
-    SELECT COALESCE(SUM(descuento), 0) as total_condonaciones 
-    FROM invoice 
+// === CONSULTA 4: Total de órdenes pendientes vs pagadas ===
+$sql_estatus = "
+    SELECT 
+        estatus,
+        COUNT(*) as cantidad,
+        SUM(total) as total
+    FROM ordenes_backup 
     WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    GROUP BY estatus
 ";
-$result_condonaciones = $conn_lycaios->query($sql_condonaciones);
-$total_condonaciones = 0;
-if ($result_condonaciones && $result_condonaciones->num_rows > 0) {
-    $row = $result_condonaciones->fetch_assoc();
-    $total_condonaciones = (float)$row['total_condonaciones'];
+$result_estatus = $conn_lycaios->query($sql_estatus);
+$ordenes_pendientes = 0;
+$ordenes_pagadas = 0;
+
+if ($result_estatus && $result_estatus->num_rows > 0) {
+    while ($row = $result_estatus->fetch_assoc()) {
+        if ($row['estatus'] == 0) {
+            $ordenes_pendientes = (int)$row['cantidad'];
+        } else if ($row['estatus'] == 1) {
+            $ordenes_pagadas = (int)$row['cantidad'];
+        }
+    }
+}
+
+// === CONSULTA 5: Últimos ordenes en tiempo real (desde ordenes_backup) ===
+$sql_facturas = "
+    SELECT 
+        id, 
+        code, 
+        date, 
+        total, 
+        items, 
+        employee, 
+        estatus,
+        (SELECT COUNT(*) FROM ordenes_backup WHERE estatus = 0) as pendientes_count
+    FROM ordenes_backup 
+    ORDER BY date DESC 
+    LIMIT 10
+";
+
+$result_facturas = $conn_lycaios->query($sql_facturas);
+
+$facturas = [];
+$total_pendientes = 0;
+
+if ($result_facturas && $result_facturas->num_rows > 0) {
+    while ($row = $result_facturas->fetch_assoc()) {
+        $descripcion_articulos = [];
+        $subtotal_real = 0;
+        $cantidad_articulos = 0;
+
+        // Procesar el JSON para extraer información de artículos
+        if (!empty($row['items'])) {
+            $items_data = json_decode($row['items'], true);
+            
+            if (is_array($items_data) && count($items_data) > 0) {
+                $cantidad_articulos = count($items_data);
+                
+                foreach ($items_data as $item) {
+                    // Extraer descripción del artículo
+                    $descripcion = isset($item['Description']) ? $item['Description'] : 'Sin descripción';
+                    $descripciones_articulos[] = $descripcion;
+                    
+                    // Calcular subtotal real
+                    $precio = isset($item['Price']) ? floatval($item['Price']) : 0;
+                    $unidades = isset($item['Units']) ? floatval($item['Units']) : 1;
+                    $precio_real = isset($item['Real_Price']) ? floatval($item['Real_Price']) : $precio;
+                    $descuento = isset($item['Descuento']) ? floatval($item['Descuento']) : 0;
+                    
+                    if ($descuento > 0) {
+                        $subtotal_articulo = $precio_real * $unidades;
+                    } else {
+                        $subtotal_articulo = $precio * $unidades;
+                    }
+                    
+                    $subtotal_real += $subtotal_articulo;
+                }
+                
+                // Limitar las descripciones para mostrar
+                $descripciones_mostrar = array_slice($descripciones_articulos, 0, 2);
+                $descripcion_texto = implode(', ', $descripciones_mostrar);
+                if (count($descripciones_articulos) > 2) {
+                    $descripcion_texto .= '... (+' . (count($descripciones_articulos) - 2) . ' más)';
+                }
+            }
+        } else {
+            $descripcion_texto = 'Sin artículos';
+            $subtotal_real = $row['total'];
+        }
+        
+        $facturas[] = [
+            'id' => (int)$row['id'],
+            'code' => $row['code'],
+            'date' => $row['date'],
+            'total' => (float)$row['total'],
+            'employee' => $row['employee'], // Usamos employee como categoría/departamento
+            'estatus' => (int)$row['estatus'],
+            'estatus_num' => $row['estatus'],
+            'estatus_texto' => ($row['estatus'] == 1) ? 'Pagado' : 'Pendiente',
+            'descripcion_articulos' => $descripcion_texto,
+            'subtotal_real' => $subtotal_real,
+            'cantidad_articulos' => $cantidad_articulos
+        ];
+    }
+    
+    // Obtener el total de pendientes del primer registro
+    if (isset($row['pendientes_count'])) {
+        $total_pendientes = (int)$row['pendientes_count'];
+    }
 }
 
 // Preparar respuesta con los datos de resumen
 $response['resumen'] = [
     'ingresos_mes' => (float)$total_ingresos_mes,
     'total_facturas' => (int)$total_facturas,
-    'total_condonaciones' => (float)$total_condonaciones
+    'ordenes_pendientes' => $ordenes_pendientes,
+    'ordenes_pagadas' => $ordenes_pagadas,
+    'total_pendientes' => $total_pendientes
 ];
-
-// === CONSULTA 5: Últimos cobros en tiempo real ===
-// Modificada para extraer la categoría desde el JSON en items
-$sql_facturas = "SELECT id, invoicecode, date, total, items FROM invoice ORDER BY date DESC LIMIT 8";
-$result_facturas = $conn_lycaios->query($sql_facturas);
-
-$facturas = [];
-
-if ($result_facturas && $result_facturas->num_rows > 0) {
-    while ($row = $result_facturas->fetch_assoc()) {
-        $categoria = 'N/A';
-        $folio = $row['invoicecode'];
-
-         // Extraer la categoría del JSON
-        $categoryFromJson = obtenerCategoryDesdeItems($row['items']);
-        
-        if ($categoryFromJson == 0) {
-            // Si Category es 0, buscar en la tabla ordenes
-            $categoria = obtenerDepartamentoDesdeOrdenes($folio, $conn_lycaios);
-        } else {
-        
-        // Intentar extraer la categoría del JSON
-        if (!empty($row['items'])) {
-            $items_data = json_decode($row['items'], true);
-            if (is_array($items_data) && count($items_data) > 0) {
-                // Tomar la categoría del primer item
-                $primer_item = $items_data[0];
-                if (isset($primer_item['Category']) && $primer_item['Category'] != 0) {
-                        $categoria = obtenerNombreCategoria($primer_item['Category']);
-                    }
-                }
-            }
-        }
-        
-        $facturas[] = [
-            'id' => (int)$row['id'],
-            'invoicecode' => $row['invoicecode'],
-            'date' => $row['date'],
-            'total' => (float)$row['total'],
-            'categoria' => $categoria
-        ];
-    }
-}
-
-// Función para extraer el valor de Category desde el JSON
-function obtenerCategoryDesdeItems($items_json) {
-    if (empty($items_json)) {
-        return 0;
-    }
-    
-    $items_data = json_decode($items_json, true);
-    if (is_array($items_data) && count($items_data) > 0) {
-        $primer_item = $items_data[0];
-        if (isset($primer_item['Category'])) {
-            return (int)$primer_item['Category'];
-        }
-    }
-    
-    return 0;
-}
-
-// Función para obtener departamento desde la tabla ordenes
-function obtenerDepartamentoDesdeOrdenes($folio, $conn) {
-    // Primero verificar si la tabla ordenes existe
-    $tabla_existe = $conn->query("SHOW TABLES LIKE 'ordenes'");
-    if ($tabla_existe && $tabla_existe->num_rows > 0) {
-        // Buscar el employee en la tabla ordenes
-        $sql_ordenes = "SELECT employee FROM ordenes WHERE id = '" . $conn->real_escape_string($folio) . "' LIMIT 1";
-        $result = $conn->query($sql_ordenes);
-        
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return !empty($row['employee']) ? $row['employee'] : 'N/A';
-        }
-    }
-    
-    return 'N/A';
-}
-
-// Función para obtener el nombre de la categoría
-function obtenerNombreCategoria($categoryId) {
-    $categorias = [
-        2 => 'INDUSTRIA Y COMERCIO',
-        3 => 'REGISTRO CIVIL',
-        4 => 'SECRETARÍA DEL AYUNTAMIENTO',
-        5 => 'PANTEONES, PARQUES Y JARDINES',
-        6 => 'VIALIDAD',
-        7 => 'JUZGADO',
-        8 => 'SINDICATURA',
-        10 => 'PROTECCIÓN CIVIL',
-        11 => 'RECAUDACIÓN',
-        12 => 'PATRIMONIO Y HACIENDA PÚBLICA',
-        13 => 'OBRAS PÚBLICAS',
-        14 => 'CONTRALORÍA',
-        15 => 'DESARROLLO RURAL',
-    ];
-    
-    return $categorias[$categoryId] ?? 'CATEGORÍA ' . $categoryId;
-}
 
 $response['facturas'] = $facturas;
 
