@@ -96,6 +96,11 @@ function inicializarComponentesEspecificos() {
         console.log('📋 Inicializando tabla con datos iniciales de PHP');
         actualizarTablaOrdenes(datosApp.ordenes);
     }
+    //Evento para cancelar orden
+    const btnCancelar = document.getElementById('cancelarOrden');
+    if (btnCancelar) {
+        btnCancelar.addEventListener('click', abrirModalCancelarOrden);
+    }
 }
 
 // Función para actualizar la tabla de órdenes
@@ -104,7 +109,7 @@ function actualizarTablaOrdenes(ordenes) {
     
     const tbody = document.getElementById('tabla-ordenes-body');
     if (!tbody) {
-        console.log('❌ No se encontró tabla-ordenes-body');
+        console.log('❌ No se encontró tabla ordenes');
         return;
     }
     

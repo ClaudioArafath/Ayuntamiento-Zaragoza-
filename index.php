@@ -49,8 +49,10 @@ $conn_lycaios->close();
             include 'components/employee_dashboard.php';
         }
     ?>
-
+    <!-- Incluir modal para escanear QR-->
 <?php include 'components/modal_qr.php'; ?>
+    <!-- Incluir modal para cancelar orden-->
+<?php include 'components/modalCancelarOrden.php'; ?>
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
@@ -79,5 +81,6 @@ console.log('datosApp definido:', datosApp);
 <script src="assets/js/search.js"></script>
 <script src="assets/js/qr_scanner.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/cancelarOrden.js"></script>
 
 <?php include 'includes/footer.php'; ?>

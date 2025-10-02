@@ -20,6 +20,9 @@ if ($rol === 'Empleado'):
                 <button onclick="buscarPorFolio()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
                     <span class="text-2xl mr-2">🔍</span>Buscar comprobante
                 </button>
+                <button id="cancelarOrden" class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg flex items-center">
+                    <span class="text-2xl mr-2">❌</span>Cancelar orden
+                </button>
             </div>
         </div>
     </div>
