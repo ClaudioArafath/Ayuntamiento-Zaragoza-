@@ -1,4 +1,6 @@
-// Modulo para manejar la cancelación de órdenes
+// =============================================
+// MÓDULO PARA CANCELAR ORDEN
+// =============================================
 
 function abrirModalCancelarOrden() { 
     const modal = document.getElementById('modalCancelarOrden');
@@ -47,12 +49,15 @@ function confirmarCancelarOrden() {
         return;
     }
     
-    // Aquí va la lógica para cancelar la orden
-    console.log('Cancelando orden:', { folio, motivo });
+    // Deshabilitar el botón de envío para evitar múltiples envíos
+    const btnSubmit = document.querySelector('#formCancelarOrden button[type="submit"]');
+    if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Cancelando...';
+    }
     
-    // Ejemplo de petición AJAX:
-    /*
-    fetch('cancelar_orden.php', {
+    // Enviar la petición al servidor
+    fetch('includes/cancelar_orden.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,19 +83,12 @@ function confirmarCancelarOrden() {
     .catch(error => {
         console.error('Error:', error);
         alert('Error al cancelar la orden');
+    })
+    .finally(() => {
+        // Rehabilitar el botón
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = 'Confirmar Cancelación';
+        }
     });
-    */
-    
-    // Por ahora solo cerramos el modal y mostramos un mensaje
-    alert(`Orden ${folio} cancelada por: ${motivo}`);
-    cerrarModalCancelarOrden();
-}
-
-function confirmarCancelarOrden() {
-    const inputFolio = document.getElementById('folioCancelar');
-    const folio = inputFolio ? inputFolio.value.trim() : '';
-    if (!folio) {
-        alert('Por favor, ingresa un folio válido.');
-        return;
-    }
 }
