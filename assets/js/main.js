@@ -105,6 +105,11 @@ function inicializarComponentesEspecificos() {
 
 // Función para actualizar la tabla de órdenes
 function actualizarTablaOrdenes(ordenes) {
+    // Si ordenes no es un array, usar un array vacío
+    if (!Array.isArray(ordenes)) {
+        console.error('Las órdenes no son un array:', ordenes);
+        ordenes = [];
+    }
     console.log('🔄 Actualizando tabla con', ordenes.length, 'órdenes');
     
     const tbody = document.getElementById('tabla-ordenes-body');
@@ -322,21 +327,21 @@ function truncateText(text, maxLength) {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM cargado - Inicializando aplicación...');
+    console.log('Inicializando Dashboard...');
     
     // Pequeño delay para asegurar que todos los scripts estén cargados
     setTimeout(function() {
         inicializarAplicacion();
         
-        // Actualizar datos cada 5 segundos (solo si es admin/presidente/empleado)
+        // Actualizar datos cada 8 segundos
         if (typeof datosApp !== 'undefined' && datosApp.rol) {
             const rolesPermitidos = ['Administrador', 'Presidente', 'admin', 'presidente', 'Empleado', 'empleado'];
             if (rolesPermitidos.includes(datosApp.rol)) {
                 console.log('Iniciando actualización automática para rol:', datosApp.rol);
-                setInterval(actualizarDatos, 5000);
+                setInterval(actualizarDatos, 8000);
                 
                 // Actualizar inmediatamente al cargar
-                setTimeout(actualizarDatos, 2000);
+                //setTimeout(actualizarDatos, 2000);
             } else {
                 console.log('Actualización automática desactivada para rol:', datosApp.rol);
             }
@@ -349,10 +354,4 @@ window.mostrarDatosApp = function() {
     console.log('Estado actual de datosApp:', datosApp);
     console.log('Filtro actual:', filtroActual);
     console.log('Mes seleccionado:', mesSeleccionado);
-};
-
-// Función para forzar actualización manual
-window.actualizarManual = function() {
-    console.log('Actualización manual solicitada');
-    actualizarDatos();
 };
