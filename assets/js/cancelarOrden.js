@@ -34,12 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmarCancelarOrden();
         });
     }
-/*
-    // También puedes agregar el evento al botón si existe
-    const btnCancelar = document.getElementById('cancelarOrden');
-    if (btnCancelar) {
-        btnCancelar.addEventListener('click', abrirModalCancelarOrden);
-    }*/
 });
 
 function confirmarCancelarOrden() {
@@ -96,7 +90,7 @@ function confirmarCancelarOrden() {
     })
     .then(data => {
         if (data.success) {
-            alert('✅ ' + data.message);
+            alert(data.message);
             cerrarModalCancelarOrden();
             /*
             // Recargar la tabla de órdenes si la función existe
@@ -110,12 +104,12 @@ function confirmarCancelarOrden() {
             }, 1000); */
             
         } else {
-            alert('❌ ' + data.message);
+            alert(data.message);
         }
     })
     .catch(error => {
         console.error('Error completo:', error);
-        alert('❌ Error al conectar con el servidor: ' + error.message);
+        alert('Error al conectar con el servidor: ' + error.message);
     })
     .finally(() => {
         // Rehabilitar el botón

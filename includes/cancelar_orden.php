@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
     
     $folio = $input['folio'] ?? '';
-    $motivo = $input['motivo'] ?? ''; // Se recibe pero no se usa por ahora
+    $motivo = $input['motivo'] ?? '';
     
     if (empty($folio)) {
         echo json_encode(['success' => false, 'message' => 'Folio no proporcionado']);
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->affected_rows > 0) {
             echo json_encode([
                 'success' => true, 
-                'message' => "Orden con folio $folio eliminada correctamente"
+                'message' => "Orden $folio eliminado correctamente"
             ]);
         } else {
             echo json_encode([
