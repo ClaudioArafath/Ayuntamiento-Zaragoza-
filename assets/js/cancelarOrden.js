@@ -78,7 +78,6 @@ function confirmarCancelarOrden() {
         })
     })
     .then(response => {
-        // Primero verificar si la respuesta es JSON válido
         return response.text().then(text => {
             try {
                 return JSON.parse(text);
@@ -91,18 +90,7 @@ function confirmarCancelarOrden() {
     .then(data => {
         if (data.success) {
             alert(data.message);
-            cerrarModalCancelarOrden();
-            /*
-            // Recargar la tabla de órdenes si la función existe
-            if (typeof actualizarTablaOrdenes === 'function') {
-                actualizarTablaOrdenes();
-            }
-            
-            // Opcional: Recargar la página después de 1 segundo para actualizar todos los datos
-            setTimeout(() => {
-                // location.reload();
-            }, 1000); */
-            
+            cerrarModalCancelarOrden();           
         } else {
             alert(data.message);
         }

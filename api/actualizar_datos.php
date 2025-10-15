@@ -181,7 +181,7 @@ $total_pendientes = 0;
 
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
-        $descripcion_articulos = [];
+        $descripciones_articulos = [];
         $subtotal_real = 0;
         $cantidad_articulos = 0;
 
@@ -204,13 +204,12 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
                     $descuento = isset($item['Descuento']) ? floatval($item['Descuento']) : 0;
                     
                     if ($descuento > 0) {
-                        $subtotal_articulo = $precio_real * $unidades;
+                        $subtotal_articulo = $precio_real * $unidades; // Precio ya con descuento aplicado
                     } else {
-                        $subtotal_articulo = $precio * $unidades;
-                    }
-                    
-                    $subtotal_real += $subtotal_articulo;
-                }
+                        $subtotal_articulo = $precio_real * $unidades; // Sin descuento
+                    }                  
+                    $subtotal_real += $subtotal_articulo; // Sumar al subtotal total
+                } 
                 
                 // Limitar las descripciones para mostrar
                 $descripciones_mostrar = array_slice($descripciones_articulos, 0, 2);

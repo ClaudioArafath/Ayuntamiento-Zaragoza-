@@ -93,7 +93,7 @@ function inicializarComponentesEspecificos() {
     
     // Si hay datos de órdenes, inicializar la tabla
     if (datosApp.ordenes && Array.isArray(datosApp.ordenes)) {
-        console.log('📋 Inicializando tabla con datos iniciales de PHP');
+        console.log('Inicializando tabla con datos iniciales de PHP');
         actualizarTablaOrdenes(datosApp.ordenes);
     }
     //Evento para cancelar orden
@@ -208,15 +208,15 @@ function actualizarDatos() {
                 console.log('📋 Actualizando tabla con', data.facturas.length, 'órdenes');
                 actualizarTablaOrdenes(data.facturas);
             } else {
-                console.log('⚠️ No hay datos de facturas para actualizar la tabla');
+                console.log('No hay datos de facturas para actualizar la tabla');
             }
         },
         error: function(xhr, status, error) {
             console.log('❌ Error al actualizar los datos:', error);
             console.log('📄 Respuesta del servidor:', xhr.responseText);
             
-            // Reintentar después de 5 segundos
-            setTimeout(actualizarDatos, 5000);
+            // Reintentar después de 8 segundos
+            setTimeout(actualizarDatos, 8000);
         }
     });
 }
@@ -339,9 +339,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (rolesPermitidos.includes(datosApp.rol)) {
                 console.log('Iniciando actualización automática para rol:', datosApp.rol);
                 setInterval(actualizarDatos, 8000);
-                
-                // Actualizar inmediatamente al cargar
-                //setTimeout(actualizarDatos, 2000);
             } else {
                 console.log('Actualización automática desactivada para rol:', datosApp.rol);
             }

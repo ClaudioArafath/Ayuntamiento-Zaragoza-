@@ -50,7 +50,7 @@ if ($rol === 'Empleado'):
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['date']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['employee']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
-                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['subtotal_real'], 2);?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['precio'], 2);?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
                             <td class="px-4 py-2 border">
                                 <span class="badge badge-<?php echo ($cobro['estatus_num'] == 1) ? 'success' : 'warning'; ?>">
