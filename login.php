@@ -5,7 +5,6 @@ session_start();
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitizamos la entrada
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 

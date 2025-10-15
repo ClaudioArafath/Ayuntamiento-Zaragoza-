@@ -81,7 +81,7 @@ $response['ingresos'] = [
 ];
 
 // === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
-// Simplificada - usa directamente la columna employee como departamento
+// Usa la columna employee como departamento
 $sql_pie = "
     SELECT 
         employee as categoria,

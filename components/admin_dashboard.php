@@ -54,7 +54,7 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
         </div>
     </div>
 
-    <!-- Búsqueda -->
+    <!-- Búsqueda 
     <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
         <div class="flex space-x-2">
             <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
@@ -64,41 +64,40 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
             </button>
         </div>
         <div id="resultado-busqueda" class="mt-3 hidden"></div>
-    </div>
+    </div> -->
     
-    <!-- Tabla de facturas -->
+    <!-- Tabla de últimos cobros -->
     <div class="data-card">
-        <h2 class="text-xl font-semibold mb-4">Últimos cobros</h2>
+        <h2 class="text-xl font-semibold mb-4">Nuevas ordenes</h2>
         <div class="overflow-x-auto">
             <table id="tabla-facturas" class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200 text-left">
                         <th class="px-4 py-2 border">Folio</th>
-                        <th class="px-4 py-2 border">Fecha y hora</th>
-                        <th class="px-4 py-2 border">Total</th>
+                        <th class="px-4 py-2 border">Fecha</th>
                         <th class="px-4 py-2 border">Departamento</th>
-                        <th class="px-4 py-2 border">Comprobante</th>
+                        <th class="px-4 py-2 border">Descripción</th>
+                        <th class="px-4 py-2 border">Subtotal</th>
+                        <th class="px-4 py-2 border">Total</th>
+                        <th class="px-4 py-2 border">Estatus</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php if (!empty($cobros_con_categoria)): ?>
-                        <?php foreach ($cobros_con_categoria as $cobro): ?>
-                            <tr class="hover:bg-gray-100">
-                                <td class="px-4 py-2 border"><?php echo $cobro['invoicecode']; ?></td>
-                                <td class="px-4 py-2 border"><?php echo $cobro['date']; ?></td>
-                                <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
-                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['categoria']); ?></td>
-                                <td class="px-4 py-2 border text-center">
-                                    <button onclick="imprimirComprobante(<?php echo $cobro['id']; ?>)" 
-                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
-                                        🖨️ Imprimir
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr><td colspan="5" class="text-center p-4">No hay facturas registradas.</td></tr>
-                    <?php endif; ?>
+                <tbody id="tabla-ordenes-body">
+                    <?php foreach ($cobros_con_categoria as $cobro): ?>
+                        <tr>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['code']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['date']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['employee']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['precio'], 2);?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
+                            <td class="px-4 py-2 border">
+                                <span class="badge badge-<?php echo ($cobro['estatus_num'] == 1) ? 'success' : 'warning'; ?>">
+                                    <?php echo htmlspecialchars($cobro['estatus']); ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

@@ -10,10 +10,13 @@ if ($rol === 'Empleado'):
     </div>
 
     <!-- Herramientas rápidas -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="mb-6">
         <div class="data-card bg-white shadow-lg">
             <h3 class="text-lg font-semibold mb-4">Acciones Rápidas</h3>
-            <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <button id="cobrarOrden" class="w-full bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg flex items-center">
+                    <span class="text-2xl mr-2">💲</span>Cobrar orden
+                </button>
                 <button id="escanear-qr-empleado" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg flex items-center">
                     <span class="text-2xl mr-2">📱</span>Escanear QR para cobro
                 </button>

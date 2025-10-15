@@ -53,6 +53,8 @@ $conn_lycaios->close();
 <?php include 'components/modal_qr.php'; ?>
     <!-- Incluir modal para cancelar orden-->
 <?php include 'components/modalCancelarOrden.php'; ?>
+    <!-- Incluir modal para cobrar orden-->
+<?php include 'components/modalCobrarOrden.php'; ?>
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
@@ -82,5 +84,6 @@ console.log('datosApp definido:', datosApp);
 <script src="assets/js/qr_scanner.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/cancelarOrden.js"></script>
+<script src="assets/js/cobrarOrden.js"></script>
 
 <?php include 'includes/footer.php'; ?>
