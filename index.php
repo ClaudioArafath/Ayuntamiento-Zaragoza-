@@ -82,8 +82,8 @@ console.log('datosApp definido:', datosApp);
 <script src="assets/js/charts.js"></script>
 <script src="assets/js/search.js"></script>
 <script src="assets/js/qr_scanner.js"></script>
+<script src="assets/js/cobrarOrden.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/cancelarOrden.js"></script>
-<script src="assets/js/cobrarOrden.js"></script>
 
 <?php include 'includes/footer.php'; ?>

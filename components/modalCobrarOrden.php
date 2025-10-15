@@ -21,7 +21,7 @@
                     Cancelar
                 </button>
                 <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition duration-200">
-                    Confirmar Cobro
+                    Aceptar
                 </button>
             </div>
         </form>

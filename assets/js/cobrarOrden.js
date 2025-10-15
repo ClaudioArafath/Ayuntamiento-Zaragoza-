@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ✅ AGREGAR ESTO: Configurar el botón "Cobrar orden"
     const btnCobrarOrden = document.getElementById('cobrarOrden');
     if (btnCobrarOrden) {
         btnCobrarOrden.addEventListener('click', abrirModalCobro);
