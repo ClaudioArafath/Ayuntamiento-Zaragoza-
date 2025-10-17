@@ -85,6 +85,21 @@ function configurarEventListeners() {
             }
         });
     }
+    // Configurar botón "Cobrar orden"
+    const btnCobrarOrden = document.getElementById('cobrarOrden');
+    if (btnCobrarOrden) {
+        btnCobrarOrden.addEventListener('click', function() {
+            // Verificar si la función existe antes de llamarla
+            if (typeof abrirModalCobro === 'function') {
+                abrirModalCobro();
+            } else {
+                console.error('La función abrirModalCobro no está disponible');
+                // Mostrar un mensaje de error al usuario
+                alert('Error: La función de cobro no está disponible. Recargue la página.');
+            }
+        });
+        console.log('Botón "Cobrar orden" configurado en main.js');
+    }
 }
 
 // Inicializar componentes específicos que dependen de datosApp
