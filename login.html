@@ -6,36 +6,37 @@
   <title>Inicio de Sesión - Ayuntamiento de Zaragoza</title>
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Tu hoja de estilos personalizada -->
-  <link rel="stylesheet" href="styles.css">
+  <!-- Estilos personalizada -->
+  <link rel="stylesheet" href="../DB_lycaios/assets/css/styles.css">
 </head>
+<img src="media/background_horizontal.png" alt="Fondo Login" class="fixed inset-0 w-full h-full object-cover opacity-10 -z-10">
 <body class="bg-gray-100 flex items-center justify-center h-screen font-sans">
 
-  <div class="w-full max-w-sm bg-white p-8 rounded-2xl shadow-lg">
+  <div class="w-full max-w-sm bg-neutral p-10 rounded-3xl shadow-2xl border-3">
     <!-- Logo del Ayuntamiento -->
     <div class="flex justify-center mb-6">
-      <img src="logo-ayuntamiento.png" alt="Logo Ayuntamiento" class="h-16 w-auto">
+      <img src="media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="h-40 w-auto">
     </div>
 
     <h1 class="text-2xl font-bold text-gray-700 text-center mb-6">
-      Sistema de Gestión Municipal
+      Plataforma integral Ayuntamiento de Zaragoza
     </h1>
 
     <form action="login.php" method="POST" class="space-y-4">
         <div>
     <label for="username" class="block text-sm font-medium text-gray-600">Usuario</label>
-    <input type="text" id="username" name="username" required
+    <input type="text" id="username" name="username" autocomplete="username" required
       class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
     </div>
 
   <div>
     <label for="password" class="block text-sm font-medium text-gray-600">Contraseña</label>
-    <input type="password" id="password" name="password" required
+    <input type="password" id="password" name="password" autocomplete="current-password" required
       class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
   </div>
 
   <button type="submit"
-    class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+    class="w-full py-2 bg-amber-500 text-white font-semibold rounded-lg shadow hover:bg-amber-600 transition animate-pulse">
     Iniciar Sesión
   </button>
 </form>
