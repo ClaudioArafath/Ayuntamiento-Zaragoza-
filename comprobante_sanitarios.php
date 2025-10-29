@@ -21,6 +21,7 @@ if (!$orden) {
 // Formatear fecha
 $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -125,9 +126,8 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
     
     <div class="comprobante">
         <div class="header">
-            <!-- Logo del ayuntamiento (reemplazar con la ruta real del logo) -->
-            <div class="logo-placeholder" style="text-align: center; margin-bottom: 10px;">
-                [LOGO DEL AYUNTAMIENTO]
+            <img src="media/Ayuntamiento.png" alt="Fondo" class="fondo" width="150px" height="100px">
+            <div class="Ayuntamiento" style="text-align: center; margin-bottom: 10px;">
             </div>
             
             <div class="titulo">COMPROBANTE OFICIAL</div>
