@@ -55,6 +55,8 @@ $conn_lycaios->close();
 <?php include 'components/modalCancelarOrden.php'; ?>
     <!-- Incluir modal para cobrar orden-->
 <?php include 'components/modalCobrarOrden.php'; ?>
+    <!-- Incluir modal para orden personalizada -->
+<?php include 'components/modalOrdenPersonalizada.php'; ?>
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
