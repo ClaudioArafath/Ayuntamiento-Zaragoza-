@@ -9,7 +9,6 @@ $folio = $_POST['folio'] ?? '';
 $nombre_cliente = $_POST['nombre_cliente'] ?? '';
 $cantidad_total = $_POST['cantidad_total'] ?? '';
 $descripcion = $_POST['descripcion'] ?? 'Servicio de sanitarios';
-$fecha_hora = $_POST['fecha_hora'] ?? date('Y-m-d H:i:s');
 
 // Validar datos
 if (empty($folio) || empty($nombre_cliente) || empty($cantidad_total)) {
@@ -36,15 +35,14 @@ try {
     // Generar código QR único
     $qr_data = json_encode([
         'folio' => $folio,
-        'fecha' => $fecha_hora,
         'monto' => $cantidad_total,
         'tipo' => 'sanitarios'
     ]);
     $qr_code = base64_encode($qr_data);
     
     // Insertar en la base de datos
-    $stmt = $conn->prepare("INSERT INTO sanitarios (folio, fecha_hora, nombre_cliente, cantidad_total, descripcion, qr_code) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssdss", $folio, $fecha_hora, $nombre_cliente, $cantidad_total, $descripcion, $qr_code);
+    $stmt = $conn->prepare("INSERT INTO sanitarios (folio, nombre_cliente, cantidad_total, descripcion, qr_code) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdss", $folio, $nombre_cliente, $cantidad_total, $descripcion, $qr_code);
     
     if ($stmt->execute()) {
         $id = $conn->insert_id;

@@ -19,7 +19,7 @@ if (!$orden) {
 }
 
 // Formatear fecha
-$fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_hora']));
+$fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
 ?>
 <!DOCTYPE html>
 <html lang="es">

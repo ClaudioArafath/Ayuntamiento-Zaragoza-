@@ -153,16 +153,10 @@ function guardarOrdenPersonalizada() {
         return;
     }
     
-    // Agregar fecha y hora actual al formData
-    const ahora = new Date();
-    const fechaHoraMySQL = ahora.toISOString().slice(0, 19).replace('T', ' ');
-    formData.append('fecha_hora', fechaHoraMySQL);
-    
     console.log('Enviando datos de orden personalizada:', {
         folio: folio,
         nombre_cliente: nombreCliente,
         cantidad_total: cantidadTotal,
-        fecha_hora: fechaHoraMySQL
     });
     
     // Enviar datos al servidor
