@@ -34,8 +34,11 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
     $meses_disponibles = [];
 }
 
-// Consulta de últimos cobros
+// Consulta de últimos cobros (ESTA YA TIENE LOS DATOS CORRECTOS)
 require_once 'includes/queries_common.php';
+
+// USAR DIRECTAMENTE $cobros_con_categoria QUE YA TIENE EL ESTATUS CORRECTO
+$ordenes_iniciales = $cobros_con_categoria;
 
 $conn_lycaios->close();
     ?>
@@ -68,7 +71,7 @@ const datosApp = {
     categorias: <?php echo json_encode($categorias ?? []); ?>,
     ingresosCat: <?php echo json_encode($ingresos_cat ?? []); ?>,
     porcentajes: <?php echo json_encode($porcentajes ?? []); ?>,
-    ordenes: <?php echo json_encode($cobros_con_categoria ?? []); ?>,
+    ordenes: <?php echo json_encode($ordenes_iniciales ?? []); ?>,
     
     // Variables de estado
     filtro: '<?php echo $filtro; ?>',

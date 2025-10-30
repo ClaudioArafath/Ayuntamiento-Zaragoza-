@@ -14,7 +14,7 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
         $cantidad_articulos = 0;
 
         // Determinar estado (usando el campo estatus)
-        $estado = ($row['estatus'] == 1) ? 'Pagado' : 'Pendiente';
+        $estado_texto = ($row['estatus'] == 1) ? 'Pagado' : 'Pendiente';
 
         // Procesar el JSON para extraer información de artículos
         if (!empty($row['items'])) {
@@ -61,10 +61,11 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'id' => $row['id'],
             'code' => $row['code'],
             'date' => $row['date'],
-            'total' => $row['total'],
+            'total' => (float)$row['total'],
             'employee' => $row['employee'],
-            'estatus' => $estado,
+            'estatus' => (int)$row['estatus'], // CAMBIADO: ahora es número
             'estatus_num' => $row['estatus'],
+            'estatus_texto' => $estado_texto, // NUEVO: texto del estatus
             'descripcion_articulos' => $descripcion_texto,
             'subtotal_real' => $subtotal_real,
             'cantidad_articulos' => $cantidad_articulos,

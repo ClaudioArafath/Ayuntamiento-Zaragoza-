@@ -50,21 +50,36 @@ if ($rol === 'Empleado'):
                     </tr>
                 </thead>
                 <tbody id="tabla-ordenes-body">
-                    <?php foreach ($cobros_con_categoria as $cobro): ?>
+                    <?php 
+                    if (!empty($ordenes_iniciales) && is_array($ordenes_iniciales)): 
+                        foreach ($ordenes_iniciales as $orden): 
+                            // Usar estatus_texto si existe, de lo contrario determinar basado en estatus_num
+                            $estatus_texto = $orden['estatus_texto'] ?? (($orden['estatus_num'] == 1) ? 'Pagado' : 'Pendiente');
+                            $badge_class = ($orden['estatus'] == 1) ? 'success' : 'warning';
+                    ?>
                         <tr>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['code']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['date']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['employee']); ?></td>
-                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
-                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['precio'], 2);?></td>
-                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['code']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['date']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['employee']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['descripcion_articulos']); ?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($orden['subtotal_real'], 2);?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($orden['total'], 2); ?></td>
                             <td class="px-4 py-2 border">
-                                <span class="badge badge-<?php echo ($cobro['estatus_num'] == 1) ? 'success' : 'warning'; ?>">
-                                    <?php echo htmlspecialchars($cobro['estatus']); ?>
+                                <span class="badge badge-<?php echo $badge_class; ?>">
+                                    <?php echo htmlspecialchars($estatus_texto); ?>
                                 </span>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php 
+                        endforeach; 
+                    else:
+                    ?>
+                        <tr>
+                            <td colspan="7" class="px-4 py-4 text-center text-gray-500 border">
+                                No hay órdenes para mostrar
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

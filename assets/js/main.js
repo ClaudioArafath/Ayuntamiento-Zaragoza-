@@ -232,6 +232,10 @@ function actualizarTablaOrdenes(ordenes) {
     
     // Llenar con nuevos datos
     ordenes.forEach((orden) => {
+        // Determinar el estatus correcto (compatible con ambas estructuras)
+        const estatusNum = orden.estatus || orden.estatus_num || 0;
+        const estatusTexto = orden.estatus_texto || (estatusNum == 1 ? 'Pagado' : 'Pendiente');
+        
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="px-4 py-2 border">${escapeHtml(orden.code)}</td>
@@ -243,8 +247,8 @@ function actualizarTablaOrdenes(ordenes) {
             <td class="px-4 py-2 border">$${(orden.subtotal_real || orden.total).toFixed(2)}</td>
             <td class="px-4 py-2 border">$${(parseFloat(orden.total) || 0).toFixed(2)}</td>
             <td class="px-4 py-2 border">
-                <span class="badge badge-${orden.estatus === 1 ? 'success' : 'warning'}">
-                    ${orden.estatus_texto || (orden.estatus === 1 ? 'Pagado' : 'Pendiente')}
+                <span class="badge badge-${estatusNum == 1 ? 'success' : 'warning'}">
+                    ${estatusTexto}
                 </span>
             </td>
         `;
