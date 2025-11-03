@@ -1,10 +1,46 @@
-// =============================================
-// FUNCIONES PRINCIPALES
-// =============================================
-
-// Variables globales (ahora se inicializan con datos de PHP)
+// Variables globales
 let filtroActual;
 let mesSeleccionado;
+
+// =============================================
+// ELIMINACIÓN AUTOMÁTICA DE REGISTROS ANTIGUOS
+// =============================================
+
+// Función para eliminar registros de más de 5 días hábiles
+function eliminarRegistrosAntiguos() {
+    console.log('🔄 Verificando registros antiguos para eliminar...');
+    
+    fetch('api/eliminar_registros_antiguos.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(`🗑️ ${data.eliminados} registros antiguos eliminados`);
+        } else {
+            console.log('✅ No hay registros para eliminar o ya se procesaron');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Error en limpieza automática:', error);
+    });
+}
+
+// Programar limpieza diaria a las 3:00 AM
+function programarLimpiezaAutomatica() {
+    // Ejecutar una vez al día a las 3:00 AM
+    const ahora = new Date();
+    const hora = ahora.getHours();
+    
+    // Si es la 1:00 PM (13:00) o 3:00 AM, ejecutar limpieza (para pruebas usa 13)
+    if (hora === 13 || hora === 3) { // Cambia 13 por 3 para producción
+        console.log('🕒 Ejecutando limpieza programada...');
+        eliminarRegistrosAntiguos();
+    }
+}
 
 // Inicializar la aplicación
 function inicializarAplicacion() {
@@ -37,6 +73,25 @@ function inicializarAplicacion() {
             datosApp.porcentajes,
             datosApp.filtro
         );
+        // INICIALIZAR LIMPIEZA AUTOMÁTICA
+    inicializarLimpiezaAutomatica();
+    
+    // ... resto de tu código ...
+}
+
+    // Nueva función para inicializar la limpieza
+    function inicializarLimpiezaAutomatica() {
+        console.log('🔧 Inicializando sistema de limpieza automática...');
+        
+        // Ejecutar limpieza al iniciar la aplicación
+        setTimeout(() => {
+            eliminarRegistrosAntiguos();
+        }, 10000); // Esperar 10 segundos después del inicio
+        
+        // Programar verificación horaria
+        setInterval(programarLimpiezaAutomatica, 3600000); // Verificar cada hora
+        
+        console.log('✅ Sistema de limpieza automática inicializado');
     }
     
     configurarEventListeners();
