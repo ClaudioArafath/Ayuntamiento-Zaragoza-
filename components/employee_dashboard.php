@@ -41,7 +41,7 @@ if ($rol === 'Empleado'):
                 <thead>
                     <tr class="bg-gray-200 text-left">
                         <th class="px-4 py-2 border">Folio</th>
-                        <th class="px-4 py-2 border">Fecha</th>
+                        <th class="px-4 py-2 border">Fecha y hora</th>
                         <th class="px-4 py-2 border">Departamento</th>
                         <th class="px-4 py-2 border">Descripción</th>
                         <th class="px-4 py-2 border">Subtotal</th>
