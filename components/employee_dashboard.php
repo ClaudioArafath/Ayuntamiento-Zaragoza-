@@ -27,7 +27,7 @@ if ($rol === 'Empleado'):
                     <span class="text-2xl mr-2">❌</span>Cancelar orden
                 </button>
                 <button id="ordenPersonalizada" class="w-full bg-amber-500 hover:bg-amber-600 text-white px-4 py-3 rounded-lg flex items-center">
-                    <span class="text-2xl mr-2">💬</span>Agregar orden personalizada
+                    <span class="text-2xl mr-2">🚽</span>Cobro de sanitarios
                 </button>
             </div>
         </div>
