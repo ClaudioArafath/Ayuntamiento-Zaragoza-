@@ -35,7 +35,9 @@
             <div id="seccion-pago" class="hidden mb-4">
                 <div class="mb-3">
                     <label for="monto-recibido" class="block text-gray-700 font-semibold mb-2">Monto Recibido:</label>
-                    <input type="number" id="monto-recibido" name="monto_recibido" step="0.01" min="0" class="w-full border border-gray-300 rounded px-3 py-2 focus:border-green-500 focus:ring-1 focus:ring-green-500" placeholder="0.00">
+                    <input type="number" id="monto-recibido" name="monto_recibido" step="0.01" min="0" 
+           class="w-full border border-gray-300 rounded px-3 py-2 focus:border-green-500 focus:ring-1 focus:ring-green-500 bg-green-50 font-semibold" 
+           placeholder="0.00" style="cursor: text;">
                 </div>
                 
                 <div id="info-cambio" class="hidden p-3 bg-green-100 border border-green-400 text-green-700 rounded mb-3">

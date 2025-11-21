@@ -99,16 +99,35 @@
             document.getElementById('seccion-pago').classList.remove('hidden');
             document.getElementById('btn-confirmar-cobro').classList.remove('hidden');
             
-            // Configurar evento para calcular cambio
-            const montoRecibidoInput = document.getElementById('monto-recibido');
-            if (montoRecibidoInput) {
-                montoRecibidoInput.value = '';
-                montoRecibidoInput.focus();
-                montoRecibidoInput.addEventListener('input', calcularCambio);
-            }
+            // ✅ AUTO-RELLENAR EL MONTO CON EL TOTAL DE LA ORDEN
+            autoRellenarMonto(orden.total);
         }
         
         document.getElementById('info-orden').classList.remove('hidden');
+    }
+
+    // ✅ AUTO-RELLENAR EL MONTO Y CONFIGURAR SELECCIÓN AUTOMÁTICA
+    function autoRellenarMonto(total) {
+        const montoRecibidoInput = document.getElementById('monto-recibido');
+        if (montoRecibidoInput) {
+            // Rellenar con el total de la orden
+            montoRecibidoInput.value = parseFloat(total).toFixed(2);
+            
+            // Configurar evento para calcular cambio
+            montoRecibidoInput.addEventListener('input', calcularCambio);
+            
+            // ✅ SELECCIONAR TODO EL TEXTO AL HACER CLIC
+            montoRecibidoInput.addEventListener('click', function() {
+                this.select();
+            });
+            
+            // ✅ CALCULAR CAMBIO INICIAL (en caso de que el monto sea igual al total)
+            calcularCambio();
+            
+            // Enfocar el campo de monto para facilitar la edición
+            montoRecibidoInput.focus();
+            montoRecibidoInput.select();
+        }
     }
 
     // Calcular cambio
@@ -124,9 +143,18 @@
                 const cambio = montoRecibido - total;
                 document.getElementById('monto-cambio').textContent = cambio.toFixed(2);
                 document.getElementById('info-cambio').classList.remove('hidden');
+                
+                // ✅ HABILITAR BOTÓN DE CONFIRMAR SI EL MONTO ES SUFICIENTE
+                document.getElementById('btn-confirmar-cobro').disabled = false;
             } else {
                 document.getElementById('mensaje-insuficiente').classList.remove('hidden');
+                
+                // ✅ DESHABILITAR BOTÓN DE CONFIRMAR SI EL MONTO ES INSUFICIENTE
+                document.getElementById('btn-confirmar-cobro').disabled = true;
             }
+        } else {
+            // ✅ DESHABILITAR BOTÓN SI NO HAY MONTO
+            document.getElementById('btn-confirmar-cobro').disabled = true;
         }
     }
 
@@ -170,7 +198,7 @@
             const data = await response.json();
 
             if (data.success) {
-                alert('✅ Cobro realizado exitosamente');
+                alert('✅ Cobro realizado exitosamente.');
                 cerrarModalCobro();
                 // Recargar la página para actualizar la tabla
                 setTimeout(() => location.reload(), 1000);
@@ -198,6 +226,17 @@
         if (btnCobrarOrden) {
             btnCobrarOrden.addEventListener('click', abrirModalCobro);
             console.log('Botón "Cobrar orden" configurado correctamente');
+        }
+
+        // ✅ CONFIGURAR EVENTO PARA ENTER EN EL CAMPO DE FOLIO
+        const inputFolio = document.getElementById('folio');
+        if (inputFolio) {
+            inputFolio.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    buscarOrden();
+                }
+            });
         }
     });
 
