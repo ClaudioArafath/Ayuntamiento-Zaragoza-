@@ -16,38 +16,58 @@ try {
     // Calcular fecha límite (5 días hábiles atrás)
     $fechaLimite = calcularFechaLimite();
     
-    // Consulta para eliminar solo registros PENDIENTES (estatus = 0) y antiguos
-    $query = "DELETE FROM ordenes_backup WHERE date < ? AND estatus = 0";
-    $stmt = $conn->prepare($query);
+    // 1. PRIMERO: Contar registros que se eliminarán (para logging)
+    $queryContar = "SELECT COUNT(*) as total FROM ordenes_backup WHERE date < ? AND estatus = 0";
+    $stmtContar = $conn->prepare($queryContar);
+    $stmtContar->bind_param("s", $fechaLimite);
+    $stmtContar->execute();
+    $resultado = $stmtContar->get_result();
+    $fila = $resultado->fetch_assoc();
+    $totalPendientes = $fila['total'];
+    $stmtContar->close();
     
-    if (!$stmt) {
-        throw new Exception("Error preparando consulta: " . $conn->error);
+    $eliminadosBackup = 0;
+    $eliminadosOriginal = 0;
+    
+    // 2. ELIMINAR de ordenes_backup (tu tabla)
+    $queryBackup = "DELETE FROM ordenes_backup WHERE date < ? AND estatus = 0";
+    $stmtBackup = $conn->prepare($queryBackup);
+    $stmtBackup->bind_param("s", $fechaLimite);
+    
+    if ($stmtBackup->execute()) {
+        $eliminadosBackup = $stmtBackup->affected_rows;
     }
+    $stmtBackup->close();
     
-    $stmt->bind_param("s", $fechaLimite);
+    // 3. ELIMINAR de ordenes (tabla original de Lycaios)
+    $queryOriginal = "DELETE FROM ordenes WHERE date < ? AND estatus = 0";
+    $stmtOriginal = $conn->prepare($queryOriginal);
+    $stmtOriginal->bind_param("s", $fechaLimite);
     
-    if ($stmt->execute()) {
-        $eliminados = $stmt->affected_rows;
-        
-        $response = [
-            'success' => true,
-            'eliminados' => $eliminados,
-            'fechaLimite' => $fechaLimite,
-            'mensaje' => $eliminados > 0 ? 
-                "Eliminados $eliminados registros pendientes antiguos" : 
-                "No hay registros pendientes para eliminar"
-        ];
-    } else {
-        throw new Exception("Error en la ejecución: " . $stmt->error);
+    if ($stmtOriginal->execute()) {
+        $eliminadosOriginal = $stmtOriginal->affected_rows;
     }
+    $stmtOriginal->close();
     
-    $stmt->close();
     $conn->close();
+    
+    // Respuesta con detalles de ambas eliminaciones
+    $response = [
+        'success' => true,
+        'eliminados_backup' => $eliminadosBackup,
+        'eliminados_original' => $eliminadosOriginal,
+        'total_pendientes' => $totalPendientes,
+        'fechaLimite' => $fechaLimite,
+        'mensaje' => "Eliminados: $eliminadosBackup de backup, $eliminadosOriginal de original"
+    ];
+    
+    // Log detallado
+    error_log("Limpieza automática: $eliminadosBackup de backup, $eliminadosOriginal de original (anteriores a $fechaLimite)");
     
     echo json_encode($response);
     
 } catch (Exception $e) {
-    // Log del error (opcional)
+    // Log del error
     error_log("Error en eliminar_registros_antiguos: " . $e->getMessage());
     
     // Respuesta de error en JSON

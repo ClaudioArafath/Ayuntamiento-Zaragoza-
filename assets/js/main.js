@@ -16,16 +16,34 @@ function eliminarRegistrosAntiguos() {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            return response.text().then(text => {
+                throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}`);
+            });
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
-            console.log(`🗑️ ${data.eliminados} registros antiguos eliminados`);
+            const mensaje = `🗑️ Eliminados: ${data.eliminados_backup} de backup, ${data.eliminados_original} de original`;
+            console.log(mensaje);
+            
+            if (data.mensaje) {
+                console.log(`📝 ${data.mensaje}`);
+            }
+            
+            // Mostrar notificación solo si se eliminó algo
+            if (data.eliminados_backup > 0 || data.eliminados_original > 0) {
+                console.log(`✅ Limpieza completada. Fecha límite: ${data.fechaLimite}`);
+            }
         } else {
-            console.log('✅ No hay registros para eliminar o ya se procesaron');
+            console.log('ℹ️ ' + (data.mensaje || 'No hay registros para eliminar'));
         }
     })
     .catch(error => {
-        console.error('❌ Error en limpieza automática:', error);
+        console.error('❌ Error en limpieza automática:', error.message);
     });
 }
 
