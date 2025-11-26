@@ -170,3 +170,86 @@
 [2025-11-25 20:53:14] Paso 3: Insertando en invoice
 [2025-11-25 20:53:14] ❌ ROLLBACK: Field 'userid' doesn't have a default value
 [2025-11-25 20:53:14] ❌ ERROR FINAL: Field 'userid' doesn't have a default value
+[2025-11-26 19:28:12] === INICIANDO PROCESO COBRO ===
+[2025-11-26 19:28:12] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-26 19:28:12] Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-26 19:28:12] Conexión OK
+[2025-11-26 19:28:12] Orden encontrada: 0003467
+[2025-11-26 19:28:12] Transacción iniciada
+[2025-11-26 19:28:12] Paso 1: Actualizando ordenes_backup
+[2025-11-26 19:28:12] ✅ ordenes_backup actualizado
+[2025-11-26 19:28:12] Paso 2: Eliminando de ordenes
+[2025-11-26 19:28:12] ✅ ordenes eliminado
+[2025-11-26 19:28:12] Paso 3: Insertando en invoice
+[2025-11-26 19:28:12] Bind parameters...
+[2025-11-26 19:35:53] === INICIANDO PROCESO COBRO ===
+[2025-11-26 19:35:53] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-26 19:35:53] Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-26 19:35:53] Conexión OK
+[2025-11-26 19:35:53] Orden encontrada: 0003467
+[2025-11-26 19:35:53] Transacción iniciada
+[2025-11-26 19:35:53] Paso 1: Actualizando ordenes_backup
+[2025-11-26 19:35:53] ✅ ordenes_backup actualizado
+[2025-11-26 19:35:53] Paso 2: Eliminando de ordenes
+[2025-11-26 19:35:53] ✅ ordenes eliminado
+[2025-11-26 19:35:53] Paso 3: Insertando en invoice
+[2025-11-26 19:35:53] Próximo invoicecode: 0009643
+[2025-11-26 19:35:53] Query preparado: INSERT INTO invoice (
+            userid, 
+            cajaid, 
+            invoicecode, 
+            ordercode, 
+            facturacode,
+            date,
+            time,
+            subtotal,
+            total,
+            employee,
+            paid,
+            payed,
+            `change`,
+            items,
+            moneys
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2025-11-26 19:35:53] Bind parameters...
+[2025-11-26 19:35:53] Total de placeholders: 15
+[2025-11-26 19:35:53] Ejecutando INSERT...
+[2025-11-26 19:35:53] ❌ ROLLBACK: Field 'fecha' doesn't have a default value
+[2025-11-26 19:35:53] ❌ ERROR FINAL: Field 'fecha' doesn't have a default value
+[2025-11-26 19:41:44] === INICIANDO PROCESO COBRO ===
+[2025-11-26 19:41:44] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-26 19:41:44] Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-26 19:41:44] Conexión OK
+[2025-11-26 19:41:44] Orden encontrada: 0003467
+[2025-11-26 19:41:44] Transacción iniciada
+[2025-11-26 19:41:44] Paso 1: Actualizando ordenes_backup
+[2025-11-26 19:41:44] ✅ ordenes_backup actualizado
+[2025-11-26 19:41:44] Paso 2: Eliminando de ordenes
+[2025-11-26 19:41:44] ✅ ordenes eliminado
+[2025-11-26 19:41:44] Paso 3: Insertando en invoice
+[2025-11-26 19:41:44] Próximo invoicecode: 0009643
+[2025-11-26 19:41:44] Query preparado
+[2025-11-26 19:41:44] ❌ ROLLBACK: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '// NUEVO CAMPO
+            date,
+            time,
+            subtotal,
+   ' at line 7
+[2025-11-26 19:41:44] ❌ ERROR FINAL: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '// NUEVO CAMPO
+            date,
+            time,
+            subtotal,
+   ' at line 7
+[2025-11-26 19:47:17] === INICIANDO PROCESO COBRO ===
+[2025-11-26 19:47:17] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-26 19:47:17] Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-26 19:47:17] Conexión OK
+[2025-11-26 19:47:17] Orden encontrada: 0003467
+[2025-11-26 19:47:17] Transacción iniciada
+[2025-11-26 19:47:17] Paso 1: Actualizando ordenes_backup
+[2025-11-26 19:47:17] ✅ ordenes_backup actualizado
+[2025-11-26 19:47:17] Paso 2: Eliminando de ordenes
+[2025-11-26 19:47:17] ✅ ordenes eliminado
+[2025-11-26 19:47:17] Paso 3: Insertando en invoice
+[2025-11-26 19:47:17] Próximo invoicecode: 0009643
+[2025-11-26 19:47:17] Query preparado
+[2025-11-26 19:47:17] Bind parameters...

@@ -22,7 +22,10 @@ try {
     }
     
     $folio = $data['folio'] ?? '';
-    file_put_contents($log_file, "[$timestamp] Folio recibido: $folio\n", FILE_APPEND);
+    $montoRecibido = floatval($data['monto_recibido'] ?? 0);
+    $cambio = floatval($data['cambio'] ?? 0);
+    
+    file_put_contents($log_file, "[$timestamp] Folio: $folio, Monto: $montoRecibido, Cambio: $cambio\n", FILE_APPEND);
     
     if (empty($folio)) {
         throw new Exception('Folio vacío');
@@ -70,25 +73,96 @@ try {
         $stmt2->close();
         file_put_contents($log_file, "[$timestamp] ✅ ordenes eliminado\n", FILE_APPEND);
 
-        // PASO 3: Insertar en invoice - SOLO 3 CAMPOS MÍNIMOS
+        // PASO 3: Insertar en invoice - SIN COMENTARIOS EN EL SQL
         file_put_contents($log_file, "[$timestamp] Paso 3: Insertando en invoice\n", FILE_APPEND);
         
-        // Query MÍNIMO - solo campos absolutamente esenciales
-        $sql3 = "INSERT INTO invoice (invoicecode, ordercode, date) VALUES (?, ?, ?)";
+        // Obtener próximo invoicecode
+        $sql_max_invoice = "SELECT MAX(CAST(invoicecode AS UNSIGNED)) as max_code FROM invoice";
+        $result_max = $conn->query($sql_max_invoice);
+        $next_invoice_code = "0009643";
+        
+        if ($result_max && $row = $result_max->fetch_assoc()) {
+            $max_code = intval($row['max_code']);
+            $next_invoice_code = str_pad($max_code + 1, 7, '0', STR_PAD_LEFT);
+        }
+        
+        file_put_contents($log_file, "[$timestamp] Próximo invoicecode: $next_invoice_code\n", FILE_APPEND);
+        
+        // Query SIN comentarios dentro del string SQL
+        $sql3 = "INSERT INTO invoice (
+            userid, 
+            cajaid, 
+            invoicecode, 
+            ordercode, 
+            facturacode,
+            fecha,
+            date,
+            time,
+            subtotal,
+            total,
+            employee,
+            paid,
+            payed,
+            `change`,
+            items,
+            moneys
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        file_put_contents($log_file, "[$timestamp] Query preparado\n", FILE_APPEND);
+        
         $stmt3 = $conn->prepare($sql3);
         
         if (!$stmt3) {
             throw new Exception("Error preparando INSERT: " . $conn->error);
         }
         
-        $next_code = "0009643";
+        // Valores para campos obligatorios
+        $userid = 1;
+        $cajaid = 0;
+        $facturacode = '';
+        $fecha = '';
         $current_date = date('Y-m-d H:i:s');
+        $time = '00:00:00';
+        $subtotal = $orden['total'];
+        $paid = 1;
         
-        $stmt3->bind_param("sss", $next_code, $orden['code'], $current_date);
+        // Preparar moneys (JSON)
+        $moneys_data = json_encode([[
+            "Type" => 0,
+            "Currency" => "MX", 
+            "Date" => date('c'),
+            "Exchange" => 0.0,
+            "Total" => $montoRecibido,
+            "Change" => $cambio
+        ]]);
+        
+        file_put_contents($log_file, "[$timestamp] Bind parameters...\n", FILE_APPEND);
+        
+        $stmt3->bind_param(
+            "iisssssssddsidsss",
+            $userid,
+            $cajaid,  
+            $next_invoice_code,
+            $orden['code'],
+            $facturacode,
+            $fecha,
+            $current_date,
+            $time,
+            $subtotal,
+            $orden['total'],
+            $orden['employee'],
+            $paid,
+            $montoRecibido,
+            $cambio,
+            $orden['items'],
+            $moneys_data
+        );
+        
+        file_put_contents($log_file, "[$timestamp] Ejecutando INSERT...\n", FILE_APPEND);
         
         if ($stmt3->execute()) {
             $invoice_id = $conn->insert_id;
-            file_put_contents($log_file, "[$timestamp] ✅ Invoice insertado - ID: $invoice_id\n", FILE_APPEND);
+            file_put_contents($log_file, "[$timestamp] ✅ Invoice insertado - ID: $invoice_id, Code: $next_invoice_code\n", FILE_APPEND);
         } else {
             throw new Exception("Error ejecutando INSERT: " . $stmt3->error);
         }
@@ -105,7 +179,7 @@ try {
             'message' => 'Cobro exitoso',
             'data' => [
                 'invoice_id' => $invoice_id,
-                'invoice_code' => $next_code
+                'invoice_code' => $next_invoice_code
             ]
         ];
         
