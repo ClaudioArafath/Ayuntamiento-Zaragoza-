@@ -31,13 +31,13 @@ $mes_seleccionado = isset($_GET['mes']) ? $_GET['mes'] : date('Y-m');
 // Preparar respuesta
 $response = [];
 
-// === CONSULTA 1: Ingresos según filtro (desde ordenes_backup) ===
+// === CONSULTA 1: Ingresos totales según filtro (desde invoice) ===
 $sql_ingresos = "";
 switch($filtro) {
     case 'dia':
         $sql_ingresos = "
             SELECT DATE_FORMAT(date, '%Y-%m-%d') as periodo, SUM(total) as ingresos
-            FROM ordenes_backup
+            FROM invoice
             WHERE date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
             GROUP BY periodo
             ORDER BY periodo ASC
@@ -46,7 +46,7 @@ switch($filtro) {
     case 'semana':
         $sql_ingresos = "
             SELECT YEARWEEK(date) as periodo, CONCAT('Sem ', YEARWEEK(date)) as etiqueta, SUM(total) as ingresos
-            FROM ordenes_backup
+            FROM invoice
             WHERE date >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
             GROUP BY YEARWEEK(date)
             ORDER BY periodo ASC
@@ -56,7 +56,7 @@ switch($filtro) {
     default:
         $sql_ingresos = "
             SELECT DATE_FORMAT(date, '%Y-%m') as periodo, DATE_FORMAT(date, '%b %Y') as etiqueta, SUM(total) as ingresos
-            FROM ordenes_backup
+            FROM invoice
             GROUP BY periodo
             ORDER BY periodo ASC
         ";
@@ -81,12 +81,11 @@ $response['ingresos'] = [
 ];
 
 // === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
-// Usa la columna employee como departamento
 $sql_pie = "
     SELECT 
-        employee as categoria,
+        employee,
         SUM(total) as ingresos
-    FROM ordenes_backup 
+    FROM invoice 
     WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
     GROUP BY employee
     ORDER BY ingresos DESC
@@ -100,7 +99,7 @@ $total_ingresos_mes = 0;
 
 if ($result_pie && $result_pie->num_rows > 0) {
     while ($row = $result_pie->fetch_assoc()) {
-        $departamentos_labels[] = $row['categoria'];
+        $departamentos_labels[] = $row['employee'];
         $departamentos_data[] = (float)$row['ingresos'];
         $total_ingresos_mes += (float)$row['ingresos'];
     }
@@ -124,7 +123,7 @@ $response['porcentajes'] = $porcentajes;
 // === CONSULTA 3: Total de facturas del mes ===
 $sql_total_facturas = "
     SELECT COUNT(*) as total_facturas 
-    FROM ordenes_backup 
+    FROM invoice
     WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
 ";
 $result_total_facturas = $conn_lycaios->query($sql_total_facturas);
@@ -132,30 +131,6 @@ $total_facturas = 0;
 if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
     $row = $result_total_facturas->fetch_assoc();
     $total_facturas = (int)$row['total_facturas'];
-}
-
-// === CONSULTA 4: Total de órdenes pendientes vs pagadas ===
-$sql_estatus = "
-    SELECT 
-        estatus,
-        COUNT(*) as cantidad,
-        SUM(total) as total
-    FROM ordenes_backup 
-    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
-    GROUP BY estatus
-";
-$result_estatus = $conn_lycaios->query($sql_estatus);
-$ordenes_pendientes = 0;
-$ordenes_pagadas = 0;
-
-if ($result_estatus && $result_estatus->num_rows > 0) {
-    while ($row = $result_estatus->fetch_assoc()) {
-        if ($row['estatus'] == 0) {
-            $ordenes_pendientes = (int)$row['cantidad'];
-        } else if ($row['estatus'] == 1) {
-            $ordenes_pagadas = (int)$row['cantidad'];
-        }
-    }
 }
 
 // === CONSULTA 5: Últimos ordenes en tiempo real (desde ordenes_backup) ===
@@ -171,13 +146,12 @@ $sql_facturas = "
         (SELECT COUNT(*) FROM ordenes_backup WHERE estatus = 0) as pendientes_count
     FROM ordenes_backup 
     ORDER BY date DESC 
-    LIMIT 10
 ";
 
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 $facturas = [];
-$total_pendientes = 0;
+//$total_pendientes = 0;
 
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
@@ -228,7 +202,7 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'code' => $row['code'],
             'date' => $row['date'],
             'total' => (float)$row['total'],
-            'employee' => $row['employee'], // Usamos employee como categoría/departamento
+            'employee' => $row['employee'],
             'estatus' => (int)$row['estatus'],
             'estatus_num' => $row['estatus'],
             'estatus_texto' => ($row['estatus'] == 1) ? 'Pagado' : 'Pendiente',
@@ -238,19 +212,19 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
         ];
     }
     
-    // Obtener el total de pendientes del primer registro
+    /* Obtener el total de pendientes del primer registro
     if (isset($row['pendientes_count'])) {
         $total_pendientes = (int)$row['pendientes_count'];
-    }
+    }*/
 }
 
 // Preparar respuesta con los datos de resumen
 $response['resumen'] = [
     'ingresos_mes' => (float)$total_ingresos_mes,
     'total_facturas' => (int)$total_facturas,
-    'ordenes_pendientes' => $ordenes_pendientes,
-    'ordenes_pagadas' => $ordenes_pagadas,
-    'total_pendientes' => $total_pendientes
+    //'ordenes_pendientes' => $ordenes_pendientes,
+    //'ordenes_pagadas' => $ordenes_pagadas,
+    //'total_pendientes' => $total_pendientes
 ];
 
 $response['facturas'] = $facturas;

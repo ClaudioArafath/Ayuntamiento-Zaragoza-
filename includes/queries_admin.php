@@ -43,7 +43,6 @@ if ($result_ingresos && $result_ingresos->num_rows > 0) {
     while ($row = $result_ingresos->fetch_assoc()) {
         $periodos[] = $row['periodo'];
         $ingresos[] = $row['ingresos'];
-        // Usar etiqueta personalizada si existe, de lo contrario usar periodo
         $etiquetas[] = isset($row['etiqueta']) ? $row['etiqueta'] : $row['periodo'];
     }
 }

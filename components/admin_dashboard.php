@@ -1,5 +1,5 @@
 <?php
-// Dashboard para Administradores y Presidentes
+// Dashboard para Administradores y Presidente
 if ($rol === 'Administrador' || $rol === 'Presidente'):
 ?>
 <main class="p-4 max-w-7xl mx-auto">
@@ -53,18 +53,6 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
             </div>
         </div>
     </div>
-
-    <!-- Búsqueda 
-    <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
-        <div class="flex space-x-2">
-            <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
-                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button id="btn-buscar" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                Buscar
-            </button>
-        </div>
-        <div id="resultado-busqueda" class="mt-3 hidden"></div>
-    </div> -->
     
     <!-- Tabla de últimos cobros -->
     <div class="data-card">
