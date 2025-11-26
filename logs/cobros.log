@@ -1,0 +1,172 @@
+[2025-11-25 18:41:58] Iniciando procesar_cobro.php
+[2025-11-25 18:41:58] Input recibido: {"folio":"0003465","monto_recibido":280,"cambio":0}
+[2025-11-25 18:41:58] Datos parseados - Folio: 0003465, Monto: 280, Cambio: 0
+[2025-11-25 18:41:58] Conexión a BD establecida
+[2025-11-25 18:41:58] Buscando orden con folio: 0003465
+[2025-11-25 18:41:58] Ordenes encontradas: 1
+[2025-11-25 18:41:58] Orden encontrada - ID: 3476, Estatus: 0, Total: 280.000000
+[2025-11-25 18:41:58] ✅ Cobro exitoso - Folio: 0003465 actualizado
+[2025-11-25 18:41:58] Enviando respuesta: {"success":true,"message":"Cobro realizado exitosamente","data":{"folio":"0003465","monto_recibido":280,"cambio":0,"total_orden":"280.000000"}}
+[2025-11-25 18:44:08] Iniciando procesar_cobro.php
+[2025-11-25 18:44:08] Input recibido: {"folio":"0003466","monto_recibido":720,"cambio":0}
+[2025-11-25 18:44:08] Datos parseados - Folio: 0003466, Monto: 720, Cambio: 0
+[2025-11-25 18:44:08] Conexión a BD establecida
+[2025-11-25 18:44:08] Buscando orden con folio: 0003466
+[2025-11-25 18:44:08] Ordenes encontradas: 1
+[2025-11-25 18:44:08] Orden encontrada - ID: 3477, Estatus: 0, Total: 720.000000
+[2025-11-25 18:44:08] ✅ Cobro exitoso - Folio: 0003466 actualizado
+[2025-11-25 18:44:08] Enviando respuesta: {"success":true,"message":"Cobro realizado exitosamente","data":{"folio":"0003466","monto_recibido":720,"cambio":0,"total_orden":"720.000000"}}
+[2025-11-25 18:57:19] Iniciando procesar_cobro.php
+[2025-11-25 18:57:19] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 18:57:19] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 18:57:19] Conexión a BD establecida
+[2025-11-25 18:57:19] Buscando orden con folio: 0003467
+[2025-11-25 18:57:19] ❌ Error: Unknown column 'subtotal' in 'field list'
+[2025-11-25 20:03:24] Iniciando procesar_cobro.php
+[2025-11-25 20:03:24] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:03:24] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:03:24] Conexión a BD establecida
+[2025-11-25 20:03:24] Buscando orden con folio: 0003467
+[2025-11-25 20:03:24] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:03:24] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:03:24] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:03:24] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:03:24] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:03:24] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:03:24] Insertando en tabla 'invoice'...
+[2025-11-25 20:03:24] Próximo invoicecode: 0009643
+[2025-11-25 20:03:24] ❌ Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'change, moneymn, moneyusd, credit, voucher, money, usepromocioncode, 
+         ' at line 6
+[2025-11-25 20:20:56] Iniciando procesar_cobro.php
+[2025-11-25 20:20:56] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:20:56] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:20:56] Conexión a BD establecida
+[2025-11-25 20:20:56] Buscando orden con folio: 0003467
+[2025-11-25 20:20:56] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:20:56] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:20:56] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:20:56] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:20:56] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:20:56] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:20:56] Insertando en tabla 'invoice'...
+[2025-11-25 20:20:56] Próximo invoicecode: 0009643
+[2025-11-25 20:24:40] Iniciando procesar_cobro.php
+[2025-11-25 20:24:40] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:24:40] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:24:40] Conexión a BD establecida
+[2025-11-25 20:24:40] Buscando orden con folio: 0003467
+[2025-11-25 20:24:40] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:24:40] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:24:40] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:24:40] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:24:40] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:24:40] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:24:40] Insertando en tabla 'invoice'...
+[2025-11-25 20:24:40] Próximo invoicecode: 0009643
+[2025-11-25 20:24:40] ❌ Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'change, moneymn, moneyusd, credit, voucher, money, usepromocioncode, 
+         ' at line 6
+[2025-11-25 20:25:02] Iniciando procesar_cobro.php
+[2025-11-25 20:25:02] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:25:02] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:25:02] Conexión a BD establecida
+[2025-11-25 20:25:02] Buscando orden con folio: 0003467
+[2025-11-25 20:25:02] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:25:02] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:25:02] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:25:02] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:25:02] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:25:02] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:25:02] Insertando en tabla 'invoice'...
+[2025-11-25 20:25:02] Próximo invoicecode: 0009643
+[2025-11-25 20:25:02] ❌ Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''change', moneymn, moneyusd, credit, voucher, money, usepromocioncode, 
+       ' at line 6
+[2025-11-25 20:25:25] Iniciando procesar_cobro.php
+[2025-11-25 20:25:25] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:25:25] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:25:25] Conexión a BD establecida
+[2025-11-25 20:25:25] Buscando orden con folio: 0003467
+[2025-11-25 20:25:25] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:25:25] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:25:25] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:25:25] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:25:25] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:25:25] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:25:25] Insertando en tabla 'invoice'...
+[2025-11-25 20:25:25] Próximo invoicecode: 0009643
+[2025-11-25 20:30:38] Iniciando procesar_cobro.php
+[2025-11-25 20:30:38] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:30:38] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:30:38] Conexión a BD establecida
+[2025-11-25 20:30:38] Buscando orden con folio: 0003467
+[2025-11-25 20:30:38] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:30:38] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:30:38] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:30:38] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:30:38] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:30:38] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:30:38] Insertando en tabla 'invoice'...
+[2025-11-25 20:30:38] Próximo invoicecode: 0009643
+[2025-11-25 20:30:38] Query preparado para invoice
+[2025-11-25 20:32:30] Iniciando procesar_cobro.php
+[2025-11-25 20:32:30] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:32:30] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:32:30] Conexión a BD establecida
+[2025-11-25 20:32:30] Buscando orden con folio: 0003467
+[2025-11-25 20:32:30] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:32:30] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:32:30] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:32:30] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:32:30] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:32:30] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:32:30] Insertando en tabla 'invoice'...
+[2025-11-25 20:32:30] Próximo invoicecode: 0009643
+[2025-11-25 20:32:30] Query preparado para invoice
+[2025-11-25 20:32:49] Iniciando procesar_cobro.php
+[2025-11-25 20:32:49] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:32:49] Datos parseados - Folio: 0003467, Monto: 360, Cambio: 0
+[2025-11-25 20:32:49] Conexión a BD establecida
+[2025-11-25 20:32:49] Buscando orden con folio: 0003467
+[2025-11-25 20:32:49] Ordenes pendientes encontradas en backup: 1
+[2025-11-25 20:32:49] Orden encontrada - ID: 3478, Total: 360.000000
+[2025-11-25 20:32:49] Actualizando estatus en 'ordenes_backup'...
+[2025-11-25 20:32:49] ✅ Estatus actualizado a 1 en 'ordenes_backup'
+[2025-11-25 20:32:49] Eliminando de tabla 'ordenes'...
+[2025-11-25 20:32:49] ✅ Eliminado de 'ordenes' - Filas afectadas: 1
+[2025-11-25 20:32:49] Insertando en tabla 'invoice'...
+[2025-11-25 20:32:49] Próximo invoicecode: 0009643
+[2025-11-25 20:32:49] Query preparado para invoice
+[2025-11-25 20:35:45] Iniciando procesar_cobro.php
+[2025-11-25 20:35:45] Input recibido: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:35:45] Query preparado: INSERT INTO invoice (
+            userid, 
+            cajaid, 
+            invoicecode, 
+            ordercode, 
+            date, 
+            subtotal, 
+            total, 
+            ganancia, 
+            employee, 
+            paid, 
+            payed, 
+            `change`, 
+            items, 
+            moneys
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2025-11-25 20:35:45] ❌ Error: Field 'facturacode' doesn't have a default value
+[2025-11-25 20:40:35] Iniciando procesar_cobro.php
+[2025-11-25 20:41:23] Iniciando procesar_cobro.php
+[2025-11-25 20:43:03] Iniciando procesar_cobro.php
+[2025-11-25 20:53:14] === INICIANDO PROCESO COBRO ===
+[2025-11-25 20:53:14] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:53:14] Folio recibido: 0003467
+[2025-11-25 20:53:14] Conexión OK
+[2025-11-25 20:53:14] Orden encontrada: 0003467
+[2025-11-25 20:53:14] Transacción iniciada
+[2025-11-25 20:53:14] Paso 1: Actualizando ordenes_backup
+[2025-11-25 20:53:14] ✅ ordenes_backup actualizado
+[2025-11-25 20:53:14] Paso 2: Eliminando de ordenes
+[2025-11-25 20:53:14] ✅ ordenes eliminado
+[2025-11-25 20:53:14] Paso 3: Insertando en invoice
+[2025-11-25 20:53:14] ❌ ROLLBACK: Field 'userid' doesn't have a default value
+[2025-11-25 20:53:14] ❌ ERROR FINAL: Field 'userid' doesn't have a default value

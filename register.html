@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Ayuntamiento de Zaragoza</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="login-style.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+  <img src="media/background_horizontal.png" alt="Fondo Login" class="fixed inset-0 w-full h-full object-cover opacity-10 -z-10">
+
+  <div class="w-full max-w-md bg-neutral p-10 rounded-3xl shadow-2xl border-3 my-8">
+    <!-- Logo del Ayuntamiento -->
+    <div class="flex justify-center mb-6">
+      <img src="media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="h-40 w-auto">
+    </div>
+
+    <h1 class="text-2xl font-bold text-gray-700 text-center mb-6">
+      Registro de nueva cuenta
+    </h1>
+
+    <form action="register.php" method="POST" class="space-y-4">
+      <div>
+        <label for="nombre_completo" class="block text-sm font-medium text-gray-600">Nombre Completo *</label>
+        <input type="text" id="nombre_completo" name="nombre_completo" required
+          class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
+      </div>
+
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-600">Usuario *</label>
+        <input type="text" id="username" name="username" autocomplete="username" required
+          class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-600">Contraseña *</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" required
+          class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
+        <p class="text-xs text-gray-500 mt-1">La contraseña debe tener al menos 6 caracteres</p>
+      </div>
+
+      <div>
+        <label for="confirm_password" class="block text-sm font-medium text-gray-600">Confirmar Contraseña *</label>
+        <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required
+          class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300">
+      </div>
+
+      <button type="submit"
+        class="w-full py-2 bg-amber-500 text-white font-semibold rounded-lg shadow hover:bg-amber-600 transition animate-pulse">
+        Registrarse
+      </button>
+    </form>
+
+    <!-- Enlace para volver al login -->
+    <p class="text-center text-sm text-gray-500 mt-4">
+      ¿Ya tienes una cuenta?
+      <a href="login.html" class="text-blue-600 hover:underline">Inicia sesión aquí</a>
+    </p>
+  </div>
+
+</body>
+</html>

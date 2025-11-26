@@ -1,0 +1,14 @@
+[2025-11-25 20:57:39] === INICIANDO PROCESO COBRO ===
+[2025-11-25 20:57:39] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 20:57:39] Folio recibido: 0003467
+[2025-11-25 20:57:39] ❌ ERROR FINAL: Access denied for user 'tu_usuario'@'localhost' (using password: YES)
+[2025-11-25 21:04:42] === INICIANDO PROCESO COBRO ===
+[2025-11-25 21:04:42] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 21:04:42] Folio recibido: 0003467
+[2025-11-25 21:04:42] Usando configuración de database.php
+[2025-11-25 21:04:42] ❌ ERROR FINAL: Conexión a BD no disponible en database.php
+[2025-11-25 21:05:45] === INICIANDO PROCESO COBRO ===
+[2025-11-25 21:05:45] Input RAW: {"folio":"0003467","monto_recibido":360,"cambio":0}
+[2025-11-25 21:05:45] Folio recibido: 0003467
+[2025-11-25 21:05:45] Usando configuración de database.php
+[2025-11-25 21:05:45] ❌ ERROR FINAL: Conexión a BD no disponible en database.php

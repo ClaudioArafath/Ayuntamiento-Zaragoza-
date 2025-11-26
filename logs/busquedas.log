@@ -1,0 +1,142 @@
+[2025-11-25 18:35:29] Iniciando buscar_orden.php
+[2025-11-25 18:35:29] Input recibido: {"folio":"0003466"}
+[2025-11-25 18:35:29] Conexión a BD establecida
+[2025-11-25 18:35:29] Buscando orden con folio: 0003466
+[2025-11-25 18:35:29] Resultados encontrados: 1
+[2025-11-25 18:35:29] ✅ Orden encontrada: 0003466 - Total: 720.000000
+[2025-11-25 18:35:29] Enviando respuesta: {"success":true,"orden":{"id":3477,"code":"0003466","date":"2025-11-22 14:44:23","employee":"INDUSTRIA COMERCIO","total":720,"estatus":0,"descripcion_articulos":""}}
+[2025-11-25 18:41:54] Iniciando buscar_orden.php
+[2025-11-25 18:41:54] Input recibido: {"folio":"0003465"}
+[2025-11-25 18:41:54] Conexión a BD establecida
+[2025-11-25 18:41:54] Buscando orden con folio: 0003465
+[2025-11-25 18:41:54] Resultados encontrados: 1
+[2025-11-25 18:41:54] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":141,"Codigo":"00000141","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"PERMISO D
+[2025-11-25 18:41:54] Descripción final: Productos varios
+[2025-11-25 18:41:54] ✅ Orden encontrada: 0003465 - Total: 280.000000 - Estatus: 0
+[2025-11-25 18:41:54] Enviando respuesta: {"success":true,"orden":{"id":3476,"code":"0003465","date":"2025-11-21 12:18:16","employee":"INDUSTRIA COMERCIO","total":280,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 18:44:04] Iniciando buscar_orden.php
+[2025-11-25 18:44:04] Input recibido: {"folio":"0003466"}
+[2025-11-25 18:44:04] Conexión a BD establecida
+[2025-11-25 18:44:04] Buscando orden con folio: 0003466
+[2025-11-25 18:44:04] Resultados encontrados: 1
+[2025-11-25 18:44:04] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":136,"Codigo":"00000136","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FERIA 12 
+[2025-11-25 18:44:04] Descripción final: Productos varios
+[2025-11-25 18:44:04] ✅ Orden encontrada: 0003466 - Total: 720.000000 - Estatus: 0
+[2025-11-25 18:44:04] Enviando respuesta: {"success":true,"orden":{"id":3477,"code":"0003466","date":"2025-11-22 14:44:23","employee":"INDUSTRIA COMERCIO","total":720,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 18:57:12] Iniciando buscar_orden.php
+[2025-11-25 18:57:12] Input recibido: {"folio":"0003467"}
+[2025-11-25 18:57:12] Conexión a BD establecida
+[2025-11-25 18:57:12] Buscando orden con folio: 0003467
+[2025-11-25 18:57:12] Resultados encontrados: 1
+[2025-11-25 18:57:12] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 18:57:12] Descripción final: Productos varios
+[2025-11-25 18:57:12] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 18:57:12] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:03:19] Iniciando buscar_orden.php
+[2025-11-25 20:03:19] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:03:19] Conexión a BD establecida
+[2025-11-25 20:03:19] Buscando orden con folio: 0003467
+[2025-11-25 20:03:19] Resultados encontrados: 1
+[2025-11-25 20:03:19] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:03:19] Descripción final: Productos varios
+[2025-11-25 20:03:19] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:03:19] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:20:50] Iniciando buscar_orden.php
+[2025-11-25 20:20:50] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:20:50] Conexión a BD establecida
+[2025-11-25 20:20:50] Buscando orden con folio: 0003467
+[2025-11-25 20:20:50] Resultados encontrados: 1
+[2025-11-25 20:20:50] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:20:50] Descripción final: Productos varios
+[2025-11-25 20:20:50] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:20:50] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:24:37] Iniciando buscar_orden.php
+[2025-11-25 20:24:37] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:24:37] Conexión a BD establecida
+[2025-11-25 20:24:37] Buscando orden con folio: 0003467
+[2025-11-25 20:24:37] Resultados encontrados: 1
+[2025-11-25 20:24:37] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:24:37] Descripción final: Productos varios
+[2025-11-25 20:24:37] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:24:37] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:30:34] Iniciando buscar_orden.php
+[2025-11-25 20:30:34] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:30:34] Conexión a BD establecida
+[2025-11-25 20:30:34] Buscando orden con folio: 0003467
+[2025-11-25 20:30:34] Resultados encontrados: 1
+[2025-11-25 20:30:34] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:30:34] Descripción final: Productos varios
+[2025-11-25 20:30:34] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:30:34] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:32:45] Iniciando buscar_orden.php
+[2025-11-25 20:32:45] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:32:45] Conexión a BD establecida
+[2025-11-25 20:32:45] Buscando orden con folio: 0003467
+[2025-11-25 20:32:45] Resultados encontrados: 1
+[2025-11-25 20:32:45] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:32:45] Descripción final: Productos varios
+[2025-11-25 20:32:45] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:32:45] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:35:42] Iniciando buscar_orden.php
+[2025-11-25 20:35:42] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:35:42] Conexión a BD establecida
+[2025-11-25 20:35:42] Buscando orden con folio: 0003467
+[2025-11-25 20:35:42] Resultados encontrados: 1
+[2025-11-25 20:35:42] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:35:42] Descripción final: Productos varios
+[2025-11-25 20:35:42] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:35:42] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:40:31] Iniciando buscar_orden.php
+[2025-11-25 20:40:31] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:40:31] Conexión a BD establecida
+[2025-11-25 20:40:31] Buscando orden con folio: 0003467
+[2025-11-25 20:40:31] Resultados encontrados: 1
+[2025-11-25 20:40:31] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:40:31] Descripción final: Productos varios
+[2025-11-25 20:40:31] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:40:31] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:41:20] Iniciando buscar_orden.php
+[2025-11-25 20:41:20] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:41:20] Conexión a BD establecida
+[2025-11-25 20:41:20] Buscando orden con folio: 0003467
+[2025-11-25 20:41:20] Resultados encontrados: 1
+[2025-11-25 20:41:20] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:41:20] Descripción final: Productos varios
+[2025-11-25 20:41:20] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:41:20] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:53:10] Iniciando buscar_orden.php
+[2025-11-25 20:53:10] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:53:10] Conexión a BD establecida
+[2025-11-25 20:53:10] Buscando orden con folio: 0003467
+[2025-11-25 20:53:10] Resultados encontrados: 1
+[2025-11-25 20:53:10] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:53:10] Descripción final: Productos varios
+[2025-11-25 20:53:10] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:53:10] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 20:57:35] Iniciando buscar_orden.php
+[2025-11-25 20:57:35] Input recibido: {"folio":"0003467"}
+[2025-11-25 20:57:35] Conexión a BD establecida
+[2025-11-25 20:57:35] Buscando orden con folio: 0003467
+[2025-11-25 20:57:35] Resultados encontrados: 1
+[2025-11-25 20:57:35] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 20:57:35] Descripción final: Productos varios
+[2025-11-25 20:57:35] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 20:57:35] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 21:04:38] Iniciando buscar_orden.php
+[2025-11-25 21:04:38] Input recibido: {"folio":"0003467"}
+[2025-11-25 21:04:38] Conexión a BD establecida
+[2025-11-25 21:04:38] Buscando orden con folio: 0003467
+[2025-11-25 21:04:38] Resultados encontrados: 1
+[2025-11-25 21:04:38] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 21:04:38] Descripción final: Productos varios
+[2025-11-25 21:04:38] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 21:04:38] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-11-25 21:05:42] Iniciando buscar_orden.php
+[2025-11-25 21:05:42] Input recibido: {"folio":"0003467"}
+[2025-11-25 21:05:42] Conexión a BD establecida
+[2025-11-25 21:05:42] Buscando orden con folio: 0003467
+[2025-11-25 21:05:42] Resultados encontrados: 1
+[2025-11-25 21:05:42] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":140,"Codigo":"00000140","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REFRIGERA
+[2025-11-25 21:05:42] Descripción final: Productos varios
+[2025-11-25 21:05:42] ✅ Orden encontrada: 0003467 - Total: 360.000000 - Estatus: 0
+[2025-11-25 21:05:42] Enviando respuesta: {"success":true,"orden":{"id":3478,"code":"0003467","date":"2025-11-25 11:47:40","employee":"INDUSTRIA COMERCIO","total":360,"estatus":0,"descripcion_articulos":"Productos varios"}}
