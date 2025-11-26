@@ -253,3 +253,27 @@
 [2025-11-26 19:47:17] Próximo invoicecode: 0009643
 [2025-11-26 19:47:17] Query preparado
 [2025-11-26 19:47:17] Bind parameters...
+[2025-11-26 19:59:23] === INICIANDO PROCESO COBRO ===
+[2025-11-26 19:59:23] Columnas: 16
+[2025-11-26 19:59:23] Placeholders: ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+[2025-11-26 19:59:23] SQL: INSERT INTO invoice (userid, cajaid, invoicecode, ordercode, facturacode, fecha, date, time, subtotal, total, employee, paid, payed, `change`, items, moneys) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2025-11-26 19:59:23] Tipos: iissssssddsiddss (16 caracteres)
+[2025-11-26 19:59:23] Parámetros: 16
+[2025-11-26 19:59:23] ❌ ERROR: Field 'priceunit' doesn't have a default value
+[2025-11-26 20:25:55] === INICIANDO PROCESO COBRO ===
+[2025-11-26 20:25:55] Columnas: 17
+[2025-11-26 20:25:55] Placeholders: ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+[2025-11-26 20:25:55] SQL: INSERT INTO invoice (userid, cajaid, invoicecode, ordercode, facturacode, fecha, date, time, subtotal, total, employee, paid, payed, `change`, priceunit, items, moneys) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2025-11-26 20:25:55] Tipos: iissssssddsidddss (17 caracteres)
+[2025-11-26 20:25:55] Parámetros: 17
+[2025-11-26 20:25:55] ❌ ERROR: Field 'impuesto' doesn't have a default value
+[2025-11-26 20:31:59] === INICIANDO PROCESO COBRO ===
+[2025-11-26 20:31:59] Columnas: 18
+[2025-11-26 20:31:59] Placeholders: ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+[2025-11-26 20:31:59] SQL: INSERT INTO invoice (userid, cajaid, invoicecode, ordercode, facturacode, fecha, date, time, subtotal, total, employee, paid, payed, `change`, priceunit, impuesto, items, moneys) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2025-11-26 20:31:59] Tipos: iissssssddsiddddss (18 caracteres)
+[2025-11-26 20:31:59] Parámetros: 18
+[2025-11-26 20:31:59] ❌ ERROR: Field 'ieps' doesn't have a default value
+[2025-11-26 20:38:39] === INICIANDO PROCESO COBRO ===
+[2025-11-26 20:38:39] Total columnas: 68
+[2025-11-26 20:38:39] ✅ Invoice insertado - ID: 5677
