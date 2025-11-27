@@ -9,18 +9,8 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Conexión a la base de datos
-$host = "localhost";
-$port = 3311;
-$user = "root";
-$password = "";
-$database = "lycaios_pos";
-
-$conn_lycaios = new mysqli($host, $user, $password, $database, $port);
-if ($conn_lycaios->connect_error) {
-    header("HTTP/1.1 500 Internal Server Error");
-    echo json_encode(["error" => "Error de conexión: " . $conn_lycaios->connect_error]);
-    exit();
-}
+require_once __DIR__ . '/../config/database.php';
+$conn_lycaios = conectarLycaidosPOS();
 
 // Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'mes';

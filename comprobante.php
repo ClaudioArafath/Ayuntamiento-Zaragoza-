@@ -8,16 +8,8 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Conexión a la base de datos
-$host = "localhost";
-$port = 3311;
-$user = "root";
-$password = "";
-$database = "lycaios_pos";
-
-$conn_lycaios = new mysqli($host, $user, $password, $database, $port);
-if ($conn_lycaios->connect_error) {
-    die("Error de conexión: " . $conn_lycaios->connect_error);
-}
+require_once __DIR__ . '/config/database.php';
+$conn_lycaios = conectarLycaidosPOS();
 
 // Obtener ID de la factura desde parámetro GET
 $factura_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
