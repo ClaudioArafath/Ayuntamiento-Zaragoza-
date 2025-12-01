@@ -266,3 +266,30 @@
 [2025-11-27 21:21:41] Descripción final: Productos varios
 [2025-11-27 21:21:41] ✅ Orden encontrada: 0003479 - Total: 739.650000 - Estatus: 0
 [2025-11-27 21:21:41] Enviando respuesta: {"success":true,"orden":{"id":3490,"code":"0003479","date":"2025-11-27 14:12:44","employee":"PANTEONES PARQUES Y JARDINES","total":739.65,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:25:11] Iniciando buscar_orden.php
+[2025-12-01 19:25:11] Input recibido: {"folio":"0003484"}
+[2025-12-01 19:25:11] Conexión a BD establecida
+[2025-12-01 19:25:11] Buscando orden con folio: 0003484
+[2025-12-01 19:25:11] Resultados encontrados: 1
+[2025-12-01 19:25:11] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":23,"Codigo":"00000023","SKU":"DDRO7A","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"DEP�
+[2025-12-01 19:25:11] Descripción final: Productos varios
+[2025-12-01 19:25:11] ✅ Orden encontrada: 0003484 - Total: 477.000000 - Estatus: 0
+[2025-12-01 19:25:11] Enviando respuesta: {"success":true,"orden":{"id":3495,"code":"0003484","date":"2025-12-01 12:19:23","employee":"PANTEONES PARQUES Y JARDINES","total":477,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:28:41] Iniciando buscar_orden.php
+[2025-12-01 19:28:41] Input recibido: {"folio":"0003485"}
+[2025-12-01 19:28:41] Conexión a BD establecida
+[2025-12-01 19:28:41] Buscando orden con folio: 0003485
+[2025-12-01 19:28:41] Resultados encontrados: 1
+[2025-12-01 19:28:41] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":36,"Codigo":"00000036","SKU":"RE-PPD","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"REIM
+[2025-12-01 19:28:41] Descripción final: Productos varios
+[2025-12-01 19:28:41] ✅ Orden encontrada: 0003485 - Total: 990.000000 - Estatus: 0
+[2025-12-01 19:28:41] Enviando respuesta: {"success":true,"orden":{"id":3496,"code":"0003485","date":"2025-12-01 12:27:42","employee":"PANTEONES PARQUES Y JARDINES","total":990,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:29:05] Iniciando buscar_orden.php
+[2025-12-01 19:29:05] Input recibido: {"folio":"0003487"}
+[2025-12-01 19:29:05] Conexión a BD establecida
+[2025-12-01 19:29:05] Buscando orden con folio: 0003487
+[2025-12-01 19:29:05] Resultados encontrados: 1
+[2025-12-01 19:29:05] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":28,"Codigo":"00000028","SKU":"ESDC280","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"ESP
+[2025-12-01 19:29:05] Descripción final: Productos varios
+[2025-12-01 19:29:05] ✅ Orden encontrada: 0003487 - Total: 9817.500000 - Estatus: 0
+[2025-12-01 19:29:05] Enviando respuesta: {"success":true,"orden":{"id":3498,"code":"0003487","date":"2025-12-01 12:28:05","employee":"PANTEONES PARQUES Y JARDINES","total":9817.5,"estatus":0,"descripcion_articulos":"Productos varios"}}

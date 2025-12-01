@@ -9,42 +9,42 @@ let mesSeleccionado;
 // Función para eliminar registros de más de 5 días hábiles
 function eliminarRegistrosAntiguos() {
     console.log('🔄 Verificando registros antiguos para eliminar...');
-    
+
     fetch('api/eliminar_registros_antiguos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => {
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            return response.text().then(text => {
-                throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}`);
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            const mensaje = `🗑️ Eliminados: ${data.eliminados_backup} de backup, ${data.eliminados_original} de original`;
-            console.log(mensaje);
-            
-            if (data.mensaje) {
-                console.log(`📝 ${data.mensaje}`);
+        .then(response => {
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                return response.text().then(text => {
+                    throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}`);
+                });
             }
-            
-            // Mostrar notificación solo si se eliminó algo
-            if (data.eliminados_backup > 0 || data.eliminados_original > 0) {
-                console.log(`✅ Limpieza completada. Fecha límite: ${data.fechaLimite}`);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const mensaje = `🗑️ Eliminados: ${data.eliminados_backup} de backup, ${data.eliminados_original} de original`;
+                console.log(mensaje);
+
+                if (data.mensaje) {
+                    console.log(`📝 ${data.mensaje}`);
+                }
+
+                // Mostrar notificación solo si se eliminó algo
+                if (data.eliminados_backup > 0 || data.eliminados_original > 0) {
+                    console.log(`✅ Limpieza completada. Fecha límite: ${data.fechaLimite}`);
+                }
+            } else {
+                console.log('ℹ️ ' + (data.mensaje || 'No hay registros para eliminar'));
             }
-        } else {
-            console.log('ℹ️ ' + (data.mensaje || 'No hay registros para eliminar'));
-        }
-    })
-    .catch(error => {
-        console.error('❌ Error en limpieza automática:', error.message);
-    });
+        })
+        .catch(error => {
+            console.error('❌ Error en limpieza automática:', error.message);
+        });
 }
 
 // Programar limpieza diaria a las 3:00 AM
@@ -52,7 +52,7 @@ function programarLimpiezaAutomatica() {
     // Ejecutar una vez al día a las 3:00 AM
     const ahora = new Date();
     const hora = ahora.getHours();
-    
+
     // Si es la 1:00 PM (13:00) o 3:00 AM, ejecutar limpieza (para pruebas usa 13)
     if (hora === 13 || hora === 3) { // Cambia 13 por 3 para producción
         console.log('🕒 Ejecutando limpieza programada...');
@@ -63,24 +63,24 @@ function programarLimpiezaAutomatica() {
 // Inicializar la aplicación
 function inicializarAplicacion() {
     console.log('Inicializando aplicación...');
-    
+
     // Verificar que los datos de PHP estén disponibles
     if (typeof datosApp === 'undefined') {
         console.error('Error: datosApp no está definido');
         console.log('Asegúrate de que datosApp se defina antes de cargar main.js');
         return;
     }
-    
+
     // Inicializar variables con datos de PHP
     filtroActual = datosApp.filtro;
     mesSeleccionado = datosApp.mesSeleccionado;
-    
+
     console.log('Datos iniciales:', {
         filtro: filtroActual,
         mes: mesSeleccionado,
         rol: datosApp.rol
     });
-    
+
     // Inicializar gráficos si existen
     if (typeof inicializarGraficos === 'function') {
         inicializarGraficos(
@@ -92,28 +92,28 @@ function inicializarAplicacion() {
             datosApp.filtro
         );
         // INICIALIZAR LIMPIEZA AUTOMÁTICA
-    inicializarLimpiezaAutomatica();
-    
-    // ... resto de tu código ...
-}
+        inicializarLimpiezaAutomatica();
+
+        // ... resto de tu código ...
+    }
 
     // Nueva función para inicializar la limpieza
     function inicializarLimpiezaAutomatica() {
         console.log('🔧 Inicializando sistema de limpieza automática...');
-        
+
         // Ejecutar limpieza al iniciar la aplicación
         setTimeout(() => {
             eliminarRegistrosAntiguos();
         }, 10000); // Esperar 10 segundos después del inicio
-        
+
         // Programar verificación horaria
         setInterval(programarLimpiezaAutomatica, 3600000); // Verificar cada hora
-        
+
         console.log('✅ Sistema de limpieza automática inicializado');
     }
-    
+
     configurarEventListeners();
-    
+
     // Inicializar componentes específicos que dependen de datosApp
     inicializarComponentesEspecificos();
 }
@@ -121,19 +121,19 @@ function inicializarAplicacion() {
 // Configurar event listeners
 function configurarEventListeners() {
     console.log('Configurando event listeners...');
-    
+
     // Configurar eventos de los botones de filtro
-    $('.filtro-btn').click(function() {
+    $('.filtro-btn').click(function () {
         const filtro = $(this).data('filtro');
         cambiarFiltro(filtro);
     });
-    
+
     // Configurar evento del selector de mes
-    $('#mes-selector').change(function() {
+    $('#mes-selector').change(function () {
         const mes = $(this).val();
         cambiarMes(mes);
     });
-    
+
     // Configurar botones de escaneo QR
     const botonesQR = ['escanear-qr-admin', 'escanear-qr-empleado'];
     botonesQR.forEach(id => {
@@ -142,17 +142,17 @@ function configurarEventListeners() {
             boton.addEventListener('click', abrirModalCobroQR);
         }
     });
-    
+
     // Configurar eventos de búsqueda
     const btnBuscar = document.getElementById('btn-buscar');
     const inputBusqueda = document.getElementById('input-busqueda');
-    
+
     if (btnBuscar) {
         btnBuscar.addEventListener('click', buscarPorFolio);
     }
-    
+
     if (inputBusqueda) {
-        inputBusqueda.addEventListener('keypress', function(e) {
+        inputBusqueda.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 buscarPorFolio();
             }
@@ -161,7 +161,7 @@ function configurarEventListeners() {
     // Configurar botón "Cobrar orden"
     const btnCobrarOrden = document.getElementById('cobrarOrden');
     if (btnCobrarOrden) {
-        btnCobrarOrden.addEventListener('click', function() {
+        btnCobrarOrden.addEventListener('click', function () {
             // Verificar si la función existe antes de llamarla
             if (typeof abrirModalCobro === 'function') {
                 abrirModalCobro();
@@ -184,15 +184,15 @@ function configurarEventListeners() {
 // Función para abrir el modal de orden personalizada
 function abrirModalOrdenPersonalizada() {
     console.log('Abriendo modal de orden personalizada');
-    
+
     // Actualizar fecha y hora actual
     const ahora = new Date();
     const fechaHora = ahora.toLocaleString('es-MX');
     document.getElementById('fecha_hora_actual').value = fechaHora;
-    
+
     // Mostrar modal
     document.getElementById('modalOrdenPersonalizada').classList.remove('hidden');
-    
+
     // Enfocar el primer campo
     setTimeout(() => {
         document.getElementById('folio').focus();
@@ -209,59 +209,59 @@ function cerrarModalOrdenPersonalizada() {
 function guardarOrdenPersonalizada() {
     const form = document.getElementById('formOrdenPersonalizada');
     const formData = new FormData(form);
-    
+
     // Validar campos requeridos
     const folio = formData.get('folio');
     const nombreCliente = formData.get('nombre_cliente');
     const cantidadTotal = formData.get('cantidad_total');
-    
+
     if (!folio || !nombreCliente || !cantidadTotal) {
         alert('Por favor, complete todos los campos requeridos.');
         return;
     }
-    
+
     // Validar formato del folio
     if (!/^COM-\d{3}$/.test(folio)) {
         alert('El folio debe tener el formato COM-XXX (ej: COM-028)');
         return;
     }
-    
+
     console.log('Enviando datos de orden personalizada:', {
         folio: folio,
         nombre_cliente: nombreCliente,
         cantidad_total: cantidadTotal,
     });
-    
+
     // Enviar datos al servidor
     fetch('api/guardar_orden_personalizada.php', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('✅ Orden personalizada guardada correctamente');
-            cerrarModalOrdenPersonalizada();
-            
-            // Abrir comprobante en nueva ventana
-            if (data.comprobante_url) {
-                window.open(data.comprobante_url, '_blank');
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('✅ Orden personalizada guardada correctamente');
+                cerrarModalOrdenPersonalizada();
+
+                // Abrir comprobante en nueva ventana
+                if (data.comprobante_url) {
+                    window.open(data.comprobante_url, '_blank');
+                }
+            } else {
+                console.error('❌ Error al guardar orden personalizada:', data.error);
+                alert('Error al guardar la orden: ' + (data.error || 'Error desconocido'));
             }
-        } else {
-            console.error('❌ Error al guardar orden personalizada:', data.error);
-            alert('Error al guardar la orden: ' + (data.error || 'Error desconocido'));
-        }
-    })
-    .catch(error => {
-        console.error('❌ Error en la solicitud:', error);
-        alert('Error de conexión. Intente nuevamente.');
-    });
+        })
+        .catch(error => {
+            console.error('❌ Error en la solicitud:', error);
+            alert('Error de conexión. Intente nuevamente.');
+        });
 }
 
 // Inicializar componentes específicos que dependen de datosApp
 function inicializarComponentesEspecificos() {
     console.log('Inicializando componentes específicos...');
-    
+
     // Si hay datos de órdenes, inicializar la tabla
     if (datosApp.ordenes && Array.isArray(datosApp.ordenes)) {
         console.log('Inicializando tabla con datos iniciales de PHP');
@@ -282,16 +282,16 @@ function actualizarTablaOrdenes(ordenes) {
         ordenes = [];
     }
     console.log('🔄 Actualizando tabla con', ordenes.length, 'órdenes');
-    
+
     const tbody = document.getElementById('tabla-ordenes-body');
     if (!tbody) {
         console.log('❌ No se encontró tabla ordenes');
         return;
     }
-    
+
     // Limpiar tabla
     tbody.innerHTML = '';
-    
+
     if (ordenes.length === 0) {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -302,13 +302,13 @@ function actualizarTablaOrdenes(ordenes) {
         tbody.appendChild(row);
         return;
     }
-    
+
     // Llenar con nuevos datos
     ordenes.forEach((orden) => {
         // Determinar el estatus correcto (compatible con ambas estructuras)
         const estatusNum = orden.estatus || orden.estatus_num || 0;
         const estatusTexto = orden.estatus_texto || (estatusNum == 1 ? 'Pagado' : 'Pendiente');
-        
+
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="px-4 py-2 border">${escapeHtml(orden.code)}</td>
@@ -327,21 +327,21 @@ function actualizarTablaOrdenes(ordenes) {
         `;
         tbody.appendChild(row);
     });
-    
+
     console.log('✅ Tabla actualizada correctamente con', ordenes.length, 'órdenes');
 }
 
 // Función para actualizar el resumen del dashboard
 function actualizarResumenDashboard(resumen) {
     console.log('Actualizando resumen del dashboard:', resumen);
-    
+
     // Actualizar elementos del resumen si existen
     const elementosResumen = [
         { id: 'total-ingresos', valor: resumen.totalIngresos },
         { id: 'ordenes-hoy', valor: resumen.ordenesHoy },
         { id: 'ordenes-pendientes', valor: resumen.ordenesPendientes },
     ];
-    
+
     elementosResumen.forEach(elemento => {
         const domElement = document.getElementById(elemento.id);
         if (domElement) {
@@ -357,13 +357,13 @@ function actualizarDatos() {
         console.error('Error: variables no inicializadas');
         return;
     }
-    
+
     console.log('Actualizando datos...', {
         filtro: filtroActual,
         mes: mesSeleccionado,
         timestamp: new Date().toLocaleTimeString()
     });
-    
+
     $.ajax({
         url: 'api/actualizar_datos.php',
         type: 'GET',
@@ -372,12 +372,22 @@ function actualizarDatos() {
             mes: mesSeleccionado
         },
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             console.log('✅ Datos recibidos correctamente', {
                 facturasCount: data.facturas ? data.facturas.length : 0,
                 tieneResumen: !!data.resumen
             });
-            
+
+            // ✅ ACTUALIZAR GRÁFICAS
+            if (typeof actualizarGraficas === 'function') {
+                actualizarGraficas(data, filtroActual);
+                console.log('📊 Gráficas actualizadas');
+            }
+            // ✅ ACTUALIZAR RESUMEN
+            if (typeof actualizarResumen === 'function' && data.resumen) {
+                actualizarResumen(data);
+                console.log('📈 Resumen actualizado');
+            }
             // ACTUALIZAR TABLA DE ÓRDENES
             if (data.facturas && Array.isArray(data.facturas)) {
                 console.log('📋 Actualizando tabla con', data.facturas.length, 'órdenes');
@@ -385,11 +395,12 @@ function actualizarDatos() {
             } else {
                 console.log('No hay datos de facturas para actualizar la tabla');
             }
+
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.log('❌ Error al actualizar los datos:', error);
             console.log('📄 Respuesta del servidor:', xhr.responseText);
-            
+
             // Reintentar después de 8 segundos
             setTimeout(actualizarDatos, 8000);
         }
@@ -398,7 +409,7 @@ function actualizarDatos() {
 // Actualizar contadores del resumen
 function actualizarContadoresResumen(resumen) {
     console.log('Actualizando contadores:', resumen);
-    
+
     // Actualizar elementos específicos del resumen
     const elementos = [
         { id: 'total-ingresos-mes', value: resumen.ingresos_mes, prefix: '$', decimals: 2 },
@@ -406,7 +417,7 @@ function actualizarContadoresResumen(resumen) {
         { id: 'ordenes-pendientes', value: resumen.ordenes_pendientes || resumen.total_pendientes },
         { id: 'ordenes-pagadas', value: resumen.ordenes_pagadas }
     ];
-    
+
     elementos.forEach(item => {
         const element = document.getElementById(item.id);
         if (element) {
@@ -424,12 +435,12 @@ function cambiarFiltro(nuevoFiltro) {
     // Actualizar estado de botones
     $('.filtro-btn').removeClass('bg-red-500 text-white').addClass('bg-orange-200');
     $(`#filtro-${nuevoFiltro}`).removeClass('bg-orange-200').addClass('bg-red-500 text-white');
-    
+
     // Actualizar filtro actual
     filtroActual = nuevoFiltro;
-    
+
     console.log('Filtro cambiado a:', nuevoFiltro);
-    
+
     // Actualizar datos inmediatamente
     actualizarDatos();
 }
@@ -438,14 +449,14 @@ function cambiarFiltro(nuevoFiltro) {
 function cambiarMes(nuevoMes) {
     // Actualizar mes seleccionado
     mesSeleccionado = nuevoMes;
-    
+
     // Actualizar URL para mantener el estado
     const url = new URL(window.location);
     url.searchParams.set('mes', nuevoMes);
     window.history.replaceState({}, '', url);
-    
+
     console.log('Mes cambiado a:', nuevoMes);
-    
+
     // Actualizar datos inmediatamente
     actualizarDatos();
 }
@@ -462,7 +473,7 @@ function capitalizarPrimeraLetra(string) {
 // Función para imprimir comprobante
 function imprimirComprobante(facturaId) {
     const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
-    ventana.onload = function() {
+    ventana.onload = function () {
         ventana.print();
     };
 }
@@ -501,13 +512,13 @@ function truncateText(text, maxLength) {
 // =============================================
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('Inicializando Dashboard...');
-    
+
     // Pequeño delay para asegurar que todos los scripts estén cargados
-    setTimeout(function() {
+    setTimeout(function () {
         inicializarAplicacion();
-        
+
         // Actualizar datos cada 8 segundos
         if (typeof datosApp !== 'undefined' && datosApp.rol) {
             const rolesPermitidos = ['Administrador', 'Presidente', 'admin', 'presidente', 'Empleado', 'empleado'];
@@ -522,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Función global para debugging
-window.mostrarDatosApp = function() {
+window.mostrarDatosApp = function () {
     console.log('Estado actual de datosApp:', datosApp);
     console.log('Filtro actual:', filtroActual);
     console.log('Mes seleccionado:', mesSeleccionado);

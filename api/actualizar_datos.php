@@ -110,6 +110,19 @@ $response['departamentos'] = [
 
 $response['porcentajes'] = $porcentajes;
 
+// === CONSULTA 2B: Total de ingresos del mes (desde invoice) ===
+$sql_ingresos_mes = "
+    SELECT COALESCE(SUM(total), 0) as total_ingresos 
+    FROM invoice 
+    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+";
+$result_ingresos_mes = $conn_lycaios->query($sql_ingresos_mes);
+$total_ingresos_mes = 0;
+if ($result_ingresos_mes && $result_ingresos_mes->num_rows > 0) {
+    $row = $result_ingresos_mes->fetch_assoc();
+    $total_ingresos_mes = (float)$row['total_ingresos'];
+}
+
 // === CONSULTA 3: Total de facturas del mes ===
 $sql_total_facturas = "
     SELECT COUNT(*) as total_facturas 
@@ -121,6 +134,19 @@ $total_facturas = 0;
 if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
     $row = $result_total_facturas->fetch_assoc();
     $total_facturas = (int)$row['total_facturas'];
+}
+
+// === CONSULTA 4: Total de condonaciones (descuentos) del mes ===
+$sql_condonaciones = "
+    SELECT COALESCE(SUM(descuento), 0) as total_condonaciones 
+    FROM invoice 
+    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+";
+$result_condonaciones = $conn_lycaios->query($sql_condonaciones);
+$total_condonaciones = 0;
+if ($result_condonaciones && $result_condonaciones->num_rows > 0) {
+    $row = $result_condonaciones->fetch_assoc();
+    $total_condonaciones = (float)$row['total_condonaciones'];
 }
 
 // === CONSULTA 5: Últimos ordenes en tiempo real (desde ordenes_backup) ===
@@ -212,9 +238,7 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
 $response['resumen'] = [
     'ingresos_mes' => (float)$total_ingresos_mes,
     'total_facturas' => (int)$total_facturas,
-    //'ordenes_pendientes' => $ordenes_pendientes,
-    //'ordenes_pagadas' => $ordenes_pagadas,
-    //'total_pendientes' => $total_pendientes
+    'total_condonaciones' => (float)$total_condonaciones
 ];
 
 $response['facturas'] = $facturas;
