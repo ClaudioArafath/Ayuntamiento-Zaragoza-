@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Por seguridad, no revelar si el usuario existe o no
         echo "<script>
             alert('✅ Si el usuario existe, recibirás un enlace de recuperación.');
-            window.location.href = 'login.html';
+            window.location.href = 'views/login.html';
         </script>";
         exit;
     }
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         class='flex-1 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition text-center'>
                         🔑 Ir a Restablecer Contraseña
                     </a>
-                    <a href='login.html' 
+                    <a href='views/login.html' 
                         class='flex-1 py-3 bg-gray-600 text-white font-semibold rounded-lg shadow hover:bg-gray-700 transition text-center'>
                         ← Volver al Login
                     </a>
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mail($to, $subject, $message, $headers)) {
             echo "<script>
                 alert('✅ Se ha enviado un enlace de recuperación a tu email.');
-                window.location.href = 'login.html';
+                window.location.href = 'views/login.html';
             </script>";
         } else {
             echo "<script>

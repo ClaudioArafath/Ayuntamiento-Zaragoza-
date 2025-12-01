@@ -24,7 +24,7 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
         <div class="data-card bg-white shadow-lg">
             <h3 class="text-lg font-semibold mb-4">Herramientas Rápidas</h3>
             <div class="grid grid-cols-2 gap-2 mb-2">
-                <button onclick="window.location.href='register.html'" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
+                <button onclick="window.location.href='views/register.html'" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
                     <span class="text-2xl mr-2">👤</span>Registrar nuevo usuario
                 </button>
                 <button onclick="window.location.href='deactivate_user.php'" class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg flex items-center">

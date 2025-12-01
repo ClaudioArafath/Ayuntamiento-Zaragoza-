@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </p>
                         </div>
                         
-                        <a href='login.html' 
+                        <a href='views/login.html' 
                             class='block w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition'>
                             Ir al Login
                         </a>
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             
                             if (seconds <= 0) {
                                 clearInterval(interval);
-                                window.location.href = 'login.html';
+                                window.location.href = 'views/login.html';
                             }
                         }, 1000);
                     </script>

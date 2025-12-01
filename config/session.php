@@ -3,7 +3,7 @@ session_start();
 
 // Validar sesión
 if (!isset($_SESSION['username'])) {
-    header("Location: login.html");
+    header("Location: views/login.html");
     exit();
 }
 

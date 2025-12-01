@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $insert_stmt->bind_param("ssss", $username, $hashedPassword, $nombre_completo, $email);
 
     if ($insert_stmt->execute()) {
-        echo "<script>alert('✅ Usuario registrado correctamente. Ahora puede iniciar sesión.'); window.location.href = 'login.html';</script>";
+        echo "<script>alert('✅ Usuario registrado correctamente. Ahora puede iniciar sesión.'); window.location.href = 'views/login.html';</script>";
     } else {
         echo "<script>alert('❌ Error al registrar el usuario: " . $conn->error . "'); window.history.back();</script>";
     }

@@ -11,6 +11,18 @@ try {
         throw new Exception("No se pudo incluir database.php");
     }
     
+    // Incluir funciones de recuperación de contraseña para limpieza de tokens
+    if (@include_once '../includes/password_recovery.php') {
+        // Limpiar tokens expirados de recuperación de contraseña
+        $conn_ayuntamiento = conectarAyuntamiento();
+        $tokens_eliminados = cleanExpiredTokens($conn_ayuntamiento);
+        $conn_ayuntamiento->close();
+        
+        if ($tokens_eliminados > 0) {
+            error_log("Limpieza de tokens: $tokens_eliminados tokens expirados eliminados");
+        }
+    }
+    
     $conn = conectarLycaidosPOS();
     
     // Calcular fecha límite (5 días hábiles atrás)

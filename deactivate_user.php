@@ -3,7 +3,7 @@ session_start();
 
 // Verificar que el usuario esté autenticado y sea administrador
 if (!isset($_SESSION['username']) || $_SESSION['rol'] !== 'Administrador') {
-    header('Location: login.html');
+    header('Location: views/login.html');
     exit();
 }
 ?>

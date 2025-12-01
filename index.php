@@ -10,7 +10,7 @@ $usuario = obtenerUsuario($username);
 
 if (!$usuario) {
     session_destroy();
-    header("Location: login.html");
+    header("Location: views/login.html");
     exit();
 }
 

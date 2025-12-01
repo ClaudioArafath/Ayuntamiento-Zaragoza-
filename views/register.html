@@ -8,24 +8,24 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="login-style.css">
+  <link rel="stylesheet" href="../assets/css/login-style.css">
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
-  <img src="media/background_horizontal.png" alt="Fondo Login"
+  <img src="../media/background_horizontal.png" alt="Fondo Login"
     class="fixed inset-0 w-full h-full object-cover opacity-10 -z-10">
 
   <div class="w-full max-w-md bg-neutral p-10 rounded-3xl shadow-2xl border-3 my-8">
     <!-- Logo del Ayuntamiento -->
     <div class="flex justify-center mb-6">
-      <img src="media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="h-40 w-auto">
+      <img src="../media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="h-40 w-auto">
     </div>
 
     <h1 class="text-2xl font-bold text-gray-700 text-center mb-6">
       Registro de nueva cuenta
     </h1>
 
-    <form action="register.php" method="POST" class="space-y-4">
+    <form action="../register.php" method="POST" class="space-y-4">
       <div>
         <label for="nombre_completo" class="block text-sm font-medium text-gray-600">Nombre Completo *</label>
         <input type="text" id="nombre_completo" name="nombre_completo" required

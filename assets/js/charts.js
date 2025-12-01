@@ -144,11 +144,3 @@ function actualizarResumen(data) {
 function capitalizarPrimeraLetra(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-// Función para imprimir comprobante
-function imprimirComprobante(facturaId) {
-    const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
-    ventana.onload = function () {
-        ventana.print();
-    };
-}
