@@ -49,11 +49,10 @@ if ($result_ingresos && $result_ingresos->num_rows > 0) {
 
 // === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
 $sql_pie = "
-    SELECT c.name as categoria, SUM(t.total) as ingresos
-    FROM topseller t
-    INNER JOIN categorias c ON t.categoryid = c.id
-    WHERE DATE_FORMAT(t.date, '%Y-%m') = '$mes_seleccionado'
-    GROUP BY c.name
+    SELECT employee as categoria, SUM(total) as ingresos
+    FROM invoice
+    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    GROUP BY employee
     ORDER BY ingresos DESC
 ";
 $result_pie = $conn_lycaios->query($sql_pie);

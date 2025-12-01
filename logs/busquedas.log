@@ -293,3 +293,39 @@
 [2025-12-01 19:29:05] Descripción final: Productos varios
 [2025-12-01 19:29:05] ✅ Orden encontrada: 0003487 - Total: 9817.500000 - Estatus: 0
 [2025-12-01 19:29:05] Enviando respuesta: {"success":true,"orden":{"id":3498,"code":"0003487","date":"2025-12-01 12:28:05","employee":"PANTEONES PARQUES Y JARDINES","total":9817.5,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:38:38] Iniciando buscar_orden.php
+[2025-12-01 19:38:38] Input recibido: {"folio":"0003489"}
+[2025-12-01 19:38:38] Conexión a BD establecida
+[2025-12-01 19:38:38] Buscando orden con folio: 0003489
+[2025-12-01 19:38:38] Resultados encontrados: 1
+[2025-12-01 19:38:38] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":33,"Codigo":"00000033","SKU":"INH-CDG","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"INH
+[2025-12-01 19:38:38] Descripción final: Productos varios
+[2025-12-01 19:38:38] ✅ Orden encontrada: 0003489 - Total: 16775.000000 - Estatus: 0
+[2025-12-01 19:38:38] Enviando respuesta: {"success":true,"orden":{"id":3500,"code":"0003489","date":"2025-12-01 12:38:06","employee":"PANTEONES PARQUES Y JARDINES","total":16775,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:45:08] Iniciando buscar_orden.php
+[2025-12-01 19:45:08] Input recibido: {"folio":"0003493"}
+[2025-12-01 19:45:08] Conexión a BD establecida
+[2025-12-01 19:45:08] Buscando orden con folio: 0003493
+[2025-12-01 19:45:08] Resultados encontrados: 1
+[2025-12-01 19:45:08] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":60,"Codigo":"00000060","SKU":"REG-DMTR","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"RE
+[2025-12-01 19:45:08] Descripción final: Productos varios
+[2025-12-01 19:45:08] ✅ Orden encontrada: 0003493 - Total: 11252.000000 - Estatus: 0
+[2025-12-01 19:45:08] Enviando respuesta: {"success":true,"orden":{"id":3504,"code":"0003493","date":"2025-12-01 12:40:37","employee":"REGISTRO CIVIL","total":11252,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:45:28] Iniciando buscar_orden.php
+[2025-12-01 19:45:28] Input recibido: {"folio":"0003491"}
+[2025-12-01 19:45:28] Conexión a BD establecida
+[2025-12-01 19:45:28] Buscando orden con folio: 0003491
+[2025-12-01 19:45:28] Resultados encontrados: 1
+[2025-12-01 19:45:28] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":136,"Codigo":"00000136","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FERIA 12 
+[2025-12-01 19:45:28] Descripción final: Productos varios
+[2025-12-01 19:45:28] ✅ Orden encontrada: 0003491 - Total: 5600.000000 - Estatus: 0
+[2025-12-01 19:45:28] Enviando respuesta: {"success":true,"orden":{"id":3502,"code":"0003491","date":"2025-12-01 12:40:02","employee":"INDUSTRIA COMERCIO","total":5600,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-01 19:46:01] Iniciando buscar_orden.php
+[2025-12-01 19:46:01] Input recibido: {"folio":"0003495"}
+[2025-12-01 19:46:01] Conexión a BD establecida
+[2025-12-01 19:46:01] Buscando orden con folio: 0003495
+[2025-12-01 19:46:01] Resultados encontrados: 1
+[2025-12-01 19:46:01] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":53,"Codigo":"00000053","SKU":"INS-DMADEX","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"
+[2025-12-01 19:46:01] Descripción final: Productos varios
+[2025-12-01 19:46:01] ✅ Orden encontrada: 0003495 - Total: 2340.000000 - Estatus: 0
+[2025-12-01 19:46:01] Enviando respuesta: {"success":true,"orden":{"id":3506,"code":"0003495","date":"2025-12-01 12:41:53","employee":"REGISTRO CIVIL","total":2340,"estatus":0,"descripcion_articulos":"Productos varios"}}
