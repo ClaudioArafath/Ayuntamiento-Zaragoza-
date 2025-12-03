@@ -81,16 +81,36 @@ function inicializarAplicacion() {
         rol: datosApp.rol
     });
 
-    // Inicializar gráficos si existen
-    if (typeof inicializarGraficos === 'function') {
-        inicializarGraficos(
-            datosApp.etiquetas,
-            datosApp.ingresos,
-            datosApp.categorias,
-            datosApp.ingresosCat,
-            datosApp.porcentajes,
-            datosApp.filtro
-        );
+    // Diferir inicialización de gráficos para mejorar LCP
+    if (datosApp.rol === 'Administrador' || datosApp.rol === 'Presidente') {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+                if (typeof inicializarGraficos === 'function') {
+                    inicializarGraficos(
+                        datosApp.etiquetas,
+                        datosApp.ingresos,
+                        datosApp.categorias,
+                        datosApp.ingresosCat,
+                        datosApp.porcentajes,
+                        datosApp.filtro
+                    );
+                }
+            }, { timeout: 2000 });
+        } else {
+            setTimeout(() => {
+                if (typeof inicializarGraficos === 'function') {
+                    inicializarGraficos(
+                        datosApp.etiquetas,
+                        datosApp.ingresos,
+                        datosApp.categorias,
+                        datosApp.ingresosCat,
+                        datosApp.porcentajes,
+                        datosApp.filtro
+                    );
+                }
+            }, 100);
+        }
+
         // INICIALIZAR LIMPIEZA AUTOMÁTICA
         inicializarLimpiezaAutomatica();
 
