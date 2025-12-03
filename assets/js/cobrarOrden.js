@@ -2,19 +2,19 @@
 // MÓDULO PARA COBRAR ORDEN
 // =============================================
 
-(function() {
+(function () {
     'use strict';
-    
+
     let ordenActual = null;
 
     // Función para procesar respuesta del servidor
     function procesarRespuestaServidor(response) {
         console.log('Status HTTP:', response.status);
         console.log('Content-Type:', response.headers.get('content-type'));
-        
+
         return response.text().then(text => {
             console.log('Respuesta cruda del servidor:', text);
-            
+
             // Verificar si es JSON válido
             try {
                 return JSON.parse(text);
@@ -55,30 +55,34 @@
     function resetearModal() {
         console.log('Reseteando modal...');
         ordenActual = null;
-        
+
         const elements = [
-            'info-orden', 'seccion-pago', 'mensaje-error', 
+            'info-orden', 'seccion-pago', 'mensaje-error',
             'info-cambio', 'mensaje-insuficiente', 'btn-confirmar-cobro'
         ];
-        
+
         elements.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.classList.add('hidden');
             }
         });
-        
+
         const folioInput = document.getElementById('folio');
         const montoInput = document.getElementById('monto-recibido');
+        const nombreInput = document.getElementById('nombre-contribuyente');
+        const direccionInput = document.getElementById('direccion-contribuyente');
         if (folioInput) folioInput.value = '';
         if (montoInput) montoInput.value = '';
+        if (nombreInput) nombreInput.value = '';
+        if (direccionInput) direccionInput.value = '';
     }
 
     // Buscar orden en la base de datos
     async function buscarOrden() {
         const folio = document.getElementById('folio').value.trim();
         console.log('Buscando orden con folio:', folio);
-        
+
         if (!folio) {
             mostrarError('Por favor ingrese un folio válido');
             return;
@@ -124,21 +128,21 @@
     // Mostrar información de la orden
     function mostrarInformacionOrden(orden) {
         console.log('Mostrando información de orden:', orden);
-        
+
         const errorElement = document.getElementById('mensaje-error');
         if (errorElement) errorElement.classList.add('hidden');
-        
+
         // Mostrar información básica
         document.getElementById('info-departamento').textContent = orden.employee || 'No especificado';
         document.getElementById('info-descripcion').textContent = orden.descripcion_articulos || 'Sin descripción';
         document.getElementById('info-total').textContent = parseFloat(orden.total).toFixed(2);
-        
+
         // Auto-completar monto recibido con el total
         const montoRecibidoInput = document.getElementById('monto-recibido');
         if (montoRecibidoInput) {
             montoRecibidoInput.value = parseFloat(orden.total).toFixed(2);
         }
-        
+
         // Mostrar estatus
         const estatusElement = document.getElementById('info-estatus');
         if (orden.estatus == 1) {
@@ -152,7 +156,7 @@
             estatusElement.className = 'text-orange-600 font-semibold';
             document.getElementById('seccion-pago').classList.remove('hidden');
             document.getElementById('btn-confirmar-cobro').classList.remove('hidden');
-            
+
             // Configurar evento para calcular cambio
             if (montoRecibidoInput) {
                 montoRecibidoInput.addEventListener('input', calcularCambio);
@@ -160,25 +164,25 @@
                 setTimeout(() => calcularCambio(), 100);
             }
         }
-        
+
         document.getElementById('info-orden').classList.remove('hidden');
     }
 
     // Calcular cambio
     function calcularCambio() {
         if (!ordenActual) return;
-        
+
         const montoRecibido = parseFloat(document.getElementById('monto-recibido').value) || 0;
         const total = parseFloat(ordenActual.total);
-        
+
         console.log('Calculando cambio - Recibido:', montoRecibido, 'Total:', total);
-        
+
         const infoCambio = document.getElementById('info-cambio');
         const mensajeInsuficiente = document.getElementById('mensaje-insuficiente');
-        
+
         if (infoCambio) infoCambio.classList.add('hidden');
         if (mensajeInsuficiente) mensajeInsuficiente.classList.add('hidden');
-        
+
         if (montoRecibido > 0) {
             if (montoRecibido >= total) {
                 const cambio = montoRecibido - total;
@@ -203,7 +207,7 @@
     // Confirmar cobro de la orden
     async function confirmarCobroOrden() {
         console.log('Confirmando cobro...');
-        
+
         if (!ordenActual || ordenActual.estatus == 1) {
             mostrarError('No se puede cobrar esta orden');
             return;
@@ -211,8 +215,21 @@
 
         const montoRecibido = parseFloat(document.getElementById('monto-recibido').value) || 0;
         const total = parseFloat(ordenActual.total);
+        const nombreContribuyente = document.getElementById('nombre-contribuyente').value.trim();
+        const direccionContribuyente = document.getElementById('direccion-contribuyente').value.trim();
 
         console.log('Monto recibido:', montoRecibido, 'Total:', total);
+
+        // Validar campos requeridos
+        if (!nombreContribuyente) {
+            mostrarError('Por favor ingrese el nombre del contribuyente');
+            return;
+        }
+
+        if (!direccionContribuyente) {
+            mostrarError('Por favor ingrese la dirección del contribuyente');
+            return;
+        }
 
         if (montoRecibido < total) {
             mostrarError('El monto recibido es insuficiente para realizar el cobro');
@@ -230,7 +247,9 @@
             console.log('Enviando datos al servidor...', {
                 folio: ordenActual.code,
                 monto_recibido: montoRecibido,
-                cambio: montoRecibido - total
+                cambio: montoRecibido - total,
+                nombre_contribuyente: nombreContribuyente,
+                direccion_contribuyente: direccionContribuyente
             });
 
             const response = await fetch('api/procesar_cobro.php', {
@@ -241,7 +260,9 @@
                 body: JSON.stringify({
                     folio: ordenActual.code,
                     monto_recibido: montoRecibido,
-                    cambio: montoRecibido - total
+                    cambio: montoRecibido - total,
+                    nombre_contribuyente: nombreContribuyente,
+                    direccion_contribuyente: direccionContribuyente
                 })
             });
 
@@ -249,6 +270,10 @@
             console.log('Datos de respuesta (cobro):', data);
 
             if (data.success) {
+                // Abrir comprobante en nueva pestaña
+                const invoiceCode = data.data.invoice_code;
+                window.open('api/generar_comprobante.php?invoice_code=' + invoiceCode, '_blank');
+
                 alert('✅ Cobro realizado exitosamente');
                 cerrarModalCobro();
                 // Recargar la página para actualizar la tabla
@@ -259,7 +284,7 @@
         } catch (error) {
             console.error('Error en confirmarCobroOrden:', error);
             mostrarError('Error de conexión al procesar el cobro: ' + error.message);
-            
+
             // Mostrar más detalles del error
             if (error.message.includes('PHP')) {
                 mostrarError('Error del servidor. Verifique los logs para más detalles.');
@@ -274,12 +299,12 @@
     }
 
     // Inicializar event listeners cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         console.log('Inicializando módulo de cobro...');
-        
+
         const formCobro = document.getElementById('form-cobro');
         if (formCobro) {
-            formCobro.addEventListener('submit', function(e) {
+            formCobro.addEventListener('submit', function (e) {
                 e.preventDefault();
                 confirmarCobroOrden();
             });

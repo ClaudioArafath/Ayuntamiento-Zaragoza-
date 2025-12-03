@@ -18,9 +18,19 @@ try {
     $folio = $data['folio'] ?? '';
     $montoRecibido = floatval($data['monto_recibido'] ?? 0);
     $cambio = floatval($data['cambio'] ?? 0);
+    $nombreContribuyente = $data['nombre_contribuyente'] ?? '';
+    $direccionContribuyente = $data['direccion_contribuyente'] ?? '';
     
     if (empty($folio)) {
         throw new Exception('Folio vacío');
+    }
+    
+    if (empty($nombreContribuyente)) {
+        throw new Exception('Nombre del contribuyente requerido');
+    }
+    
+    if (empty($direccionContribuyente)) {
+        throw new Exception('Dirección del contribuyente requerida');
     }
 
     $conn = conectarLycaidosPOS();
@@ -111,7 +121,11 @@ try {
         $promocion = 0.0;
         $copynumber = 0;
         $ready = 0;
-        $description = '';
+        // Guardar nombre y dirección del contribuyente en el campo description
+        $description = json_encode([
+            'nombre' => $nombreContribuyente,
+            'direccion' => $direccionContribuyente
+        ], JSON_UNESCAPED_UNICODE);
         $revision = 0;
         $invoicetype = 0;
         $paytype = 0;

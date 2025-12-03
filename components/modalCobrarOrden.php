@@ -34,6 +34,22 @@
             <!-- Sección de pago (solo visible si la orden está pendiente) -->
             <div id="seccion-pago" class="hidden mb-4">
                 <div class="mb-3">
+                    <label for="nombre-contribuyente" class="block text-gray-700 font-semibold mb-2">Nombre del Contribuyente: <span class="text-red-500">*</span></label>
+                    <input type="text" id="nombre-contribuyente" name="nombre_contribuyente" 
+                           class="w-full border border-gray-300 rounded px-3 py-2 focus:border-green-500 focus:ring-1 focus:ring-green-500" 
+                           placeholder="Nombre completo" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="direccion-contribuyente" class="block text-gray-700 font-semibold mb-2">Dirección: <span class="text-red-500">*</span></label>
+                    <input type="text" id="direccion-contribuyente" name="direccion_contribuyente" 
+                           class="w-full border border-gray-300 rounded px-3 py-2 focus:border-green-500 focus:ring-1 focus:ring-green-500" 
+                           placeholder="Calle, número, colonia" required>
+                </div>
+                
+                <hr class="my-3 border-gray-300">
+                
+                <div class="mb-3">
                     <label for="monto-recibido" class="block text-gray-700 font-semibold mb-2">Monto Recibido:</label>
                     <input type="number" id="monto-recibido" name="monto_recibido" step="0.01" min="0" 
            class="w-full border border-gray-300 rounded px-3 py-2 focus:border-green-500 focus:ring-1 focus:ring-green-500 bg-green-50 font-semibold" 

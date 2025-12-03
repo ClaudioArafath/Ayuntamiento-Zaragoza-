@@ -329,3 +329,39 @@
 [2025-12-01 19:46:01] Descripción final: Productos varios
 [2025-12-01 19:46:01] ✅ Orden encontrada: 0003495 - Total: 2340.000000 - Estatus: 0
 [2025-12-01 19:46:01] Enviando respuesta: {"success":true,"orden":{"id":3506,"code":"0003495","date":"2025-12-01 12:41:53","employee":"REGISTRO CIVIL","total":2340,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 19:19:45] Iniciando buscar_orden.php
+[2025-12-03 19:19:45] Input recibido: {"folio":"0003494"}
+[2025-12-03 19:19:45] Conexión a BD establecida
+[2025-12-03 19:19:45] Buscando orden con folio: 0003494
+[2025-12-03 19:19:45] Resultados encontrados: 1
+[2025-12-03 19:19:45] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":40,"Codigo":"00000040","SKU":"ANOT-MARALL","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-03 19:19:45] Descripción final: Productos varios
+[2025-12-03 19:19:45] ✅ Orden encontrada: 0003494 - Total: 160.000000 - Estatus: 0
+[2025-12-03 19:19:45] Enviando respuesta: {"success":true,"orden":{"id":3505,"code":"0003494","date":"2025-12-01 12:40:44","employee":"REGISTRO CIVIL","total":160,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 22:25:21] Iniciando buscar_orden.php
+[2025-12-03 22:25:21] Input recibido: {"folio":"0003494"}
+[2025-12-03 22:25:21] Conexión a BD establecida
+[2025-12-03 22:25:21] Buscando orden con folio: 0003494
+[2025-12-03 22:25:21] Resultados encontrados: 1
+[2025-12-03 22:25:21] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":40,"Codigo":"00000040","SKU":"ANOT-MARALL","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-03 22:25:21] Descripción final: Productos varios
+[2025-12-03 22:25:21] ✅ Orden encontrada: 0003494 - Total: 160.000000 - Estatus: 0
+[2025-12-03 22:25:21] Enviando respuesta: {"success":true,"orden":{"id":3505,"code":"0003494","date":"2025-12-01 12:40:44","employee":"REGISTRO CIVIL","total":160,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 22:26:12] Iniciando buscar_orden.php
+[2025-12-03 22:26:12] Input recibido: {"folio":"0003494"}
+[2025-12-03 22:26:12] Conexión a BD establecida
+[2025-12-03 22:26:12] Buscando orden con folio: 0003494
+[2025-12-03 22:26:12] Resultados encontrados: 1
+[2025-12-03 22:26:12] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":40,"Codigo":"00000040","SKU":"ANOT-MARALL","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-03 22:26:12] Descripción final: Productos varios
+[2025-12-03 22:26:12] ✅ Orden encontrada: 0003494 - Total: 160.000000 - Estatus: 0
+[2025-12-03 22:26:12] Enviando respuesta: {"success":true,"orden":{"id":3505,"code":"0003494","date":"2025-12-01 12:40:44","employee":"REGISTRO CIVIL","total":160,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 22:48:14] Iniciando buscar_orden.php
+[2025-12-03 22:48:14] Input recibido: {"folio":"0003494"}
+[2025-12-03 22:48:14] Conexión a BD establecida
+[2025-12-03 22:48:14] Buscando orden con folio: 0003494
+[2025-12-03 22:48:14] Resultados encontrados: 1
+[2025-12-03 22:48:14] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":40,"Codigo":"00000040","SKU":"ANOT-MARALL","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-03 22:48:14] Descripción final: Productos varios
+[2025-12-03 22:48:14] ✅ Orden encontrada: 0003494 - Total: 160.000000 - Estatus: 0
+[2025-12-03 22:48:14] Enviando respuesta: {"success":true,"orden":{"id":3505,"code":"0003494","date":"2025-12-01 12:40:44","employee":"REGISTRO CIVIL","total":160,"estatus":0,"descripcion_articulos":"Productos varios"}}
