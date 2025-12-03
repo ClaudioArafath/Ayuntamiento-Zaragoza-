@@ -86,6 +86,14 @@ try {
         'autorizo' => 'Tesorería Municipal' // Valor fijo
     ];
     
+    // Generar URL de verificación para el QR
+    $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+    $verification_url = $base_url . "/DB_lycaios/api/verificar_comprobante.php?code=" . urlencode($factura['invoicecode']);
+    
+    // Generar QR code usando QR Server API (no requiere GD extension)
+    $qr_size = "150";
+    $qr_image_url = "https://api.qrserver.com/v1/create-qr-code/?size=" . $qr_size . "x" . $qr_size . "&data=" . urlencode($verification_url);
+    
 } catch (Exception $e) {
     die('Error al generar comprobante: ' . $e->getMessage());
 }
@@ -257,10 +265,11 @@ try {
 
                 <!-- Código QR -->
                 <div class="qr-code">
-                    <div style="width: 100px; height: 100px; background-color: #f0f0f0; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        QR Code<br>(<?php echo substr($factura['invoicecode'], -6); ?>)
-                    </div>
-                    <p class="text-xs">Escanee para verificar autenticidad</p>
+                    <img src="<?php echo htmlspecialchars($qr_image_url); ?>" 
+                         alt="Código QR de verificación" 
+                         style="width: 150px; height: 150px; margin: 0 auto; display: block; border: 2px solid #ddd; padding: 5px; background: white;">
+                    <p class="text-xs mt-2">Escanee para verificar autenticidad</p>
+                    <p class="text-xs text-gray-500">Folio: <?php echo htmlspecialchars($factura['invoicecode']); ?></p>
                 </div>
 
                 <!-- Leyenda y información legal -->

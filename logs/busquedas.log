@@ -365,3 +365,21 @@
 [2025-12-03 22:48:14] Descripción final: Productos varios
 [2025-12-03 22:48:14] ✅ Orden encontrada: 0003494 - Total: 160.000000 - Estatus: 0
 [2025-12-03 22:48:14] Enviando respuesta: {"success":true,"orden":{"id":3505,"code":"0003494","date":"2025-12-01 12:40:44","employee":"REGISTRO CIVIL","total":160,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 23:08:14] Iniciando buscar_orden.php
+[2025-12-03 23:08:14] Input recibido: {"folio":"0003497"}
+[2025-12-03 23:08:14] Conexión a BD establecida
+[2025-12-03 23:08:14] Buscando orden con folio: 0003497
+[2025-12-03 23:08:14] Resultados encontrados: 1
+[2025-12-03 23:08:14] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":42,"Codigo":"00000042","SKU":"CAM-REGP","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"SU
+[2025-12-03 23:08:14] Descripción final: Productos varios
+[2025-12-03 23:08:14] ✅ Orden encontrada: 0003497 - Total: 1000.000000 - Estatus: 0
+[2025-12-03 23:08:14] Enviando respuesta: {"success":true,"orden":{"id":3508,"code":"0003497","date":"2025-12-03 12:35:31","employee":"REGISTRO CIVIL","total":1000,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-03 23:17:50] Iniciando buscar_orden.php
+[2025-12-03 23:17:50] Input recibido: {"folio":"0003496"}
+[2025-12-03 23:17:50] Conexión a BD establecida
+[2025-12-03 23:17:50] Buscando orden con folio: 0003496
+[2025-12-03 23:17:50] Resultados encontrados: 1
+[2025-12-03 23:17:50] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":47,"Codigo":"00000047","SKU":"DIS-DPUBLIC","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-03 23:17:50] Descripción final: Productos varios
+[2025-12-03 23:17:50] ✅ Orden encontrada: 0003496 - Total: 2517.500000 - Estatus: 0
+[2025-12-03 23:17:50] Enviando respuesta: {"success":true,"orden":{"id":3507,"code":"0003496","date":"2025-12-03 12:32:58","employee":"REGISTRO CIVIL","total":2517.5,"estatus":0,"descripcion_articulos":"Productos varios"}}
