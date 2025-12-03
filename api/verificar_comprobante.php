@@ -56,15 +56,17 @@ if (empty($invoice_code)) {
                 
                 if (json_last_error() === JSON_ERROR_NONE && is_array($items)) {
                     foreach ($items as $item) {
-                        $nombre = $item['name'] ?? $item['nombre'] ?? $item['description'] ?? $item['descripcion'] ?? null;
-                        $cantidad = $item['quantity'] ?? $item['cantidad'] ?? 1;
-                        $precio = $item['price'] ?? $item['precio'] ?? 0;
+                        // Los campos reales del JSON son: Description, Units, Price
+                        $descripcion = $item['Description'] ?? $item['description'] ?? $item['name'] ?? $item['nombre'] ?? null;
+                        $cantidad = $item['Units'] ?? $item['quantity'] ?? $item['cantidad'] ?? 1;
+                        $precio = floatval($item['Price'] ?? $item['price'] ?? $item['precio'] ?? 0);
                         
-                        if ($nombre) {
+                        if ($descripcion) {
+                            $subtotal = $precio * $cantidad;
                             $conceptos[] = [
-                                'nombre' => $nombre,
+                                'nombre' => $descripcion,
                                 'cantidad' => $cantidad,
-                                'subtotal' => $precio * $cantidad
+                                'subtotal' => $subtotal
                             ];
                         }
                     }
