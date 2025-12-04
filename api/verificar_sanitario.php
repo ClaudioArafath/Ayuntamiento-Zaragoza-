@@ -3,25 +3,23 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once '../config/database.php';
-require_once '../includes/functions.php';
 
-// Obtener el código de factura de la URL
-$invoice_code = $_GET['code'] ?? '';
+// Obtener el código de folio de la URL
+$folio_code = $_GET['code'] ?? '';
 
 $error_message = '';
-$factura = null;
+$comprobante = null;
 
-if (empty($invoice_code)) {
+if (empty($folio_code)) {
     $error_message = 'No se proporcionó un código de comprobante válido';
 } else {
     try {
         $conn = conectarLycaidosPOS();
         
-        // Consultar la factura
-        $sql = "SELECT i.invoicecode, i.date, i.total, i.employee, i.description, i.items, 
-                       i.paymoney, i.`change`, i.paid
-                FROM invoice i
-                WHERE i.invoicecode = ?
+        // Consultar el comprobante de sanitarios
+        $sql = "SELECT id, folio, nombre_cliente, cantidad_total, descripcion, fecha_creacion
+                FROM sanitarios
+                WHERE folio = ?
                 LIMIT 1";
         
         $stmt = $conn->prepare($sql);
@@ -30,68 +28,23 @@ if (empty($invoice_code)) {
             throw new Exception('Error preparando consulta: ' . $conn->error);
         }
         
-        $stmt->bind_param("s", $invoice_code);
+        $stmt->bind_param("s", $folio_code);
         $stmt->execute();
         $result = $stmt->get_result();
         
         if ($result->num_rows === 0) {
             $error_message = 'Comprobante no encontrado';
         } else {
-            $factura_data = $result->fetch_assoc();
-            
-            // Procesar datos del contribuyente desde el campo description
-            $contribuyente = ['nombre' => 'No especificado', 'direccion' => 'No especificada'];
-            if (!empty($factura_data['description'])) {
-                $desc_decoded = json_decode($factura_data['description'], true);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($desc_decoded)) {
-                    $contribuyente['nombre'] = $desc_decoded['nombre'] ?? 'No especificado';
-                    $contribuyente['direccion'] = $desc_decoded['direccion'] ?? 'No especificada';
-                }
-            }
-            
-            // Procesar items para obtener conceptos
-            $conceptos = [];
-            if (!empty($factura_data['items'])) {
-                $items = json_decode($factura_data['items'], true);
-                
-                if (json_last_error() === JSON_ERROR_NONE && is_array($items)) {
-                    foreach ($items as $item) {
-                        // Los campos reales del JSON son: Description, Units, Price
-                        $descripcion = $item['Description'] ?? $item['description'] ?? $item['name'] ?? $item['nombre'] ?? null;
-                        $cantidad = $item['Units'] ?? $item['quantity'] ?? $item['cantidad'] ?? 1;
-                        $precio = floatval($item['Price'] ?? $item['price'] ?? $item['precio'] ?? 0);
-                        
-                        if ($descripcion) {
-                            $subtotal = $precio * $cantidad;
-                            $conceptos[] = [
-                                'nombre' => $descripcion,
-                                'cantidad' => $cantidad,
-                                'subtotal' => $subtotal
-                            ];
-                        }
-                    }
-                }
-            }
-            
-            // Si no hay conceptos, agregar uno genérico
-            if (empty($conceptos)) {
-                $conceptos[] = [
-                    'nombre' => 'Pago de servicios municipales',
-                    'cantidad' => 1,
-                    'subtotal' => floatval($factura_data['total'])
-                ];
-            }
+            $comprobante_data = $result->fetch_assoc();
             
             // Preparar datos para mostrar
-            $factura = [
-                'invoicecode' => $factura_data['invoicecode'],
-                'date' => $factura_data['date'],
-                'nombre' => $contribuyente['nombre'],
-                'direccion' => $contribuyente['direccion'],
-                'conceptos' => $conceptos,
-                'total' => floatval($factura_data['total']),
-                'employee' => $factura_data['employee'] ?? 'Sistema',
-                'estatus' => ($factura_data['paid'] == 1) ? 'PAGADO' : 'PENDIENTE'
+            $comprobante = [
+                'folio' => $comprobante_data['folio'],
+                'fecha' => $comprobante_data['fecha_creacion'],
+                'nombre' => $comprobante_data['nombre_cliente'],
+                'descripcion' => $comprobante_data['descripcion'],
+                'total' => floatval($comprobante_data['cantidad_total']),
+                'estatus' => 'PAGADO' // Los comprobantes de sanitarios siempre están pagados
             ];
         }
         
@@ -108,7 +61,7 @@ if (empty($invoice_code)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificación de Comprobante - Ayuntamiento de Zaragoza</title>
+    <title>Verificación de Comprobante - Sanitarios</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -133,18 +86,9 @@ if (empty($invoice_code)) {
             background: #10b981;
             color: white;
         }
-        .status-pendiente {
-            background: #f59e0b;
-            color: white;
-        }
         .status-invalido {
             background: #ef4444;
             color: white;
-        }
-        .concept-item {
-            border-left: 3px solid #667eea;
-            padding-left: 12px;
-            margin: 8px 0;
         }
     </style>
 </head>
@@ -158,7 +102,7 @@ if (empty($invoice_code)) {
                 </svg>
             </div>
             <h1 class="text-3xl font-bold text-white mb-2">Verificación de Comprobante</h1>
-            <p class="text-purple-200">Ayuntamiento de Zaragoza, Puebla</p>
+            <p class="text-purple-200">Cobro de Sanitarios - Ayuntamiento de Zaragoza</p>
         </div>
 
         <!-- Verification Card -->
@@ -180,12 +124,8 @@ if (empty($invoice_code)) {
             <?php else: ?>
                 <!-- Success State -->
                 <div class="text-center mb-6">
-                    <span class="status-badge status-<?php echo strtolower($factura['estatus']); ?>">
-                        <?php if ($factura['estatus'] === 'PAGADO'): ?>
-                            ✓ <?php echo $factura['estatus']; ?>
-                        <?php else: ?>
-                            ⏳ <?php echo $factura['estatus']; ?>
-                        <?php endif; ?>
+                    <span class="status-badge status-pagado">
+                        ✓ <?php echo $comprobante['estatus']; ?>
                     </span>
                 </div>
 
@@ -194,52 +134,35 @@ if (empty($invoice_code)) {
                     <!-- Folio -->
                     <div class="border-b pb-3">
                         <p class="text-sm text-gray-500 mb-1">Folio del Comprobante</p>
-                        <p class="text-2xl font-bold text-gray-800"><?php echo htmlspecialchars($factura['invoicecode']); ?></p>
+                        <p class="text-2xl font-bold text-gray-800"><?php echo htmlspecialchars($comprobante['folio']); ?></p>
                     </div>
 
                     <!-- Fecha y Hora -->
                     <div class="border-b pb-3">
                         <p class="text-sm text-gray-500 mb-1">Fecha y Hora</p>
                         <p class="text-lg font-semibold text-gray-800">
-                            <?php echo date('d/m/Y', strtotime($factura['date'])); ?> 
+                            <?php echo date('d/m/Y', strtotime($comprobante['fecha'])); ?> 
                             <span class="text-gray-500">a las</span> 
-                            <?php echo date('H:i', strtotime($factura['date'])); ?>
+                            <?php echo date('H:i', strtotime($comprobante['fecha'])); ?>
                         </p>
                     </div>
 
-                    <!-- Contribuyente -->
+                    <!-- Cliente -->
                     <div class="border-b pb-3">
-                        <p class="text-sm text-gray-500 mb-1">Contribuyente</p>
-                        <p class="text-lg font-semibold text-gray-800"><?php echo htmlspecialchars($factura['nombre']); ?></p>
-                        <p class="text-sm text-gray-600"><?php echo htmlspecialchars($factura['direccion']); ?></p>
+                        <p class="text-sm text-gray-500 mb-1">Cliente</p>
+                        <p class="text-lg font-semibold text-gray-800"><?php echo htmlspecialchars($comprobante['nombre']); ?></p>
                     </div>
 
-                    <!-- Conceptos -->
+                    <!-- Descripción -->
                     <div class="border-b pb-3">
-                        <p class="text-sm text-gray-500 mb-2">Conceptos de Pago</p>
-                        <div class="space-y-2">
-                            <?php foreach ($factura['conceptos'] as $concepto): ?>
-                                <div class="concept-item">
-                                    <p class="font-medium text-gray-800"><?php echo htmlspecialchars($concepto['nombre']); ?></p>
-                                    <p class="text-sm text-gray-600">
-                                        Cantidad: <?php echo $concepto['cantidad']; ?> 
-                                        <span class="ml-3">Subtotal: $<?php echo number_format($concepto['subtotal'], 2); ?></span>
-                                    </p>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                        <p class="text-sm text-gray-500 mb-1">Descripción del Servicio</p>
+                        <p class="text-lg font-semibold text-gray-800"><?php echo htmlspecialchars($comprobante['descripcion']); ?></p>
                     </div>
 
                     <!-- Monto Total -->
                     <div class="bg-purple-50 rounded-lg p-4 border-b pb-3">
                         <p class="text-sm text-gray-500 mb-1">Monto Total Pagado</p>
-                        <p class="text-3xl font-bold text-purple-600">$<?php echo number_format($factura['total'], 2); ?></p>
-                    </div>
-
-                    <!-- Empleado -->
-                    <div>
-                        <p class="text-sm text-gray-500 mb-1">Procesado por</p>
-                        <p class="text-lg font-semibold text-gray-800"><?php echo htmlspecialchars($factura['employee']); ?></p>
+                        <p class="text-3xl font-bold text-purple-600">$<?php echo number_format($comprobante['total'], 2); ?></p>
                     </div>
                 </div>
 

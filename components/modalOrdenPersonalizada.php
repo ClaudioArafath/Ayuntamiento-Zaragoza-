@@ -14,14 +14,17 @@
             </button>
         </div>
         
+        <!-- Folio Preview (FUERA del formulario) -->
+        <div class="p-4 pb-0">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Folio que se generará</label>
+            <div id="folio_preview" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-blue-50 text-center font-bold text-blue-700 text-lg">
+                Cargando...
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Este folio se asignará automáticamente</p>
+        </div>
+        
         <!-- Formulario -->
         <form id="formOrdenPersonalizada" class="p-4">
-            <div class="mb-4">
-                <label for="folio" class="block text-sm font-medium text-gray-700 mb-1">Folio *</label>
-                <input type="text" id="folio" name="folio" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required placeholder="Ej: COM-028">
-                <p class="text-xs text-gray-500 mt-1">Folio especial para sanitarios (COM-XXX)</p>
-            </div>
-            
             <div class="mb-4">
                 <label for="nombre_cliente" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Cliente *</label>
                 <input type="text" id="nombre_cliente" name="nombre_cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>

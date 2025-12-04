@@ -88,6 +88,7 @@ console.log('datosApp definido:', datosApp);
 <script src="assets/js/search.js" defer></script>
 <script src="assets/js/qr_scanner.js" defer></script>
 <script src="assets/js/cobrarOrden.js" defer></script>
+<script src="assets/js/sanitarios.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/cancelarOrden.js" defer></script>
 

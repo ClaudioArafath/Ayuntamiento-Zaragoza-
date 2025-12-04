@@ -57,7 +57,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             body { margin: 0; padding: 0; }
             .no-print { display: none !important; }
             .comprobante { box-shadow: none !important; border: 1px solid #000 !important; margin: 0 !important; }
-            @page { margin: 0.5in; }
+            @page { margin: 0.3in; size: letter; }
         }
         
         body { 
@@ -72,7 +72,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             min-height: 11in;
             background: white;
             margin: 0 auto;
-            padding: 0.5in;
+            padding: 0.35in;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             box-sizing: border-box;
             border: 1px solid #ddd;
@@ -81,8 +81,8 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         .header {
             text-align: center;
             border-bottom: 2px solid #000;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .logo-placeholder {
@@ -96,15 +96,15 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         }
         
         .titulo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 6px 0;
             text-transform: uppercase;
         }
         
         .info {
-            margin: 15px 0;
-            line-height: 1.4;
+            margin: 10px 0;
+            line-height: 1.2;
         }
         
         .info-line {
@@ -114,13 +114,13 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         .detalles {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
+            margin: 15px 0;
             border: 1px solid #000;
         }
         
         .detalles th, .detalles td {
             border: 1px solid #000;
-            padding: 10px;
+            padding: 7px;
             text-align: left;
         }
         
@@ -132,12 +132,12 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         .total {
             text-align: right;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             margin: 15px 0;
         }
         
         .firmas {
-            margin-top: 50px;
+            margin-top: 30px;
             display: flex;
             justify-content: space-between;
         }
@@ -149,7 +149,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         
         .linea-firma {
             border-top: 1px solid #000;
-            margin-top: 60px;
+            margin-top: 45px;
             padding-top: 5px;
         }
         
@@ -180,7 +180,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             cursor: pointer;
             margin: 20px auto;
             display: block;
-            font-size: 16px;
+            font-size: 15px;
         }
         
         .btn-print:hover {
@@ -256,11 +256,17 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         </div>
         
         <div class="qr-code">
-            <div class="qr-placeholder">
-                Código QR<br>
-                <?php echo substr($orden['qr_code'] ?? 'QR_NOT_GENERATED', 0, 20); ?>...
-            </div>
-        </div>
+            <?php
+            // Generar QR code usando la URL almacenada en la base de datos
+            $qr_size = "150";
+            $qr_image_url = "https://api.qrserver.com/v1/create-qr-code/?size=" . $qr_size . "x" . $qr_size . "&data=" . urlencode($orden['qr_code']);
+            ?>
+            <img src="<?php echo htmlspecialchars($qr_image_url); ?>" 
+                 alt="Código QR de verificación" 
+                 style="width: 150px; height: 150px; margin: 0 auto; display: block; border: 2px solid #ddd; padding: 5px; background: white;">
+            <p style="font-size: 12px; margin-top: 10px;">Escanee para verificar autenticidad</p>
+            <p style="font-size: 10px; color: #666;">Folio: <?php echo htmlspecialchars($orden['folio']); ?></p>
+        </div>
     </div>
 
     <script>

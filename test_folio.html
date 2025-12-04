@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test Folio API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test API: Obtener Siguiente Folio</h1>
+    <button onclick="testAPI()">Probar API</button>
+    <div id="result"></div>
+
+    <script>
+        function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Cargando...</p>';
+
+            fetch('api/obtener_siguiente_folio.php')
+                .then(response => {
+                    console.log('Status:', response.status);
+                    console.log('Headers:', response.headers);
+                    return response.text();
+                })
+                .then(text => {
+                    console.log('Response text:', text);
+                    try {
+                        const data = JSON.parse(text);
+                        console.log('Parsed data:', data);
+
+                        if (data.success) {
+                            resultDiv.className = 'result success';
+                            resultDiv.innerHTML = `
+                                <h3>✅ Éxito</h3>
+                                <p><strong>Siguiente Folio:</strong> ${data.next_folio}</p>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            `;
+                        } else {
+                            resultDiv.className = 'result error';
+                            resultDiv.innerHTML = `
+                                <h3>❌ Error</h3>
+                                <p>${data.error || 'Error desconocido'}</p>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            `;
+                        }
+                    } catch (e) {
+                        resultDiv.className = 'result error';
+                        resultDiv.innerHTML = `
+                            <h3>❌ Error de Parsing</h3>
+                            <p>La respuesta no es JSON válido</p>
+                            <pre>${text}</pre>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Error de Red</h3>
+                        <p>${error.message}</p>
+                    `;
+                });
+        }
+
+        // Ejecutar automáticamente al cargar
+        window.onload = function () {
+            testAPI();
+        };
+    </script>
+</body>
+
+</html>
