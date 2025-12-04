@@ -57,7 +57,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             body { margin: 0; padding: 0; }
             .no-print { display: none !important; }
             .comprobante { box-shadow: none !important; border: 1px solid #000 !important; margin: 0 !important; }
-            @page { margin: 0.3in; size: letter; }
+            @page { margin: 0.25in; size: letter; }
         }
         
         body { 
@@ -72,7 +72,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             min-height: 11in;
             background: white;
             margin: 0 auto;
-            padding: 0.35in;
+            padding: 0.25in;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             box-sizing: border-box;
             border: 1px solid #ddd;
@@ -81,8 +81,8 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         .header {
             text-align: center;
             border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
         
         .logo-placeholder {
@@ -103,8 +103,8 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         }
         
         .info {
-            margin: 10px 0;
-            line-height: 1.2;
+            margin: 8px 0;
+            line-height: 1.1;
         }
         
         .info-line {
@@ -120,7 +120,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         
         .detalles th, .detalles td {
             border: 1px solid #000;
-            padding: 7px;
+            padding: 5px;
             text-align: left;
         }
         
@@ -132,12 +132,12 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         .total {
             text-align: right;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             margin: 15px 0;
         }
         
         .firmas {
-            margin-top: 30px;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
         }
@@ -149,14 +149,14 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         
         .linea-firma {
             border-top: 1px solid #000;
-            margin-top: 45px;
+            margin-top: 35px;
             padding-top: 5px;
         }
         
         .qr-code {
             text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px dashed #ccc;
         }
         
@@ -245,7 +245,7 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
             <div class="firma">
                 <div>Elaboró</div>
                 <div class="linea-firma"></div>
-                <div class="nombre-elaboro">C. <?php echo $nombre_completo_elaboro; ?></div> // Nombre desde sesión activa
+                <div class="nombre-elaboro">C. <?php echo $nombre_completo_elaboro; ?></div>
             </div>
             
             <div class="firma">
@@ -256,17 +256,28 @@ $fecha_formateada = date('d/m/Y H:i:s', strtotime($orden['fecha_creacion']));
         </div>
         
         <div class="qr-code">
-            <?php
-            // Generar QR code usando la URL almacenada en la base de datos
-            $qr_size = "150";
-            $qr_image_url = "https://api.qrserver.com/v1/create-qr-code/?size=" . $qr_size . "x" . $qr_size . "&data=" . urlencode($orden['qr_code']);
-            ?>
-            <img src="<?php echo htmlspecialchars($qr_image_url); ?>" 
-                 alt="Código QR de verificación" 
-                 style="width: 150px; height: 150px; margin: 0 auto; display: block; border: 2px solid #ddd; padding: 5px; background: white;">
-            <p style="font-size: 12px; margin-top: 10px;">Escanee para verificar autenticidad</p>
-            <p style="font-size: 10px; color: #666;">Folio: <?php echo htmlspecialchars($orden['folio']); ?></p>
-        </div>
+            <?php
+
+            // Generar QR code usando la URL almacenada en la base de datos
+
+            $qr_size = "150";
+
+            $qr_image_url = "https://api.qrserver.com/v1/create-qr-code/?size=" . $qr_size . "x" . $qr_size . "&data=" . urlencode($orden['qr_code']);
+
+            ?>
+
+            <img src="<?php echo htmlspecialchars($qr_image_url); ?>" 
+
+                 alt="Código QR de verificación" 
+
+                 style="width: 150px; height: 150px; margin: 0 auto; display: block; border: 2px solid #ddd; padding: 5px; background: white;">
+
+            <p style="font-size: 12px; margin-top: 10px;">Escanee para verificar autenticidad</p>
+
+            <p style="font-size: 10px; color: #666;">Folio: <?php echo htmlspecialchars($orden['folio']); ?></p>
+
+        </div>
+
     </div>
 
     <script>
