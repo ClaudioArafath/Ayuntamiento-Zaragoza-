@@ -13,25 +13,6 @@ function obtenerCategoryDesdeItems($items_json) {
     return 0;
 }
 
-function obtenerDepartamentoDesdeOrdenes($folio, $conn) {
-    $tabla_existe = $conn->query("SHOW TABLES LIKE 'ordenes'");
-    if ($tabla_existe && $tabla_existe->num_rows > 0) {
-        $sql = "SELECT employee FROM ordenes WHERE employee = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $folio);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $stmt->close();
-            return !empty($row['employee']) ? $row['employee'] : 'N/A';
-        }
-        $stmt->close();
-    }
-    return 'N/A';
-}
-
 function obtenerNombreCategoria($categoryId) {
     $categorias = [
         2 => 'INDUSTRIA Y COMERCIO',

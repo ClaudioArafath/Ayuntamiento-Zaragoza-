@@ -1,5 +1,5 @@
 <?php
-// Dashboard para Administradores y Presidentes
+// Dashboard para Administradores y Presidente
 if ($rol === 'Administrador' || $rol === 'Presidente'):
 ?>
 <main class="p-4 max-w-7xl mx-auto">
@@ -16,6 +16,21 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
         <div class="data-card bg-purple-50 border-l-4 border-purple-500">
             <h3 class="text-sm font-semibold text-purple-700">Total Condonaciones</h3>
             <p class="text-2xl font-bold" id="total-condonaciones">$<?php echo number_format($total_condonaciones, 2); ?></p>
+        </div>
+    </div>
+    
+    <!-- Herramientas rápidas para Administradores -->
+    <div class="mb-6">
+        <div class="data-card bg-white shadow-lg">
+            <h3 class="text-lg font-semibold mb-4">Herramientas Rápidas</h3>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <button onclick="window.location.href='views/register.html'" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center">
+                    <span class="text-2xl mr-2">👤</span>Registrar nuevo usuario
+                </button>
+                <button onclick="window.location.href='deactivate_user.php'" class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg flex items-center">
+                    <span class="text-2xl mr-2">🚫</span>Dar de baja usuario
+                </button>
+            </div>
         </div>
     </div>
     
@@ -53,18 +68,6 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
             </div>
         </div>
     </div>
-
-    <!-- Búsqueda 
-    <div id="caja-busqueda" class="mt-3 hidden overflow-hidden">
-        <div class="flex space-x-2">
-            <input type="text" id="input-busqueda" placeholder="Ingrese el folio del comprobante" 
-                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button id="btn-buscar" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                Buscar
-            </button>
-        </div>
-        <div id="resultado-busqueda" class="mt-3 hidden"></div>
-    </div> -->
     
     <!-- Tabla de últimos cobros -->
     <div class="data-card">

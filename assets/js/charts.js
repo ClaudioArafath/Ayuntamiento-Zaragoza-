@@ -5,9 +5,12 @@
 // Variables globales para los gráficos
 let ingresosChart = null;
 let departamentosChart = null;
+let porcentajes = []; // Variable global para porcentajes
 
 // Inicializar gráficos
-function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porcentajes, filtro) {
+function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porcentajesIniciales, filtro) {
+    // Guardar porcentajes en variable global
+    porcentajes = porcentajesIniciales || [];
     // Gráfico de ingresos
     const ctxLine = document.getElementById('ingresosChart');
     if (ctxLine) {
@@ -39,7 +42,7 @@ function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porce
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            callback: function(value) {
+                            callback: function (value) {
                                 return '$' + value.toLocaleString();
                             }
                         }
@@ -78,7 +81,7 @@ function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porce
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { 
+                    legend: {
                         position: 'right',
                         labels: {
                             font: {
@@ -88,7 +91,7 @@ function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porce
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 const labelIndex = context.dataIndex;
                                 const value = context.dataset.data[labelIndex];
                                 const percentage = porcentajes[labelIndex];
@@ -114,6 +117,12 @@ function actualizarGraficas(data, filtroActual) {
     if (data.departamentos && departamentosChart) {
         departamentosChart.data.labels = data.departamentos.labels;
         departamentosChart.data.datasets[0].data = data.departamentos.data;
+
+        // ✅ ACTUALIZAR PORCENTAJES para que se muestren en los tooltips
+        if (data.porcentajes) {
+            porcentajes = data.porcentajes;
+        }
+
         departamentosChart.update();
     }
 }
@@ -124,22 +133,14 @@ function actualizarResumen(data) {
         const ingresosMes = document.getElementById('ingresos-mes');
         const totalFacturas = document.getElementById('total-facturas');
         const totalCondonaciones = document.getElementById('total-condonaciones');
-        
-        if (ingresosMes) ingresosMes.textContent = '$' + data.resumen.ingresos_mes.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        if (ingresosMes) ingresosMes.textContent = '$' + data.resumen.ingresos_mes.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         if (totalFacturas) totalFacturas.textContent = data.resumen.total_facturas;
-        if (totalCondonaciones) totalCondonaciones.textContent = '$' + data.resumen.total_condonaciones.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        if (totalCondonaciones) totalCondonaciones.textContent = '$' + data.resumen.total_condonaciones.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 }
 
 // Función auxiliar
 function capitalizarPrimeraLetra(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-// Función para imprimir comprobante
-function imprimirComprobante(facturaId) {
-    const ventana = window.open(`comprobante.php?id=${facturaId}`, '_blank');
-    ventana.onload = function() {
-        ventana.print();
-    };
 }

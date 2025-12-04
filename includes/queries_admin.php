@@ -43,18 +43,16 @@ if ($result_ingresos && $result_ingresos->num_rows > 0) {
     while ($row = $result_ingresos->fetch_assoc()) {
         $periodos[] = $row['periodo'];
         $ingresos[] = $row['ingresos'];
-        // Usar etiqueta personalizada si existe, de lo contrario usar periodo
         $etiquetas[] = isset($row['etiqueta']) ? $row['etiqueta'] : $row['periodo'];
     }
 }
 
 // === CONSULTA 2: Cobros por departamento para el mes seleccionado ===
 $sql_pie = "
-    SELECT c.name as categoria, SUM(t.total) as ingresos
-    FROM topseller t
-    INNER JOIN categorias c ON t.categoryid = c.id
-    WHERE DATE_FORMAT(t.date, '%Y-%m') = '$mes_seleccionado'
-    GROUP BY c.name
+    SELECT employee as categoria, SUM(total) as ingresos
+    FROM invoice
+    WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    GROUP BY employee
     ORDER BY ingresos DESC
 ";
 $result_pie = $conn_lycaios->query($sql_pie);
@@ -109,15 +107,27 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
 }
 
 // === CONSULTA 5: Total de condonaciones (descuentos) del mes ===
-$sql_condonaciones = "
-    SELECT COALESCE(SUM(descuento), 0) as total_condonaciones 
+// Los descuentos están en el JSON de items, no en la columna descuento
+$sql_facturas_descuento = "
+    SELECT items
     FROM invoice 
     WHERE DATE_FORMAT(date, '%Y-%m') = '$mes_seleccionado'
+    AND items IS NOT NULL
 ";
-$result_condonaciones = $conn_lycaios->query($sql_condonaciones);
+$result_facturas_descuento = $conn_lycaios->query($sql_facturas_descuento);
 $total_condonaciones = 0;
-if ($result_condonaciones && $result_condonaciones->num_rows > 0) {
-    $row = $result_condonaciones->fetch_assoc();
-    $total_condonaciones = $row['total_condonaciones'];
+
+if ($result_facturas_descuento && $result_facturas_descuento->num_rows > 0) {
+    while ($factura = $result_facturas_descuento->fetch_assoc()) {
+        $items_data = json_decode($factura['items'], true);
+        
+        if (is_array($items_data)) {
+            foreach ($items_data as $item) {
+                // Sumar el descuento de cada item
+                $descuento_item = isset($item['Descuento']) ? floatval($item['Descuento']) : 0;
+                $total_condonaciones += $descuento_item;
+            }
+        }
+    }
 }
 ?>

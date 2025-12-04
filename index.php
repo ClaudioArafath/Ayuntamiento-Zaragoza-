@@ -10,7 +10,7 @@ $usuario = obtenerUsuario($username);
 
 if (!$usuario) {
     session_destroy();
-    header("Location: login.html");
+    header("Location: views/login.html");
     exit();
 }
 
@@ -34,8 +34,11 @@ if ($rol === 'Administrador' || $rol === 'Presidente') {
     $meses_disponibles = [];
 }
 
-// Consulta de últimos cobros
+// Consulta de últimos cobros (ESTA YA TIENE LOS DATOS CORRECTOS)
 require_once 'includes/queries_common.php';
+
+// USAR DIRECTAMENTE $cobros_con_categoria QUE YA TIENE EL ESTATUS CORRECTO
+$ordenes_iniciales = $cobros_con_categoria;
 
 $conn_lycaios->close();
     ?>
@@ -55,6 +58,8 @@ $conn_lycaios->close();
 <?php include 'components/modalCancelarOrden.php'; ?>
     <!-- Incluir modal para cobrar orden-->
 <?php include 'components/modalCobrarOrden.php'; ?>
+    <!-- Incluir modal para orden personalizada -->
+<?php include 'components/modalOrdenPersonalizada.php'; ?>
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
@@ -66,7 +71,7 @@ const datosApp = {
     categorias: <?php echo json_encode($categorias ?? []); ?>,
     ingresosCat: <?php echo json_encode($ingresos_cat ?? []); ?>,
     porcentajes: <?php echo json_encode($porcentajes ?? []); ?>,
-    ordenes: <?php echo json_encode($cobros_con_categoria ?? []); ?>,
+    ordenes: <?php echo json_encode($ordenes_iniciales ?? []); ?>,
     
     // Variables de estado
     filtro: '<?php echo $filtro; ?>',
@@ -79,11 +84,12 @@ console.log('datosApp definido:', datosApp);
 </script>
 
 <!-- Cargar scripts DESPUÉS de definir datosApp -->
-<script src="assets/js/charts.js"></script>
-<script src="assets/js/search.js"></script>
-<script src="assets/js/qr_scanner.js"></script>
-<script src="assets/js/cobrarOrden.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/cancelarOrden.js"></script>
+<script src="assets/js/charts.js" defer></script>
+<script src="assets/js/search.js" defer></script>
+<script src="assets/js/qr_scanner.js" defer></script>
+<script src="assets/js/cobrarOrden.js" defer></script>
+<script src="assets/js/sanitarios.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/cancelarOrden.js" defer></script>
 
 <?php include 'includes/footer.php'; ?>
