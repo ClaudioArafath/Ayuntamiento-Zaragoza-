@@ -4,6 +4,7 @@ session_start();
 // Validar sesión
 if (!isset($_SESSION['username'])) {
     header("HTTP/1.1 401 Unauthorized");
+    header('Content-Type: application/json');
     echo json_encode(["error" => "No autorizado"]);
     exit();
 }
@@ -11,6 +12,13 @@ if (!isset($_SESSION['username'])) {
 // Conexión a la base de datos
 require_once __DIR__ . '/../config/database.php';
 $conn_lycaios = conectarLycaidosPOS();
+
+// Verificar conexión
+if (!$conn_lycaios) {
+    header('Content-Type: application/json');
+    echo json_encode(["error" => "Error de conexión a la base de datos"]);
+    exit();
+}
 
 // Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'mes';
@@ -137,7 +145,6 @@ if ($result_total_facturas && $result_total_facturas->num_rows > 0) {
 }
 
 // === CONSULTA 4: Total de condonaciones (descuentos) del mes ===
-// Los descuentos están en el JSON de items, no en la columna descuento
 $sql_facturas_descuento = "
     SELECT items
     FROM invoice 
@@ -153,7 +160,6 @@ if ($result_facturas_descuento && $result_facturas_descuento->num_rows > 0) {
         
         if (is_array($items_data)) {
             foreach ($items_data as $item) {
-                // Sumar el descuento de cada item
                 $descuento_item = isset($item['Descuento']) ? floatval($item['Descuento']) : 0;
                 $total_condonaciones += $descuento_item;
             }
@@ -179,7 +185,6 @@ $sql_facturas = "
 $result_facturas = $conn_lycaios->query($sql_facturas);
 
 $facturas = [];
-//$total_pendientes = 0;
 
 if ($result_facturas && $result_facturas->num_rows > 0) {
     while ($row = $result_facturas->fetch_assoc()) {
@@ -187,7 +192,6 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
         $subtotal_real = 0;
         $cantidad_articulos = 0;
 
-        // Procesar el JSON para extraer información de artículos
         if (!empty($row['items'])) {
             $items_data = json_decode($row['items'], true);
             
@@ -195,25 +199,22 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
                 $cantidad_articulos = count($items_data);
                 
                 foreach ($items_data as $item) {
-                    // Extraer descripción del artículo
                     $descripcion = isset($item['Description']) ? $item['Description'] : 'Sin descripción';
                     $descripciones_articulos[] = $descripcion;
                     
-                    // Calcular subtotal real
                     $precio = isset($item['Price']) ? floatval($item['Price']) : 0;
                     $unidades = isset($item['Units']) ? floatval($item['Units']) : 1;
                     $precio_real = isset($item['Real_Price']) ? floatval($item['Real_Price']) : $precio;
                     $descuento = isset($item['Descuento']) ? floatval($item['Descuento']) : 0;
                     
                     if ($descuento > 0) {
-                        $subtotal_articulo = $precio_real * $unidades; // Precio ya con descuento aplicado
+                        $subtotal_articulo = $precio_real * $unidades;
                     } else {
-                        $subtotal_articulo = $precio_real * $unidades; // Sin descuento
+                        $subtotal_articulo = $precio_real * $unidades;
                     }                  
-                    $subtotal_real += $subtotal_articulo; // Sumar al subtotal total
+                    $subtotal_real += $subtotal_articulo;
                 } 
                 
-                // Limitar las descripciones para mostrar
                 $descripciones_mostrar = array_slice($descripciones_articulos, 0, 2);
                 $descripcion_texto = implode(', ', $descripciones_mostrar);
                 if (count($descripciones_articulos) > 2) {
@@ -239,11 +240,6 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'cantidad_articulos' => $cantidad_articulos
         ];
     }
-    
-    /* Obtener el total de pendientes del primer registro
-    if (isset($row['pendientes_count'])) {
-        $total_pendientes = (int)$row['pendientes_count'];
-    }*/
 }
 
 // Preparar respuesta con los datos de resumen
@@ -258,6 +254,6 @@ $response['facturas'] = $facturas;
 $conn_lycaios->close();
 
 // Devolver respuesta en formato JSON
-header('Content-Type: application/json');
-echo json_encode($response);
+header('Content-Type: application/json; charset=utf-8');
+echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
 ?>
