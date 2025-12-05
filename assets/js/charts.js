@@ -11,6 +11,17 @@ let porcentajes = []; // Variable global para porcentajes
 function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porcentajesIniciales, filtro) {
     // Guardar porcentajes en variable global
     porcentajes = porcentajesIniciales || [];
+
+    // Destruir gráficos existentes si ya existen
+    if (ingresosChart) {
+        ingresosChart.destroy();
+        ingresosChart = null;
+    }
+    if (departamentosChart) {
+        departamentosChart.destroy();
+        departamentosChart = null;
+    }
+
     // Gráfico de ingresos
     const ctxLine = document.getElementById('ingresosChart');
     if (ctxLine) {
@@ -95,7 +106,8 @@ function inicializarGraficos(etiquetas, ingresos, categorias, ingresosCat, porce
                                 const labelIndex = context.dataIndex;
                                 const value = context.dataset.data[labelIndex];
                                 const percentage = porcentajes[labelIndex];
-                                return `${context.label}: $${value.toLocaleString()} (${percentage}%)`;
+                                return `${context.label}: $${value.toLocaleString()} (${percentage}%)`
+                                    ;
                             }
                         }
                     }

@@ -1,6 +1,13 @@
 <?php
 // Consultas específicas para Administradores y Presidente
 
+// Función para limpiar strings y evitar problemas de codificación
+function limpiarStringAdmin($str) {
+    if (!is_string($str)) return $str;
+    // Convertir a UTF-8 válido, reemplazando caracteres inválidos
+    return mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+}
+
 // === CONSULTA 1: Ingresos según filtro ===
 $sql_ingresos = "";
 switch($filtro) {
@@ -43,7 +50,7 @@ if ($result_ingresos && $result_ingresos->num_rows > 0) {
     while ($row = $result_ingresos->fetch_assoc()) {
         $periodos[] = $row['periodo'];
         $ingresos[] = $row['ingresos'];
-        $etiquetas[] = isset($row['etiqueta']) ? $row['etiqueta'] : $row['periodo'];
+        $etiquetas[] = isset($row['etiqueta']) ? limpiarStringAdmin($row['etiqueta']) : $row['periodo'];
     }
 }
 
@@ -63,7 +70,7 @@ $total_ingresos_mes = 0;
 
 if ($result_pie && $result_pie->num_rows > 0) {
     while ($row = $result_pie->fetch_assoc()) {
-        $categorias[] = $row['categoria'];
+        $categorias[] = limpiarStringAdmin($row['categoria']);
         $ingresos_cat[] = $row['ingresos'];
         $total_ingresos_mes += $row['ingresos'];
     }
@@ -89,7 +96,7 @@ $result_meses = $conn_lycaios->query($sql_meses);
 $meses_disponibles = [];
 if ($result_meses && $result_meses->num_rows > 0) {
     while ($row = $result_meses->fetch_assoc()) {
-        $meses_disponibles[$row['periodo']] = $row['nombre_mes'];
+        $meses_disponibles[$row['periodo']] = limpiarStringAdmin($row['nombre_mes']);
     }
 }
 

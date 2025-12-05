@@ -392,3 +392,21 @@
 [2025-12-03 23:42:01] Descripción final: Productos varios
 [2025-12-03 23:42:01] ✅ Orden encontrada: 0003492 - Total: 631.800000 - Estatus: 0
 [2025-12-03 23:42:01] Enviando respuesta: {"success":true,"orden":{"id":3503,"code":"0003492","date":"2025-12-01 12:40:10","employee":"INDUSTRIA COMERCIO","total":631.8,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-04 19:34:36] Iniciando buscar_orden.php
+[2025-12-04 19:34:36] Input recibido: {"folio":"0003490"}
+[2025-12-04 19:34:36] Conexión a BD establecida
+[2025-12-04 19:34:36] Buscando orden con folio: 0003490
+[2025-12-04 19:34:36] Resultados encontrados: 1
+[2025-12-04 19:34:36] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":118,"Codigo":"118","SKU":"ALT-NEWCOMER","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"AL
+[2025-12-04 19:34:36] Descripción final: Productos varios
+[2025-12-04 19:34:36] ✅ Orden encontrada: 0003490 - Total: 2569.500000 - Estatus: 0
+[2025-12-04 19:34:36] Enviando respuesta: {"success":true,"orden":{"id":3501,"code":"0003490","date":"2025-12-01 12:39:40","employee":"INDUSTRIA COMERCIO","total":2569.5,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-04 19:56:42] Iniciando buscar_orden.php
+[2025-12-04 19:56:42] Input recibido: {"folio":"0003498"}
+[2025-12-04 19:56:42] Conexión a BD establecida
+[2025-12-04 19:56:42] Buscando orden con folio: 0003498
+[2025-12-04 19:56:42] Resultados encontrados: 1
+[2025-12-04 19:56:42] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":118,"Codigo":"118","SKU":"ALT-NEWCOMER","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"AL
+[2025-12-04 19:56:42] Descripción final: Productos varios
+[2025-12-04 19:56:42] ✅ Orden encontrada: 0003498 - Total: 561.600000 - Estatus: 0
+[2025-12-04 19:56:42] Enviando respuesta: {"success":true,"orden":{"id":3509,"code":"0003498","date":"2025-12-04 12:49:34","employee":"INDUSTRIA COMERCIO","total":561.6,"estatus":0,"descripcion_articulos":"Productos varios"}}

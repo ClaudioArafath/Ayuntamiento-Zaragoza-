@@ -63,24 +63,44 @@ $conn_lycaios->close();
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
-// Pasar datos PHP a JavaScript
-const datosApp = {
-    // Datos para gráficas
-    etiquetas: <?php echo json_encode($etiquetas ?? []); ?>,
-    ingresos: <?php echo json_encode($ingresos ?? []); ?>,
-    categorias: <?php echo json_encode($categorias ?? []); ?>,
-    ingresosCat: <?php echo json_encode($ingresos_cat ?? []); ?>,
-    porcentajes: <?php echo json_encode($porcentajes ?? []); ?>,
-    ordenes: <?php echo json_encode($ordenes_iniciales ?? []); ?>,
+// Pasar datos PHP a JavaScript con manejo robusto de errores
+try {
+    const datosApp = {
+        // Datos para gráficas (con flags para manejar caracteres especiales)
+        etiquetas: <?php echo json_encode($etiquetas ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        ingresos: <?php echo json_encode($ingresos ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        categorias: <?php echo json_encode($categorias ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        ingresosCat: <?php echo json_encode($ingresos_cat ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        porcentajes: <?php echo json_encode($porcentajes ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        ordenes: <?php echo json_encode($ordenes_iniciales ?? [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE); ?>,
+        
+        // Variables de estado
+        filtro: '<?php echo htmlspecialchars($filtro, ENT_QUOTES, 'UTF-8'); ?>',
+        mesSeleccionado: '<?php echo htmlspecialchars($mes_seleccionado, ENT_QUOTES, 'UTF-8'); ?>',
+        rol: '<?php echo htmlspecialchars($rol, ENT_QUOTES, 'UTF-8'); ?>'
+    };
     
-    // Variables de estado
-    filtro: '<?php echo $filtro; ?>',
-    mesSeleccionado: '<?php echo $mes_seleccionado; ?>',
-    rol: '<?php echo $rol; ?>'
-};
-
-// Verificar en consola que se cargó correctamente
-console.log('datosApp definido:', datosApp);
+    // Verificar en consola que se cargó correctamente
+    console.log('✅ datosApp definido correctamente:', datosApp);
+    
+    // Hacer datosApp global
+    window.datosApp = datosApp;
+} catch (error) {
+    console.error('❌ Error al definir datosApp:', error);
+    // Definir datosApp con valores por defecto en caso de error
+    window.datosApp = {
+        etiquetas: [],
+        ingresos: [],
+        categorias: [],
+        ingresosCat: [],
+        porcentajes: [],
+        ordenes: [],
+        filtro: 'mes',
+        mesSeleccionado: '<?php echo date('Y-m'); ?>',
+        rol: '<?php echo htmlspecialchars($rol, ENT_QUOTES, 'UTF-8'); ?>'
+    };
+    console.warn('⚠️ Se usaron valores por defecto para datosApp');
+}
 </script>
 
 <!-- Cargar scripts DESPUÉS de definir datosApp -->

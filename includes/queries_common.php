@@ -1,6 +1,13 @@
 <?php
 // Consultas comunes para todos los roles
 
+// Función para limpiar strings y evitar problemas de codificación
+function limpiarString($str) {
+    if (!is_string($str)) return $str;
+    // Convertir a UTF-8 válido, reemplazando caracteres inválidos
+    return mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+}
+
 // === CONSULTA: Últimas ordenes en tiempo real ===
 $sql_facturas = "SELECT id, code, date, total, items, employee, estatus FROM ordenes_backup ORDER BY date DESC LIMIT 10";
 $result_facturas = $conn_lycaios->query($sql_facturas);
@@ -24,8 +31,8 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
                 $cantidad_articulos = count($items_data);
                 
                 foreach ($items_data as $item) {
-                    // Extraer descripción del artículo
-                    $descripcion = isset($item['Description']) ? $item['Description'] : 'Sin descripción';
+                    // Extraer descripción del artículo y limpiarla
+                    $descripcion = isset($item['Description']) ? limpiarString($item['Description']) : 'Sin descripción';
                     $descripciones_articulos[] = $descripcion;
                     
                     // Calcular subtotal real (Price * Units)
@@ -59,10 +66,10 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
 
         $cobros_con_categoria[] = [
             'id' => $row['id'],
-            'code' => $row['code'],
+            'code' => limpiarString($row['code']),
             'date' => $row['date'],
             'total' => (float)$row['total'],
-            'employee' => $row['employee'],
+            'employee' => limpiarString($row['employee']),
             'estatus' => (int)$row['estatus'], // CAMBIADO: ahora es número
             'estatus_num' => $row['estatus'],
             'estatus_texto' => $estado_texto, // NUEVO: texto del estatus
