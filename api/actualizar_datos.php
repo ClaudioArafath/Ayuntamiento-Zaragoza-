@@ -11,10 +11,11 @@ if (!isset($_SESSION['username'])) {
 
 // Conexión a la base de datos
 require_once __DIR__ . '/../config/database.php';
-$conn_lycaios = conectarLycaidosPOS();
+$conn_lycaios = conectarLycaidosPOS();      // Para invoice
+$conn_ayuntamiento = conectarAyuntamiento(); // Para ordenes_backup
 
 // Verificar conexión
-if (!$conn_lycaios) {
+if (!$conn_lycaios || !$conn_ayuntamiento) {
     header('Content-Type: application/json');
     echo json_encode(["error" => "Error de conexión a la base de datos"]);
     exit();
@@ -167,7 +168,7 @@ if ($result_facturas_descuento && $result_facturas_descuento->num_rows > 0) {
     }
 }
 
-// === CONSULTA 5: Últimos ordenes en tiempo real (desde ordenes_backup) ===
+// === CONSULTA 5: Últimos ordenes en tiempo real (desde ayuntamiento.ordenes_backup) ===
 $sql_facturas = "
     SELECT 
         id, 
@@ -182,7 +183,7 @@ $sql_facturas = "
     ORDER BY date DESC 
 ";
 
-$result_facturas = $conn_lycaios->query($sql_facturas);
+$result_facturas = $conn_ayuntamiento->query($sql_facturas);
 
 $facturas = [];
 
@@ -252,6 +253,7 @@ $response['resumen'] = [
 $response['facturas'] = $facturas;
 
 $conn_lycaios->close();
+$conn_ayuntamiento->close();
 
 // Devolver respuesta en formato JSON
 header('Content-Type: application/json; charset=utf-8');

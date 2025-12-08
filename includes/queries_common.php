@@ -10,7 +10,7 @@ function limpiarString($str) {
 
 // === CONSULTA: Últimas ordenes en tiempo real ===
 $sql_facturas = "SELECT id, code, date, total, items, employee, estatus FROM ordenes_backup ORDER BY date DESC LIMIT 10";
-$result_facturas = $conn_lycaios->query($sql_facturas);
+$result_facturas = $conn_ayuntamiento->query($sql_facturas);
 
 // Procesar los resultados para extraer descripciones y calcular subtotal real
 $cobros_con_categoria = [];
