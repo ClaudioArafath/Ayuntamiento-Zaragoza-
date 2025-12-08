@@ -410,3 +410,12 @@
 [2025-12-04 19:56:42] Descripción final: Productos varios
 [2025-12-04 19:56:42] ✅ Orden encontrada: 0003498 - Total: 561.600000 - Estatus: 0
 [2025-12-04 19:56:42] Enviando respuesta: {"success":true,"orden":{"id":3509,"code":"0003498","date":"2025-12-04 12:49:34","employee":"INDUSTRIA COMERCIO","total":561.6,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-05 20:35:44] Iniciando buscar_orden.php
+[2025-12-05 20:35:44] Input recibido: {"folio":"0000878"}
+[2025-12-05 20:35:44] Conexión a BD establecida
+[2025-12-05 20:35:44] Buscando orden con folio: 0000878
+[2025-12-05 20:35:44] Resultados encontrados: 1
+[2025-12-05 20:35:44] Items crudos: [{"ID":0,"Codigo":null,"SKU":null,"Category":0,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"AMBULANTE ","info":null,"Talla":null,"Price":40.0,"Price2":0.
+[2025-12-05 20:35:44] Descripción final: Productos varios
+[2025-12-05 20:35:44] ✅ Orden encontrada: 0000878 - Total: 40.000000 - Estatus: 0
+[2025-12-05 20:35:44] Enviando respuesta: {"success":true,"orden":{"id":4378,"code":"0000878","date":"2025-04-07 13:40:43","employee":"INDUSTRIA COMERCIO","total":40,"estatus":0,"descripcion_articulos":"Productos varios"}}
