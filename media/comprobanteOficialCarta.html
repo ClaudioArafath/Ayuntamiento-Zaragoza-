@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Comprobante de Pago</title>
@@ -10,25 +11,30 @@
                 size: letter portrait;
                 margin: 0;
             }
+
             .no-print {
                 display: none !important;
             }
+
             body {
                 margin: 0;
                 padding: 0;
                 background: #fff !important;
             }
+
             .container {
                 margin: 0;
                 padding: 0;
                 width: 100%;
                 max-width: 100%;
             }
+
             .comprobante {
                 width: 100%;
                 max-width: 100%;
                 margin: 0;
-                padding: 20mm; /* margen interno solo del contenido */
+                padding: 20mm;
+                /* margen interno solo del contenido */
                 box-shadow: none;
                 border: none;
             }
@@ -54,7 +60,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.05; /* 5% de opacidad */
+            opacity: 0.05;
+            /* 5% de opacidad */
             z-index: 0;
         }
 
@@ -68,16 +75,19 @@
             text-align: center;
             margin-bottom: 10px;
         }
+
         .qr-code {
             text-align: center;
             margin: 20px 0;
         }
+
         .leyenda {
             font-size: 10px;
             text-align: center;
             margin-top: 15px;
             color: #666;
         }
+
         .concepto-item {
             margin: 3px 0;
             padding: 2px;
@@ -85,14 +95,17 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
     <div class="container mx-auto py-4">
         <!-- Botones de acción -->
         <div class="text-center mb-4 no-print">
-            <button onclick="window.print()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg mr-2">
+            <button onclick="window.print()"
+                class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg mr-2">
                 📄 Imprimir Comprobante
             </button>
-            <button onclick="window.history.back()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+            <button onclick="window.history.back()"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
                 ← Volver
             </button>
         </div>
@@ -106,7 +119,8 @@
             <div class="contenido">
                 <!-- Encabezado con logo y datos del ayuntamiento -->
                 <div class="logo">
-                    <img src="media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="mx-auto mb-2" style="height: 150px;">
+                    <img src="media/Ayuntamiento.png" alt="Logo Ayuntamiento" class="mx-auto mb-2"
+                        style="height: 150px;">
                     <h1 class="text-xl font-bold">AYUNTAMIENTO DE ZARAGOZA</h1>
                     <h2 class="text-md font-bold">RFC: MZP850101340</h2>
                     <h3 class="text-md font-bold">Calle 12 de Octubre S/N, Col. Centro, Zaragoza, Puebla</h3>
@@ -116,49 +130,65 @@
 
                 <!-- Datos del comprobante -->
                 <div class="datos">
-                    <p><strong>Folio:</strong> <?php echo htmlspecialchars($factura['invoicecode']); ?></p>
-                    <p><strong>Fecha:</strong> <?php echo date('d/m/Y H:i', strtotime($factura['date'])); ?></p>
-                    <p><strong>Contribuyente:</strong> <?php echo htmlspecialchars($factura['nombre']); ?></p>
-                    <p><strong>Dirección:</strong> <?php echo htmlspecialchars($factura['direccion']); ?></p>
+                    <p><strong>Folio:</strong>
+                        <?php echo htmlspecialchars($factura['invoicecode']); ?>
+                    </p>
+                    <p><strong>Fecha:</strong>
+                        <?php echo date('d/m/Y H:i', strtotime($factura['date'])); ?>
+                    </p>
+                    <p><strong>Contribuyente:</strong>
+                        <?php echo htmlspecialchars($factura['nombre']); ?>
+                    </p>
+                    <p><strong>Dirección:</strong>
+                        <?php echo htmlspecialchars($factura['direccion']); ?>
+                    </p>
                     <?php if (!empty($factura['categoria'])): ?>
-                    <p><strong>Categoría:</strong> <?php echo htmlspecialchars($factura['categoria']); ?></p>
+                    <p><strong>Categoría:</strong>
+                        <?php echo htmlspecialchars($factura['categoria']); ?>
+                    </p>
                     <?php endif; ?>
-                    
+
                     <?php if (!empty($factura['conceptos'])): ?>
                     <hr class="my-2">
                     <p><strong>Conceptos:</strong></p>
                     <div class="conceptos">
                         <?php foreach ($factura['conceptos'] as $concepto): ?>
-                            <div class="concepto-item">• <?php echo htmlspecialchars($concepto); ?></div>
+                        <div class="concepto-item">•
+                            <?php echo htmlspecialchars($concepto); ?>
+                        </div>
                         <?php endforeach; ?>
                     </div>
                     <?php endif; ?>
-                    
+
                     <hr class="my-2">
-                    
+
                     <p class="text-center"><strong>MONTO PAGADO</strong></p>
-                    <p class="text-center text-2xl font-bold">$<?php echo number_format($factura['total'], 2); ?></p>
-                    
+                    <p class="text-center text-2xl font-bold">$
+                        <?php echo number_format($factura['total'], 2); ?>
+                    </p>
+
                     <hr class="my-2">
-                    
+
                     <div class="responsables" style="display: flex; justify-content: space-between; margin-top: 20px;">
                         <div style="text-align: left; width: 48%;">
                             <p class="text-center"><strong>Atendió</strong></p>
                             <div style="height: 30px; border-bottom: 1px solid #888; margin-bottom: 2px;"></div>
-                            <p class="text-xs"><?php echo htmlspecialchars($factura['atendio']); ?></p>
+                            <p class="text-xs">C. JOSÉ LUIS VELÁZQUEZ NAVOR</p>
                         </div>
                         <div style="text-align: right; width: 48%;">
                             <p class="text-center"><strong>Autorizó</strong></p>
                             <div style="height: 30px; border-bottom: 1px solid #888; margin-bottom: 2px;"></div>
-                            <p class="text-xs"><?php echo htmlspecialchars($factura['autorizo']); ?></p>
+                            <p class="text-xs">C. ESTEBAN MONTIEL GONZÁLEZ</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Código QR -->
                 <div class="qr-code">
-                    <div style="width: 100px; height: 100px; background-color: #f0f0f0; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        QR Code<br>(<?php echo substr($factura['invoicecode'], -6); ?>)
+                    <div
+                        style="width: 100px; height: 100px; background-color: #f0f0f0; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                        QR Code<br>(
+                        <?php echo substr($factura['invoicecode'], -6); ?>)
                     </div>
                     <p class="text-xs">Escanee para verificar autenticidad</p>
                 </div>
@@ -174,4 +204,5 @@
         </div>
     </div>
 </body>
+
 </html>

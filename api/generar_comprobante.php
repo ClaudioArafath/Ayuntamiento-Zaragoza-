@@ -255,12 +255,12 @@ try {
                         <div style="text-align: left; width: 48%;">
                             <p class="text-center"><strong>Atendió</strong></p>
                             <div style="height: 30px; border-bottom: 1px solid #888; margin-bottom: 2px;"></div>
-                            <p class="text-xs"><?php echo htmlspecialchars($factura['atendio']); ?></p>
+                            <p class="text-xs">C. JOSÉ LUIS VELÁZQUEZ NAVOR</p>
                         </div>
                         <div style="text-align: right; width: 48%;">
                             <p class="text-center"><strong>Autorizó</strong></p>
                             <div style="height: 30px; border-bottom: 1px solid #888; margin-bottom: 2px;"></div>
-                            <p class="text-xs"><?php echo htmlspecialchars($factura['autorizo']); ?></p>
+                            <p class="text-xs">C. ESTEBAN MONTIEL GONZÁLEZ</p>
                         </div>
                     </div>
                 </div>

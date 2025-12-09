@@ -742,3 +742,12 @@
 [2025-12-09 20:27:58] Descripción final: Productos varios
 [2025-12-09 20:27:58] ✅ Orden encontrada: 0006165 - Total: 200.000000 - Estatus: 0
 [2025-12-09 20:27:58] Enviando respuesta: {"success":true,"orden":{"id":11989,"code":"0006165","date":"2025-12-09 13:14:19","employee":"INDUSTRIA COMERCIO","total":200,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:40:47] Iniciando buscar_orden.php
+[2025-12-09 20:40:47] Input recibido: {"folio":"0006171"}
+[2025-12-09 20:40:47] Conexiones a BD establecidas
+[2025-12-09 20:40:47] Buscando orden con folio: 0006171
+[2025-12-09 20:40:47] Resultados encontrados: 1
+[2025-12-09 20:40:47] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":46,"Codigo":"00000046","SKU":"COP-FCERT","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"C
+[2025-12-09 20:40:47] Descripción final: Productos varios
+[2025-12-09 20:40:47] ✅ Orden encontrada: 0006171 - Total: 150.000000 - Estatus: 0
+[2025-12-09 20:40:47] Enviando respuesta: {"success":true,"orden":{"id":11995,"code":"0006171","date":"2025-12-09 13:28:55","employee":"REGISTRO CIVIL","total":150,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
