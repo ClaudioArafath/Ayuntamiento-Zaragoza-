@@ -98,3 +98,74 @@ main {
     width: 100%;
     overflow-x: hidden;
 }
+
+/* ==========================================
+   ESTILOS PARA BOTONES HOVER EN TABLA DE ÓRDENES
+   ========================================== */
+
+/* Celda de estatus con posición relativa para el botón absoluto */
+.orden-status-cell {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Contenedor del botón hover */
+.hover-btn-container {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 10;
+}
+
+/* Mostrar botón cuando el contenedor tiene la clase 'visible' */
+.hover-btn-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilos base del botón hover */
+.orden-hover-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+/* Botón Cobrar (naranja) */
+.orden-hover-btn.btn-cobrar {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+}
+
+.orden-hover-btn.btn-cobrar:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+}
+
+/* Botón Imprimir (azul) */
+.orden-hover-btn.btn-imprimir {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.orden-hover-btn.btn-imprimir:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Asegurar que el badge no interfiera con el botón */
+.orden-status-cell .badge {
+    display: inline-block;
+    margin-right: 40px; /* Espacio para el botón */
+}

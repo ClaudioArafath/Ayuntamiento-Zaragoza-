@@ -116,5 +116,7 @@ try {
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/cancelarOrden.js" defer></script>
 <script src="assets/js/modificarFactura.js" defer></script>
+<script src="assets/js/ordenesTable.js" defer></script>
+
 
 <?php include 'includes/footer.php'; ?>

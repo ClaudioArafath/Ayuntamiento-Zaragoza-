@@ -262,7 +262,7 @@ function actualizarTablaOrdenes(ordenes) {
             </td>
             <td class="px-4 py-2 border">$${(orden.subtotal_real || orden.total).toFixed(2)}</td>
             <td class="px-4 py-2 border">$${(parseFloat(orden.total) || 0).toFixed(2)}</td>
-            <td class="px-4 py-2 border">
+            <td class="px-4 py-2 border orden-status-cell" data-folio="${escapeHtml(orden.code)}" data-estatus="${estatusTexto}">
                 <span class="badge badge-${estatusNum == 1 ? 'success' : 'warning'}">
                     ${estatusTexto}
                 </span>
@@ -272,7 +272,13 @@ function actualizarTablaOrdenes(ordenes) {
     });
 
     console.log('✅ Tabla actualizada correctamente con', ordenes.length, 'órdenes');
+
+    // Reinicializar botones hover después de actualizar la tabla
+    if (typeof window.reinicializarHoverBotones === 'function') {
+        window.reinicializarHoverBotones();
+    }
 }
+
 
 // Función para actualizar el resumen del dashboard
 function actualizarResumenDashboard(resumen) {

@@ -679,3 +679,12 @@
 [2025-12-09 01:14:39] Descripción final: Productos varios
 [2025-12-09 01:14:39] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
 [2025-12-09 01:14:39] Enviando respuesta: {"success":true,"orden":{"id":11986,"code":"0006162","date":"2025-12-08 17:58:07","employee":"PANTEONES PARQUES Y JARDINES","total":1050.5,"estatus":0,"descripcion_articulos":"Productos varios","clientid":6971,"client":{"name":"Claudio Arafath Hern?ndez Salazar","address":"2 Poniente 726","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 19:33:48] Iniciando buscar_orden.php
+[2025-12-09 19:33:48] Input recibido: {"folio":"0006164"}
+[2025-12-09 19:33:48] Conexiones a BD establecidas
+[2025-12-09 19:33:48] Buscando orden con folio: 0006164
+[2025-12-09 19:33:48] Resultados encontrados: 1
+[2025-12-09 19:33:48] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":23,"Codigo":"00000023","SKU":"DDRO7A","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"DEP�
+[2025-12-09 19:33:48] Descripción final: Productos varios
+[2025-12-09 19:33:48] ✅ Orden encontrada: 0006164 - Total: 599.000000 - Estatus: 0
+[2025-12-09 19:33:48] Enviando respuesta: {"success":true,"orden":{"id":11988,"code":"0006164","date":"2025-12-08 18:18:06","employee":"PANTEONES PARQUES Y JARDINES","total":599,"estatus":0,"descripcion_articulos":"Productos varios","clientid":6971,"client":{"name":"Claudio Arafath Hern?ndez Salazar","address":"2 Poniente 726","phone":"","email":"","rfc":"","razonsocial":""}}}

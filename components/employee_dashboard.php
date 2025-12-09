@@ -64,7 +64,7 @@ if ($rol === 'Empleado'):
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['descripcion_articulos']); ?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($orden['subtotal_real'], 2);?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($orden['total'], 2); ?></td>
-                            <td class="px-4 py-2 border">
+                            <td class="px-4 py-2 border orden-status-cell" data-folio="<?php echo htmlspecialchars($orden['code']); ?>" data-estatus="<?php echo htmlspecialchars($estatus_texto); ?>">
                                 <span class="badge badge-<?php echo $badge_class; ?>">
                                     <?php echo htmlspecialchars($estatus_texto); ?>
                                 </span>
