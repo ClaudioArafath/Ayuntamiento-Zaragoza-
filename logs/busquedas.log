@@ -688,3 +688,57 @@
 [2025-12-09 19:33:48] Descripción final: Productos varios
 [2025-12-09 19:33:48] ✅ Orden encontrada: 0006164 - Total: 599.000000 - Estatus: 0
 [2025-12-09 19:33:48] Enviando respuesta: {"success":true,"orden":{"id":11988,"code":"0006164","date":"2025-12-08 18:18:06","employee":"PANTEONES PARQUES Y JARDINES","total":599,"estatus":0,"descripcion_articulos":"Productos varios","clientid":6971,"client":{"name":"Claudio Arafath Hern?ndez Salazar","address":"2 Poniente 726","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:18:11] Iniciando buscar_orden.php
+[2025-12-09 20:18:11] Input recibido: {"folio":"0006167"}
+[2025-12-09 20:18:11] Conexiones a BD establecidas
+[2025-12-09 20:18:11] Buscando orden con folio: 0006167
+[2025-12-09 20:18:11] Resultados encontrados: 1
+[2025-12-09 20:18:11] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":136,"Codigo":"00000136","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FERIA 12 
+[2025-12-09 20:18:11] Descripción final: Productos varios
+[2025-12-09 20:18:11] ✅ Orden encontrada: 0006167 - Total: 4000.000000 - Estatus: 0
+[2025-12-09 20:18:11] Enviando respuesta: {"success":true,"orden":{"id":11991,"code":"0006167","date":"2025-12-09 13:16:04","employee":"INDUSTRIA COMERCIO","total":4000,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:18:42] Iniciando buscar_orden.php
+[2025-12-09 20:18:42] Input recibido: {"folio":"0006169"}
+[2025-12-09 20:18:42] Conexiones a BD establecidas
+[2025-12-09 20:18:42] Buscando orden con folio: 0006169
+[2025-12-09 20:18:42] Resultados encontrados: 1
+[2025-12-09 20:18:42] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":54,"Codigo":"00000054","SKU":"INS-DRDN","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"IN
+[2025-12-09 20:18:42] Descripción final: Productos varios
+[2025-12-09 20:18:42] ✅ Orden encontrada: 0006169 - Total: 2340.000000 - Estatus: 0
+[2025-12-09 20:18:42] Enviando respuesta: {"success":true,"orden":{"id":11993,"code":"0006169","date":"2025-12-09 13:17:03","employee":"REGISTRO CIVIL","total":2340,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:19:13] Iniciando buscar_orden.php
+[2025-12-09 20:19:13] Input recibido: {"folio":"0006168"}
+[2025-12-09 20:19:13] Conexiones a BD establecidas
+[2025-12-09 20:19:13] Buscando orden con folio: 0006168
+[2025-12-09 20:19:13] Resultados encontrados: 1
+[2025-12-09 20:19:13] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":43,"Codigo":"00000043","SKU":"CELMAT-FUEJUZ","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description
+[2025-12-09 20:19:13] Descripción final: Productos varios
+[2025-12-09 20:19:13] ✅ Orden encontrada: 0006168 - Total: 5000.000000 - Estatus: 0
+[2025-12-09 20:19:13] Enviando respuesta: {"success":true,"orden":{"id":11992,"code":"0006168","date":"2025-12-09 13:16:35","employee":"REGISTRO CIVIL","total":5000,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:20:17] Iniciando buscar_orden.php
+[2025-12-09 20:20:17] Input recibido: {"folio":"0006166"}
+[2025-12-09 20:20:17] Conexiones a BD establecidas
+[2025-12-09 20:20:17] Buscando orden con folio: 0006166
+[2025-12-09 20:20:17] Resultados encontrados: 1
+[2025-12-09 20:20:17] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":144,"Codigo":"00000144","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"RESIDUOS 
+[2025-12-09 20:20:17] Descripción final: Productos varios
+[2025-12-09 20:20:17] ✅ Orden encontrada: 0006166 - Total: 390.000000 - Estatus: 0
+[2025-12-09 20:20:17] Enviando respuesta: {"success":true,"orden":{"id":11990,"code":"0006166","date":"2025-12-09 13:15:17","employee":"INDUSTRIA COMERCIO","total":390,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:23:51] Iniciando buscar_orden.php
+[2025-12-09 20:23:51] Input recibido: {"folio":"0006170"}
+[2025-12-09 20:23:51] Conexiones a BD establecidas
+[2025-12-09 20:23:51] Buscando orden con folio: 0006170
+[2025-12-09 20:23:51] Resultados encontrados: 1
+[2025-12-09 20:23:51] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":47,"Codigo":"00000047","SKU":"DIS-DPUBLIC","Category":3,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":
+[2025-12-09 20:23:51] Descripción final: Productos varios
+[2025-12-09 20:23:51] ✅ Orden encontrada: 0006170 - Total: 2650.000000 - Estatus: 0
+[2025-12-09 20:23:51] Enviando respuesta: {"success":true,"orden":{"id":11994,"code":"0006170","date":"2025-12-09 13:17:10","employee":"REGISTRO CIVIL","total":2650,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 20:27:58] Iniciando buscar_orden.php
+[2025-12-09 20:27:58] Input recibido: {"folio":"0006165"}
+[2025-12-09 20:27:58] Conexiones a BD establecidas
+[2025-12-09 20:27:58] Buscando orden con folio: 0006165
+[2025-12-09 20:27:58] Resultados encontrados: 1
+[2025-12-09 20:27:58] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":138,"Codigo":"00000138","SKU":"","Category":2,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"PERMISO D
+[2025-12-09 20:27:58] Descripción final: Productos varios
+[2025-12-09 20:27:58] ✅ Orden encontrada: 0006165 - Total: 200.000000 - Estatus: 0
+[2025-12-09 20:27:58] Enviando respuesta: {"success":true,"orden":{"id":11989,"code":"0006165","date":"2025-12-09 13:14:19","employee":"INDUSTRIA COMERCIO","total":200,"estatus":0,"descripcion_articulos":"Productos varios","clientid":1,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}

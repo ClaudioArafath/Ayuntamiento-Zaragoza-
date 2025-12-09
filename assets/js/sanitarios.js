@@ -135,26 +135,6 @@ function guardarOrdenPersonalizada() {
 }
 
 // =============================================
-// INICIALIZACIÓN PRINCIPAL
+// NOTA: La inicialización del dashboard se maneja en main.js
+// Este archivo solo contiene funciones específicas para órdenes personalizadas (sanitarios)
 // =============================================
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Inicializando Dashboard...');
-
-    // Pequeño delay para asegurar que todos los scripts estén cargados
-    setTimeout(function () {
-        inicializarAplicacion();
-
-        // Actualizar datos cada 8 segundos
-        if (typeof datosApp !== 'undefined' && datosApp.rol) {
-            const rolesPermitidos = ['Administrador', 'Presidente', 'admin', 'presidente', 'Empleado', 'empleado'];
-            if (rolesPermitidos.includes(datosApp.rol)) {
-                console.log('Iniciando actualización automática para rol:', datosApp.rol);
-                setInterval(actualizarDatos, 8000);
-            } else {
-                console.log('Actualización automática desactivada para rol:', datosApp.rol);
-            }
-        }
-    }, 100);
-});

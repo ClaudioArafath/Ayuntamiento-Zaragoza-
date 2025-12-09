@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rolesPermitidos = ['Administrador', 'Presidente', 'admin', 'presidente', 'Empleado', 'empleado'];
             if (rolesPermitidos.includes(datosApp.rol)) {
                 console.log('Iniciando actualización automática para rol:', datosApp.rol);
-                setInterval(actualizarDatos, 8000);
+                setInterval(actualizarDatos, 60000); // Sincronizado con sincronizador (60 seg)
             } else {
                 console.log('Actualización automática desactivada para rol:', datosApp.rol);
             }

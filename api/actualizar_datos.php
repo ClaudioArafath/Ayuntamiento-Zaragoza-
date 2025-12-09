@@ -181,6 +181,7 @@ $sql_facturas = "
         (SELECT COUNT(*) FROM ordenes_backup WHERE estatus = 0) as pendientes_count
     FROM ordenes_backup 
     ORDER BY date DESC 
+    LIMIT 10
 ";
 
 $result_facturas = $conn_ayuntamiento->query($sql_facturas);
