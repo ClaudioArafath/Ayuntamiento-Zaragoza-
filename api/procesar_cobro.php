@@ -18,22 +18,24 @@ try {
     $folio = $data['folio'] ?? '';
     $montoRecibido = floatval($data['monto_recibido'] ?? 0);
     $cambio = floatval($data['cambio'] ?? 0);
-    $nombreContribuyente = $data['nombre_contribuyente'] ?? '';
-    $direccionContribuyente = $data['direccion_contribuyente'] ?? '';
+    
+    // Obtener datos del cliente desde client_data
+    $clientData = $data['client_data'] ?? null;
+    if ($clientData) {
+        $nombreContribuyente = $clientData['name'] ?? 'Publico General';
+        $direccionContribuyente = $clientData['address'] ?? 'N/A';
+    } else {
+        // Valores por defecto si no hay client_data
+        $nombreContribuyente = 'Publico General';
+        $direccionContribuyente = 'N/A';
+    }
     
     if (empty($folio)) {
         throw new Exception('Folio vacío');
     }
-    
-    if (empty($nombreContribuyente)) {
-        throw new Exception('Nombre del contribuyente requerido');
-    }
-    
-    if (empty($direccionContribuyente)) {
-        throw new Exception('Dirección del contribuyente requerida');
-    }
 
-    $conn = conectarLycaidosPOS();
+    $conn = conectarAyuntamiento();
+    $connLycaios = conectarLycaidosPOS();
 
     // Buscar orden
     $sql = "SELECT code, date, items, employee, total FROM ordenes_backup WHERE code = ? AND estatus = 0";
@@ -51,6 +53,7 @@ try {
 
     // TRANSACCIÓN
     $conn->begin_transaction();
+    $connLycaios->begin_transaction();
 
     try {
         // PASO 1: Actualizar ordenes_backup
@@ -62,14 +65,14 @@ try {
 
         // PASO 2: Eliminar de ordenes
         $sql2 = "DELETE FROM ordenes WHERE code = ?";
-        $stmt2 = $conn->prepare($sql2);
+        $stmt2 = $connLycaios->prepare($sql2);
         $stmt2->bind_param("s", $folio);
         $stmt2->execute();
         $stmt2->close();
 
         // PASO 3: Insertar en invoice
         $sql_max_invoice = "SELECT MAX(CAST(invoicecode AS UNSIGNED)) as max_code FROM invoice";
-        $result_max = $conn->query($sql_max_invoice);
+        $result_max = $connLycaios->query($sql_max_invoice);
         $next_invoice_code = "0009643";
         
         if ($result_max && $row = $result_max->fetch_assoc()) {
@@ -96,10 +99,10 @@ try {
         
         file_put_contents($log_file, "[$timestamp] Total columnas: " . count($columns) . "\n", FILE_APPEND);
         
-        $stmt3 = $conn->prepare($sql3);
+        $stmt3 = $connLycaios->prepare($sql3);
         
         if (!$stmt3) {
-            throw new Exception("Error preparando INSERT: " . $conn->error);
+            throw new Exception("Error preparando INSERT: " . $connLycaios->error);
         }
         
         // Valores con defaults apropiados
@@ -220,7 +223,7 @@ try {
         );
         
         if ($stmt3->execute()) {
-            $invoice_id = $conn->insert_id;
+            $invoice_id = $connLycaios->insert_id;
             file_put_contents($log_file, "[$timestamp] ✅ Invoice insertado - ID: $invoice_id\n", FILE_APPEND);
         } else {
             throw new Exception("Error ejecutando INSERT: " . $stmt3->error);
@@ -229,6 +232,7 @@ try {
         $stmt3->close();
 
         $conn->commit();
+        $connLycaios->commit();
 
         echo json_encode([
             'success' => true,
@@ -241,10 +245,12 @@ try {
 
     } catch (Exception $e) {
         $conn->rollback();
+        $connLycaios->rollback();
         throw $e;
     }
 
     $conn->close();
+    $connLycaios->close();
 
 } catch (Exception $e) {
     $error_msg = $e->getMessage();

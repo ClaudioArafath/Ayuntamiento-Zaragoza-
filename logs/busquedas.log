@@ -419,3 +419,263 @@
 [2025-12-05 20:35:44] Descripción final: Productos varios
 [2025-12-05 20:35:44] ✅ Orden encontrada: 0000878 - Total: 40.000000 - Estatus: 0
 [2025-12-05 20:35:44] Enviando respuesta: {"success":true,"orden":{"id":4378,"code":"0000878","date":"2025-04-07 13:40:43","employee":"INDUSTRIA COMERCIO","total":40,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-08 22:22:41] Iniciando buscar_orden.php
+[2025-12-08 22:22:41] Input recibido: {"folio":"0006159"}
+[2025-12-08 22:22:41] Conexión a BD establecida
+[2025-12-08 22:22:41] Buscando orden con folio: 0006159
+[2025-12-08 22:22:41] Resultados encontrados: 0
+[2025-12-08 22:22:41] ❌ Error: Orden no encontrada con el folio: 0006159
+[2025-12-08 22:24:46] Iniciando buscar_orden.php
+[2025-12-08 22:24:46] Input recibido: {"folio":"0006159"}
+[2025-12-08 22:24:46] Conexión a BD establecida
+[2025-12-08 22:24:46] Buscando orden con folio: 0006159
+[2025-12-08 22:24:46] Resultados encontrados: 0
+[2025-12-08 22:24:46] ❌ Error: Orden no encontrada con el folio: 0006159
+[2025-12-08 22:25:09] Iniciando buscar_orden.php
+[2025-12-08 22:25:09] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:25:09] Conexión a BD establecida
+[2025-12-08 22:25:09] Buscando orden con folio: 0006160
+[2025-12-08 22:25:09] Resultados encontrados: 0
+[2025-12-08 22:25:09] ❌ Error: Orden no encontrada con el folio: 0006160
+[2025-12-08 22:25:48] Iniciando buscar_orden.php
+[2025-12-08 22:25:48] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:25:48] Conexión a BD establecida
+[2025-12-08 22:25:48] Buscando orden con folio: 0006160
+[2025-12-08 22:25:48] Resultados encontrados: 0
+[2025-12-08 22:25:48] ❌ Error: Orden no encontrada con el folio: 0006160
+[2025-12-08 22:26:13] Iniciando buscar_orden.php
+[2025-12-08 22:26:13] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:26:13] Conexión a BD establecida
+[2025-12-08 22:26:13] Buscando orden con folio: 0006160
+[2025-12-08 22:26:13] Resultados encontrados: 0
+[2025-12-08 22:26:13] ❌ Error: Orden no encontrada con el folio: 0006160
+[2025-12-08 22:26:42] Iniciando buscar_orden.php
+[2025-12-08 22:26:42] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:26:42] Conexión a BD establecida
+[2025-12-08 22:26:42] Buscando orden con folio: 0006160
+[2025-12-08 22:26:42] Resultados encontrados: 0
+[2025-12-08 22:26:42] ❌ Error: Orden no encontrada con el folio: 0006160
+[2025-12-08 22:26:53] Iniciando buscar_orden.php
+[2025-12-08 22:26:53] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:26:53] Conexión a BD establecida
+[2025-12-08 22:26:53] Buscando orden con folio: 0006160
+[2025-12-08 22:26:53] Resultados encontrados: 0
+[2025-12-08 22:26:53] ❌ Error: Orden no encontrada con el folio: 0006160
+[2025-12-08 22:29:30] Iniciando buscar_orden.php
+[2025-12-08 22:29:30] Input recibido: {"folio":"0006160"}
+[2025-12-08 22:29:30] Conexión a BD establecida
+[2025-12-08 22:29:30] Buscando orden con folio: 0006160
+[2025-12-08 22:29:30] Resultados encontrados: 1
+[2025-12-08 22:29:30] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":19,"Codigo":"00000019","SKU":"BVD-IRN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"BÓ
+[2025-12-08 22:29:30] Descripción final: Productos varios
+[2025-12-08 22:29:30] ✅ Orden encontrada: 0006160 - Total: 630.500000 - Estatus: 0
+[2025-12-08 22:29:30] Enviando respuesta: {"success":true,"orden":{"id":11982,"code":"0006160","date":"2025-12-08 15:23:49","employee":"PANTEONES PARQUES Y JARDINES","total":630.5,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-08 22:31:23] Iniciando buscar_orden.php
+[2025-12-08 22:31:23] Input recibido: {"folio":"0006159"}
+[2025-12-08 22:31:23] Conexión a BD establecida
+[2025-12-08 22:31:23] Buscando orden con folio: 0006159
+[2025-12-08 22:31:23] Resultados encontrados: 1
+[2025-12-08 22:31:23] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":22,"Codigo":"00000022","SKU":"CRDMM","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CONST
+[2025-12-08 22:31:23] Descripción final: Productos varios
+[2025-12-08 22:31:23] ✅ Orden encontrada: 0006159 - Total: 122.000000 - Estatus: 0
+[2025-12-08 22:31:23] Enviando respuesta: {"success":true,"orden":{"id":11981,"code":"0006159","date":"2025-12-08 15:15:02","employee":"PANTEONES PARQUES Y JARDINES","total":122,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-08 23:42:52] Iniciando buscar_orden.php
+[2025-12-08 23:42:52] Input recibido: {"folio":"0006156"}
+[2025-12-08 23:42:52] Conexión a BD establecida
+[2025-12-08 23:42:52] Buscando orden con folio: 0006156
+[2025-12-08 23:42:52] Resultados encontrados: 1
+[2025-12-08 23:42:52] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":33,"Codigo":"00000033","SKU":"INH-CDG","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"INH
+[2025-12-08 23:42:52] Descripción final: Productos varios
+[2025-12-08 23:42:52] ✅ Orden encontrada: 0006156 - Total: 1975.500000 - Estatus: 0
+[2025-12-08 23:42:52] Enviando respuesta: {"success":true,"orden":{"id":11978,"code":"0006156","date":"2025-12-08 15:03:27","employee":"PANTEONES PARQUES Y JARDINES","total":1975.5,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-08 23:56:15] Iniciando buscar_orden.php
+[2025-12-08 23:56:15] Input recibido: {"folio":"0006155"}
+[2025-12-08 23:56:15] Conexión a BD establecida
+[2025-12-08 23:56:15] Buscando orden con folio: 0006155
+[2025-12-08 23:56:15] Resultados encontrados: 1
+[2025-12-08 23:56:15] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":31,"Codigo":"00000031","SKU":"FOS-APA","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-08 23:56:15] Descripción final: Productos varios
+[2025-12-08 23:56:15] ✅ Orden encontrada: 0006155 - Total: 1403.105000 - Estatus: 0
+[2025-12-08 23:56:15] Enviando respuesta: {"success":true,"orden":{"id":11977,"code":"0006155","date":"2025-12-08 15:02:38","employee":"PANTEONES PARQUES Y JARDINES","total":1403.105,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-08 23:56:29] Iniciando buscar_orden.php
+[2025-12-08 23:56:29] Input recibido: {"folio":"0006155"}
+[2025-12-08 23:56:29] Conexión a BD establecida
+[2025-12-08 23:56:29] Buscando orden con folio: 0006155
+[2025-12-08 23:56:29] Resultados encontrados: 1
+[2025-12-08 23:56:29] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":31,"Codigo":"00000031","SKU":"FOS-APA","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-08 23:56:29] Descripción final: Productos varios
+[2025-12-08 23:56:29] ✅ Orden encontrada: 0006155 - Total: 1403.105000 - Estatus: 0
+[2025-12-08 23:56:29] Enviando respuesta: {"success":true,"orden":{"id":11977,"code":"0006155","date":"2025-12-08 15:02:38","employee":"PANTEONES PARQUES Y JARDINES","total":1403.105,"estatus":0,"descripcion_articulos":"Productos varios"}}
+[2025-12-09 00:10:47] Iniciando buscar_orden.php
+[2025-12-09 00:10:47] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:10:47] Conexión a BD establecida
+[2025-12-09 00:10:47] Buscando orden con folio: 0006155
+[2025-12-09 00:10:47] ❌ Error: Table 'lycaios_pos.clients' doesn't exist
+[2025-12-09 00:10:48] Iniciando buscar_orden.php
+[2025-12-09 00:10:48] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:10:48] Conexión a BD establecida
+[2025-12-09 00:10:48] Buscando orden con folio: 0006155
+[2025-12-09 00:10:48] ❌ Error: Table 'lycaios_pos.clients' doesn't exist
+[2025-12-09 00:11:25] Iniciando buscar_orden.php
+[2025-12-09 00:11:25] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:11:25] Conexión a BD establecida
+[2025-12-09 00:11:25] Buscando orden con folio: 0006155
+[2025-12-09 00:11:25] ❌ Error: Table 'lycaios_pos.clients' doesn't exist
+[2025-12-09 00:12:12] Iniciando buscar_orden.php
+[2025-12-09 00:12:12] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:12:12] Conexión a BD establecida
+[2025-12-09 00:12:12] Buscando orden con folio: 0006155
+[2025-12-09 00:12:12] ❌ Error: Table 'lycaios_pos.clients' doesn't exist
+[2025-12-09 00:15:44] Iniciando buscar_orden.php
+[2025-12-09 00:15:44] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:15:44] Conexiones a BD establecidas
+[2025-12-09 00:15:44] Buscando orden con folio: 0006155
+[2025-12-09 00:15:44] Resultados encontrados: 1
+[2025-12-09 00:15:44] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":31,"Codigo":"00000031","SKU":"FOS-APA","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 00:15:44] Descripción final: Productos varios
+[2025-12-09 00:15:44] ✅ Orden encontrada: 0006155 - Total: 1403.105000 - Estatus: 0
+[2025-12-09 00:15:44] Enviando respuesta: {"success":true,"orden":{"id":11977,"code":"0006155","date":"2025-12-08 15:02:38","employee":"PANTEONES PARQUES Y JARDINES","total":1403.105,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:17:54] Iniciando buscar_orden.php
+[2025-12-09 00:17:54] Input recibido: {"folio":"0006161"}
+[2025-12-09 00:17:54] Conexiones a BD establecidas
+[2025-12-09 00:17:54] Buscando orden con folio: 0006161
+[2025-12-09 00:17:54] Resultados encontrados: 1
+[2025-12-09 00:17:54] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":21,"Codigo":"00000021","SKU":"CON-DBN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CON
+[2025-12-09 00:17:54] Descripción final: Productos varios
+[2025-12-09 00:17:54] ✅ Orden encontrada: 0006161 - Total: 250.000000 - Estatus: 0
+[2025-12-09 00:17:54] Enviando respuesta: {"success":true,"orden":{"id":11985,"code":"0006161","date":"2025-12-08 16:38:19","employee":"PANTEONES PARQUES Y JARDINES","total":250,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:18:32] Iniciando buscar_orden.php
+[2025-12-09 00:18:32] Input recibido: {"folio":"0006161"}
+[2025-12-09 00:18:32] Conexiones a BD establecidas
+[2025-12-09 00:18:32] Buscando orden con folio: 0006161
+[2025-12-09 00:18:32] Resultados encontrados: 1
+[2025-12-09 00:18:32] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":21,"Codigo":"00000021","SKU":"CON-DBN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CON
+[2025-12-09 00:18:32] Descripción final: Productos varios
+[2025-12-09 00:18:32] ✅ Orden encontrada: 0006161 - Total: 250.000000 - Estatus: 0
+[2025-12-09 00:18:32] Enviando respuesta: {"success":true,"orden":{"id":11985,"code":"0006161","date":"2025-12-08 16:38:19","employee":"PANTEONES PARQUES Y JARDINES","total":250,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:22:58] Iniciando buscar_orden.php
+[2025-12-09 00:22:58] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:22:58] Conexiones a BD establecidas
+[2025-12-09 00:22:58] Buscando orden con folio: 0006155
+[2025-12-09 00:22:58] Resultados encontrados: 1
+[2025-12-09 00:22:58] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":31,"Codigo":"00000031","SKU":"FOS-APA","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 00:22:58] Descripción final: Productos varios
+[2025-12-09 00:22:58] ✅ Orden encontrada: 0006155 - Total: 1403.105000 - Estatus: 0
+[2025-12-09 00:22:58] Enviando respuesta: {"success":true,"orden":{"id":11977,"code":"0006155","date":"2025-12-08 15:02:38","employee":"PANTEONES PARQUES Y JARDINES","total":1403.105,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:23:07] Iniciando buscar_orden.php
+[2025-12-09 00:23:07] Input recibido: {"folio":"0006161"}
+[2025-12-09 00:23:07] Conexiones a BD establecidas
+[2025-12-09 00:23:07] Buscando orden con folio: 0006161
+[2025-12-09 00:23:07] Resultados encontrados: 1
+[2025-12-09 00:23:07] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":21,"Codigo":"00000021","SKU":"CON-DBN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CON
+[2025-12-09 00:23:07] Descripción final: Productos varios
+[2025-12-09 00:23:07] ✅ Orden encontrada: 0006161 - Total: 250.000000 - Estatus: 0
+[2025-12-09 00:23:07] Enviando respuesta: {"success":true,"orden":{"id":11985,"code":"0006161","date":"2025-12-08 16:38:19","employee":"PANTEONES PARQUES Y JARDINES","total":250,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:39:45] Iniciando buscar_orden.php
+[2025-12-09 00:39:45] Input recibido: {"folio":"0006155"}
+[2025-12-09 00:39:45] Conexiones a BD establecidas
+[2025-12-09 00:39:45] Buscando orden con folio: 0006155
+[2025-12-09 00:39:45] Resultados encontrados: 1
+[2025-12-09 00:39:45] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":31,"Codigo":"00000031","SKU":"FOS-APA","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 00:39:45] Descripción final: Productos varios
+[2025-12-09 00:39:45] ✅ Orden encontrada: 0006155 - Total: 1403.105000 - Estatus: 0
+[2025-12-09 00:39:45] Enviando respuesta: {"success":true,"orden":{"id":11977,"code":"0006155","date":"2025-12-08 15:02:38","employee":"PANTEONES PARQUES Y JARDINES","total":1403.105,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:54:22] Iniciando buscar_orden.php
+[2025-12-09 00:54:22] Input recibido: {"folio":"0006161"}
+[2025-12-09 00:54:22] Conexiones a BD establecidas
+[2025-12-09 00:54:22] Buscando orden con folio: 0006161
+[2025-12-09 00:54:22] Resultados encontrados: 1
+[2025-12-09 00:54:22] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":21,"Codigo":"00000021","SKU":"CON-DBN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CON
+[2025-12-09 00:54:22] Descripción final: Productos varios
+[2025-12-09 00:54:22] ✅ Orden encontrada: 0006161 - Total: 250.000000 - Estatus: 0
+[2025-12-09 00:54:22] Enviando respuesta: {"success":true,"orden":{"id":11985,"code":"0006161","date":"2025-12-08 16:38:19","employee":"PANTEONES PARQUES Y JARDINES","total":250,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:56:27] Iniciando buscar_orden.php
+[2025-12-09 00:56:27] Input recibido: {"folio":"0006161"}
+[2025-12-09 00:56:27] Conexiones a BD establecidas
+[2025-12-09 00:56:27] Buscando orden con folio: 0006161
+[2025-12-09 00:56:27] Resultados encontrados: 1
+[2025-12-09 00:56:27] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":21,"Codigo":"00000021","SKU":"CON-DBN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"CON
+[2025-12-09 00:56:27] Descripción final: Productos varios
+[2025-12-09 00:56:27] ✅ Orden encontrada: 0006161 - Total: 250.000000 - Estatus: 0
+[2025-12-09 00:56:27] Enviando respuesta: {"success":true,"orden":{"id":11985,"code":"0006161","date":"2025-12-08 16:38:19","employee":"PANTEONES PARQUES Y JARDINES","total":250,"estatus":0,"descripcion_articulos":"Productos varios","clientid":0,"client":{"name":"Publico General","address":"N\/A","phone":"","email":"","rfc":"","razonsocial":""}}}
+[2025-12-09 00:58:57] Iniciando buscar_orden.php
+[2025-12-09 00:58:57] Input recibido: {"folio":"0006162"}
+[2025-12-09 00:58:57] Conexiones a BD establecidas
+[2025-12-09 00:58:57] Buscando orden con folio: 0006162
+[2025-12-09 00:58:57] Resultados encontrados: 1
+[2025-12-09 00:58:57] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 00:58:57] Descripción final: Productos varios
+[2025-12-09 00:58:57] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 00:58:57] Enviando respuesta: 
+[2025-12-09 00:59:06] Iniciando buscar_orden.php
+[2025-12-09 00:59:06] Input recibido: {"folio":"0006162"}
+[2025-12-09 00:59:06] Conexiones a BD establecidas
+[2025-12-09 00:59:06] Buscando orden con folio: 0006162
+[2025-12-09 00:59:06] Resultados encontrados: 1
+[2025-12-09 00:59:06] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 00:59:06] Descripción final: Productos varios
+[2025-12-09 00:59:06] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 00:59:06] Enviando respuesta: 
+[2025-12-09 01:01:05] Iniciando buscar_orden.php
+[2025-12-09 01:01:05] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:01:05] Conexiones a BD establecidas
+[2025-12-09 01:01:05] Buscando orden con folio: 0006162
+[2025-12-09 01:01:05] Resultados encontrados: 1
+[2025-12-09 01:01:05] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:01:05] Descripción final: Productos varios
+[2025-12-09 01:01:05] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:01:05] Enviando respuesta: 
+[2025-12-09 01:03:45] Iniciando buscar_orden.php
+[2025-12-09 01:03:45] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:03:45] Conexiones a BD establecidas
+[2025-12-09 01:03:45] Buscando orden con folio: 0006162
+[2025-12-09 01:03:45] Resultados encontrados: 1
+[2025-12-09 01:03:45] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:03:45] Descripción final: Productos varios
+[2025-12-09 01:03:45] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:03:45] Enviando respuesta: 
+[2025-12-09 01:09:25] Iniciando buscar_orden.php
+[2025-12-09 01:09:25] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:09:25] Conexiones a BD establecidas
+[2025-12-09 01:09:25] Buscando orden con folio: 0006162
+[2025-12-09 01:09:25] Resultados encontrados: 1
+[2025-12-09 01:09:25] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:09:25] Descripción final: Productos varios
+[2025-12-09 01:09:25] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:09:25] Enviando respuesta: 
+[2025-12-09 01:10:54] Iniciando buscar_orden.php
+[2025-12-09 01:10:54] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:10:54] Conexiones a BD establecidas
+[2025-12-09 01:10:54] Buscando orden con folio: 0006162
+[2025-12-09 01:10:54] Resultados encontrados: 1
+[2025-12-09 01:10:54] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:10:54] Descripción final: Productos varios
+[2025-12-09 01:10:54] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:10:54] Enviando respuesta: 
+[2025-12-09 01:12:03] Iniciando buscar_orden.php
+[2025-12-09 01:12:03] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:12:03] Conexiones a BD establecidas
+[2025-12-09 01:12:03] Buscando orden con folio: 0006162
+[2025-12-09 01:12:03] Resultados encontrados: 1
+[2025-12-09 01:12:03] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:12:03] Descripción final: Productos varios
+[2025-12-09 01:12:03] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:12:03] Enviando respuesta: 
+[2025-12-09 01:12:28] Iniciando buscar_orden.php
+[2025-12-09 01:12:28] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:12:28] Conexiones a BD establecidas
+[2025-12-09 01:12:28] Buscando orden con folio: 0006162
+[2025-12-09 01:12:28] Resultados encontrados: 1
+[2025-12-09 01:12:28] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:12:28] Descripción final: Productos varios
+[2025-12-09 01:12:28] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:12:28] Enviando respuesta: 
+[2025-12-09 01:14:39] Iniciando buscar_orden.php
+[2025-12-09 01:14:39] Input recibido: {"folio":"0006162"}
+[2025-12-09 01:14:39] Conexiones a BD establecidas
+[2025-12-09 01:14:39] Buscando orden con folio: 0006162
+[2025-12-09 01:14:39] Resultados encontrados: 1
+[2025-12-09 01:14:39] Items crudos: [{"isPrint":false,"isPromo":false,"isKDA":false,"ID":32,"Codigo":"00000032","SKU":"FOS-APN","Category":5,"isCombo":false,"ChildID":0,"ComboType":0,"MembershipDays":0,"ProveedorID":0,"Description":"FOS
+[2025-12-09 01:14:39] Descripción final: Productos varios
+[2025-12-09 01:14:39] ✅ Orden encontrada: 0006162 - Total: 1050.500000 - Estatus: 0
+[2025-12-09 01:14:39] Enviando respuesta: {"success":true,"orden":{"id":11986,"code":"0006162","date":"2025-12-08 17:58:07","employee":"PANTEONES PARQUES Y JARDINES","total":1050.5,"estatus":0,"descripcion_articulos":"Productos varios","clientid":6971,"client":{"name":"Claudio Arafath Hern?ndez Salazar","address":"2 Poniente 726","phone":"","email":"","rfc":"","razonsocial":""}}}

@@ -6,7 +6,7 @@ require_once '../config/database.php';
 
 try {
     // Conectar a la base de datos
-    $conn = conectarLycaidosPOS();
+    $conn = conectarAyuntamiento(); // sanitarios migrada a ayuntamiento
     
     // Obtener el último folio
     $stmt = $conn->prepare("SELECT folio FROM sanitarios ORDER BY id DESC LIMIT 1");

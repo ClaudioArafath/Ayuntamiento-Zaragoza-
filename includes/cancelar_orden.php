@@ -16,23 +16,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    $conn = conectarLycaidosPOS();
+    // Conectar a ambas bases de datos
+    $connAyuntamiento = conectarAyuntamiento(); // Para ordenes_backup
+    $connLycaios = conectarLycaidosPOS();       // Para ordenes
     
-    if ($conn->connect_error) {
+    if ($connAyuntamiento->connect_error || $connLycaios->connect_error) {
         echo json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos']);
         exit;
     }
     
     try {
-        // Preparar y ejecutar la consulta para eliminar por la columna 'code'
-        $stmt = $conn->prepare("DELETE FROM ordenes_backup WHERE code = ?");
-        $stmt->bind_param("s", $folio);
-        $stmt->execute();
+        $eliminadosBackup = 0;
+        $eliminadosOriginal = 0;
         
-        if ($stmt->affected_rows > 0) {
+        // PASO 1: Eliminar de ordenes_backup en ayuntamiento
+        $stmt1 = $connAyuntamiento->prepare("DELETE FROM ordenes_backup WHERE code = ?");
+        $stmt1->bind_param("s", $folio);
+        $stmt1->execute();
+        $eliminadosBackup = $stmt1->affected_rows;
+        $stmt1->close();
+        
+        // PASO 2: Eliminar de ordenes en lycaios_pos (para que no aparezca en el software)
+        $stmt2 = $connLycaios->prepare("DELETE FROM ordenes WHERE code = ?");
+        $stmt2->bind_param("s", $folio);
+        $stmt2->execute();
+        $eliminadosOriginal = $stmt2->affected_rows;
+        $stmt2->close();
+        
+        if ($eliminadosBackup > 0 || $eliminadosOriginal > 0) {
             echo json_encode([
                 'success' => true, 
-                'message' => "Orden $folio eliminado correctamente"
+                'message' => "Orden $folio cancelada correctamente"
             ]);
         } else {
             echo json_encode([
@@ -41,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
         
-        $stmt->close();
-        $conn->close();
+        $connAyuntamiento->close();
+        $connLycaios->close();
         
     } catch (Exception $e) {
         // Log del error sin mostrar detalles sensibles al usuario

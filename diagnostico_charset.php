@@ -35,7 +35,7 @@ echo "<body>\n";
 echo "<div class='container'>\n";
 echo "<h1>🔍 Diagnóstico de Codificación UTF-8</h1>\n";
 
-$conn = conectarLycaidosPOS();
+$conn = conectarAyuntamiento(); // ordenes_backup migrada a ayuntamiento
 
 if (!$conn) {
     echo "<div class='error'>❌ Error: No se pudo conectar a la base de datos</div>";

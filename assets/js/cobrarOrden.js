@@ -70,12 +70,8 @@
 
         const folioInput = document.getElementById('folio');
         const montoInput = document.getElementById('monto-recibido');
-        const nombreInput = document.getElementById('nombre-contribuyente');
-        const direccionInput = document.getElementById('direccion-contribuyente');
         if (folioInput) folioInput.value = '';
         if (montoInput) montoInput.value = '';
-        if (nombreInput) nombreInput.value = '';
-        if (direccionInput) direccionInput.value = '';
     }
 
     // Buscar orden en la base de datos
@@ -215,22 +211,10 @@
 
         const montoRecibido = parseFloat(document.getElementById('monto-recibido').value) || 0;
         const total = parseFloat(ordenActual.total);
-        const nombreContribuyente = document.getElementById('nombre-contribuyente').value.trim();
-        const direccionContribuyente = document.getElementById('direccion-contribuyente').value.trim();
 
         console.log('Monto recibido:', montoRecibido, 'Total:', total);
 
         // Validar campos requeridos
-        if (!nombreContribuyente) {
-            mostrarError('Por favor ingrese el nombre del contribuyente');
-            return;
-        }
-
-        if (!direccionContribuyente) {
-            mostrarError('Por favor ingrese la dirección del contribuyente');
-            return;
-        }
-
         if (montoRecibido < total) {
             mostrarError('El monto recibido es insuficiente para realizar el cobro');
             return;
@@ -244,14 +228,6 @@
         }
 
         try {
-            console.log('Enviando datos al servidor...', {
-                folio: ordenActual.code,
-                monto_recibido: montoRecibido,
-                cambio: montoRecibido - total,
-                nombre_contribuyente: nombreContribuyente,
-                direccion_contribuyente: direccionContribuyente
-            });
-
             const response = await fetch('api/procesar_cobro.php', {
                 method: 'POST',
                 headers: {
@@ -261,8 +237,7 @@
                     folio: ordenActual.code,
                     monto_recibido: montoRecibido,
                     cambio: montoRecibido - total,
-                    nombre_contribuyente: nombreContribuyente,
-                    direccion_contribuyente: direccionContribuyente
+                    client_data: ordenActual.client  // Enviar datos del cliente desde la orden
                 })
             });
 

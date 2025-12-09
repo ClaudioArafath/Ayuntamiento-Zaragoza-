@@ -10,7 +10,7 @@ if (!$id) {
 }
 
 // Obtener datos de la orden
-$conn = conectarLycaidosPOS();
+$conn = conectarAyuntamiento(); // sanitarios migrada a ayuntamiento
 $stmt = $conn->prepare("SELECT * FROM sanitarios WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();

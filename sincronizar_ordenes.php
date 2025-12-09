@@ -60,8 +60,8 @@ try {
     $omitidas = 0;
     
     $stmt_insert = $connAyuntamiento->prepare(
-        "INSERT INTO ordenes_backup (code, date, items, employee, total, estatus) 
-         VALUES (?, ?, ?, ?, ?, 0)"
+        "INSERT INTO ordenes_backup (code, clientid, date, items, employee, total, estatus) 
+         VALUES (?, ?, ?, ?, ?, ?, 0)"
     );
     
     if (!$stmt_insert) {
@@ -77,8 +77,9 @@ try {
         
         // Insertar nueva orden
         $stmt_insert->bind_param(
-            "ssssd",
+            "sisssd",
             $orden['code'],
+            $orden['clientid'],
             $orden['date'],
             $orden['items'],
             $orden['employee'],

@@ -31,9 +31,11 @@ try {
         throw new Exception('Folio no proporcionado');
     }
 
-    // Conectar a la base de datos
-    $conn = conectarLycaidosPOS();
-    file_put_contents($log_file, "[$timestamp] Conexión a BD establecida\n", FILE_APPEND);
+    // Conectar a ambas bases de datos
+    $connAyuntamiento = conectarAyuntamiento(); // Para ordenes_backup
+    $connLycaios = conectarLycaidosPOS();       // Para clients
+    
+    file_put_contents($log_file, "[$timestamp] Conexiones a BD establecidas\n", FILE_APPEND);
     
     // Limpiar el folio (remover ceros a la izquierda si es necesario)
     $folio_limpio = ltrim($folio, '0');
@@ -41,17 +43,17 @@ try {
 
     file_put_contents($log_file, "[$timestamp] Buscando orden con folio: $folio_limpio\n", FILE_APPEND);
 
-    // Buscar la orden en ordenes_backup
-    $sql = "SELECT id, code, date, items, employee, total, estatus 
+    // PASO 1: Buscar la orden en ordenes_backup
+    $sql = "SELECT id, code, date, items, employee, total, estatus, clientid
             FROM ordenes_backup 
             WHERE code = ? 
             ORDER BY id DESC 
             LIMIT 1";
     
-    $stmt = $conn->prepare($sql);
+    $stmt = $connAyuntamiento->prepare($sql);
     
     if (!$stmt) {
-        throw new Exception('Error preparando consulta: ' . $conn->error);
+        throw new Exception('Error preparando consulta: ' . $connAyuntamiento->error);
     }
     
     $stmt->bind_param("s", $folio_limpio);
@@ -65,6 +67,47 @@ try {
     }
 
     $orden = $result->fetch_assoc();
+    $stmt->close();
+
+    // PASO 2: Si hay clientid, buscar datos del cliente en lycaios_pos
+    $client_data = null;
+    if (!empty($orden['clientid']) && $orden['clientid'] > 1) {
+        $sql_client = "SELECT name, direcction, phone, email, rfc, razonsocial 
+                       FROM clients 
+                       WHERE id = ?";
+        
+        $stmt_client = $connLycaios->prepare($sql_client);
+        if ($stmt_client) {
+            $stmt_client->bind_param("i", $orden['clientid']);
+            $stmt_client->execute();
+            $result_client = $stmt_client->get_result();
+            
+            if ($result_client->num_rows > 0) {
+                $client_row = $result_client->fetch_assoc();
+                $client_data = [
+                    'name' => $client_row['name'] ?? 'Publico General',
+                    'address' => $client_row['direcction'] ?? '',
+                    'phone' => $client_row['phone'] ?? '',
+                    'email' => $client_row['email'] ?? '',
+                    'rfc' => $client_row['rfc'] ?? '',
+                    'razonsocial' => $client_row['razonsocial'] ?? ''
+                ];
+            }
+            $stmt_client->close();
+        }
+    }
+    
+    // Si no se encontró cliente o es Publico General, usar valores predeterminados
+    if ($client_data === null) {
+        $client_data = [
+            'name' => 'Publico General',
+            'address' => 'N/A',
+            'phone' => '',
+            'email' => '',
+            'rfc' => '',
+            'razonsocial' => ''
+        ];
+    }
 
     // MEJORADO: Procesar items para obtener descripción de manera más robusta
     $descripcion_articulos = 'Productos varios';
@@ -112,17 +155,33 @@ try {
             'employee' => $orden['employee'],
             'total' => floatval($orden['total']),
             'estatus' => intval($orden['estatus']),
-            'descripcion_articulos' => $descripcion_articulos
+            'descripcion_articulos' => $descripcion_articulos,
+            'clientid' => intval($orden['clientid'] ?? 0),
+            'client' => $client_data
         ]
     ];
 
     file_put_contents($log_file, "[$timestamp] ✅ Orden encontrada: " . $orden['code'] . " - Total: " . $orden['total'] . " - Estatus: " . $orden['estatus'] . "\n", FILE_APPEND);
 
-    $stmt->close();
-    $conn->close();
+    // Asegurar que todos los strings estén en UTF-8
+    array_walk_recursive($response, function(&$item) {
+        if (is_string($item)) {
+            $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+        }
+    });
 
-    file_put_contents($log_file, "[$timestamp] Enviando respuesta: " . json_encode($response) . "\n", FILE_APPEND);
-    echo json_encode($response);
+    $json_response = json_encode($response);
+    if ($json_response === false) {
+        $json_error = json_last_error_msg();
+        file_put_contents($log_file, "[$timestamp] ❌ Error JSON encode: $json_error\n", FILE_APPEND);
+        throw new Exception("Error al codificar JSON: $json_error");
+    }
+    
+    file_put_contents($log_file, "[$timestamp] Enviando respuesta: " . $json_response . "\n", FILE_APPEND);
+    echo $json_response;
+    
+    $connAyuntamiento->close();
+    $connLycaios->close();
 
 } catch (Exception $e) {
     $error_message = $e->getMessage();

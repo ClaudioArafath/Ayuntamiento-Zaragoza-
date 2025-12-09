@@ -23,14 +23,15 @@ try {
         }
     }
     
-    $conn = conectarLycaidosPOS();
+    $conn_lycaios = conectarLycaidosPOS();      // Para ordenes
+    $conn_ayuntamiento_delete = conectarAyuntamiento(); // Para ordenes_backup
     
     // Calcular fecha límite (5 días hábiles atrás)
     $fechaLimite = calcularFechaLimite();
     
     // 1. PRIMERO: Contar registros que se eliminarán (para logging)
     $queryContar = "SELECT COUNT(*) as total FROM ordenes_backup WHERE date < ? AND estatus = 0";
-    $stmtContar = $conn->prepare($queryContar);
+    $stmtContar = $conn_ayuntamiento_delete->prepare($queryContar);
     $stmtContar->bind_param("s", $fechaLimite);
     $stmtContar->execute();
     $resultado = $stmtContar->get_result();
@@ -43,7 +44,7 @@ try {
     
     // 2. ELIMINAR de ordenes_backup (tu tabla)
     $queryBackup = "DELETE FROM ordenes_backup WHERE date < ? AND estatus = 0";
-    $stmtBackup = $conn->prepare($queryBackup);
+    $stmtBackup = $conn_ayuntamiento_delete->prepare($queryBackup);
     $stmtBackup->bind_param("s", $fechaLimite);
     
     if ($stmtBackup->execute()) {
@@ -53,7 +54,7 @@ try {
     
     // 3. ELIMINAR de ordenes (tabla original de Lycaios)
     $queryOriginal = "DELETE FROM ordenes WHERE date < ? AND estatus = 0";
-    $stmtOriginal = $conn->prepare($queryOriginal);
+    $stmtOriginal = $conn_lycaios->prepare($queryOriginal);
     $stmtOriginal->bind_param("s", $fechaLimite);
     
     if ($stmtOriginal->execute()) {
@@ -61,7 +62,8 @@ try {
     }
     $stmtOriginal->close();
     
-    $conn->close();
+    $conn_lycaios->close();
+    $conn_ayuntamiento_delete->close();
     
     // Respuesta con detalles de ambas eliminaciones
     $response = [

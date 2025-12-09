@@ -16,8 +16,9 @@ try {
         throw new Exception('Folio no proporcionado');
     }
 
-    // Conectar a la base de datos
-    $conn = conectarLycaidosPOS();
+    // Conectar a ambas bases de datos
+    $conn_lycaios = conectarLycaidosPOS();      // Para invoice
+    $conn_ayuntamiento = conectarAyuntamiento(); // Para ordenes_backup
     
     // Limpiar el folio (remover ceros a la izquierda si es necesario)
     $folio_limpio = ltrim($folio, '0');
@@ -30,10 +31,10 @@ try {
             ORDER BY id DESC 
             LIMIT 1";
     
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn_lycaios->prepare($sql);
     
     if (!$stmt) {
-        throw new Exception('Error preparando consulta: ' . $conn->error);
+        throw new Exception('Error preparando consulta: ' . $conn_lycaios->error);
     }
     
     $stmt->bind_param("s", $folio_limpio);
@@ -48,7 +49,7 @@ try {
                        ORDER BY id DESC 
                        LIMIT 1";
         
-        $stmt_backup = $conn->prepare($sql_backup);
+        $stmt_backup = $conn_ayuntamiento->prepare($sql_backup);
         $stmt_backup->bind_param("s", $folio_limpio);
         $stmt_backup->execute();
         $result_backup = $stmt_backup->get_result();
@@ -80,7 +81,8 @@ try {
     ];
 
     $stmt->close();
-    $conn->close();
+    $conn_lycaios->close();
+    $conn_ayuntamiento->close();
 
     echo json_encode($response);
 

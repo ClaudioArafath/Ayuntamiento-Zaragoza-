@@ -14,7 +14,7 @@ if (empty($folio_code)) {
     $error_message = 'No se proporcionó un código de comprobante válido';
 } else {
     try {
-        $conn = conectarLycaidosPOS();
+        $conn = conectarAyuntamiento(); // sanitarios migrada a ayuntamiento
         
         // Consultar el comprobante de sanitarios
         $sql = "SELECT id, folio, nombre_cliente, cantidad_total, descripcion, fecha_creacion

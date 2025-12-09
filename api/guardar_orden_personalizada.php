@@ -17,7 +17,7 @@ if (empty($nombre_cliente) || empty($cantidad_total)) {
 
 try {
     // Conectar a la base de datos
-    $conn = conectarLycaidosPOS();
+    $conn = conectarAyuntamiento(); // sanitarios migrada a ayuntamiento
     
     // Generar folio automático incremental
     $stmt = $conn->prepare("SELECT folio FROM sanitarios ORDER BY id DESC LIMIT 1");

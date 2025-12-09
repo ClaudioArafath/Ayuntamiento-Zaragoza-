@@ -23,6 +23,7 @@ $mes_seleccionado = isset($_GET['mes']) ? $_GET['mes'] : date('Y-m');
 
 // Conexión a base de datos principal
 $conn_lycaios = conectarLycaidosPOS();
+$conn_ayuntamiento = conectarAyuntamiento(); // Para ordenes_backup
 
 // Consultas según el rol
 if ($rol === 'Administrador' || $rol === 'Presidente') {
@@ -41,6 +42,7 @@ require_once 'includes/queries_common.php';
 $ordenes_iniciales = $cobros_con_categoria;
 
 $conn_lycaios->close();
+$conn_ayuntamiento->close();
     ?>
         <?php include 'includes/header.php'; ?>
 
