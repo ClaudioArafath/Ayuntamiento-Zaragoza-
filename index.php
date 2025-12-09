@@ -62,6 +62,8 @@ $conn_ayuntamiento->close();
 <?php include 'components/modalCobrarOrden.php'; ?>
     <!-- Incluir modal para orden personalizada -->
 <?php include 'components/modalOrdenPersonalizada.php'; ?>
+    <!-- Incluir modal para modificar factura -->
+<?php include 'components/modalModificarFactura.php'; ?>
 
 <!-- Definir datosApp ANTES de cargar cualquier script -->
 <script>
@@ -113,5 +115,6 @@ try {
 <script src="assets/js/sanitarios.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/cancelarOrden.js" defer></script>
+<script src="assets/js/modificarFactura.js" defer></script>
 
 <?php include 'includes/footer.php'; ?>

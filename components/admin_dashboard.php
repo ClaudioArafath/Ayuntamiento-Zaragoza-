@@ -19,7 +19,6 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
         </div>
     </div>
     
-    <!-- Herramientas rápidas para Administradores -->
     <div class="mb-6">
         <div class="data-card bg-white shadow-lg">
             <h3 class="text-lg font-semibold mb-4">Herramientas Rápidas</h3>
@@ -30,9 +29,13 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
                 <button onclick="window.location.href='deactivate_user.php'" class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg flex items-center">
                     <span class="text-2xl mr-2">🚫</span>Dar de baja usuario
                 </button>
+                <button onclick="abrirModalModificarFactura()" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg flex items-center">
+                    <span class="text-2xl mr-2">📝</span>Modificar Factura
+                </button>
             </div>
         </div>
     </div>
+
     
     <!-- Grid de gráficas -->
     <div class="dashboard-grid mb-6">          
