@@ -238,7 +238,7 @@ function actualizarTablaOrdenes(ordenes) {
     if (ordenes.length === 0) {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td colspan="7" class="px-4 py-4 text-center text-gray-500 border">
+            <td colspan="8" class="px-4 py-4 text-center text-gray-500 border">
                 No hay órdenes para mostrar
             </td>
         `;
@@ -256,6 +256,7 @@ function actualizarTablaOrdenes(ordenes) {
         row.innerHTML = `
             <td class="px-4 py-2 border">${escapeHtml(orden.code)}</td>
             <td class="px-4 py-2 border">${formatDateTime(orden.date)}</td>
+            <td class="px-4 py-2 border">${escapeHtml(orden.client_name || 'Cliente no registrado')}</td>
             <td class="px-4 py-2 border">${escapeHtml(orden.employee)}</td>
             <td class="px-4 py-2 border" title="${escapeHtml(orden.descripcion_articulos || 'Sin descripción')}">
                 ${truncateText(orden.descripcion_articulos || 'Sin descripción', 50)}

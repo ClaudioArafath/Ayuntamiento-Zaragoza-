@@ -81,6 +81,7 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
                     <tr class="bg-gray-200 text-left">
                         <th class="px-4 py-2 border">Folio</th>
                         <th class="px-4 py-2 border">Fecha</th>
+                        <th class="px-4 py-2 border">Cliente</th>
                         <th class="px-4 py-2 border">Departamento</th>
                         <th class="px-4 py-2 border">Descripción</th>
                         <th class="px-4 py-2 border">Subtotal</th>
@@ -93,13 +94,14 @@ if ($rol === 'Administrador' || $rol === 'Presidente'):
                         <tr>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['code']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['date']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['client_name']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['employee']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($cobro['descripcion_articulos']); ?></td>
-                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['precio'], 2);?></td>
+                            <td class="px-4 py-2 border">$<?php echo number_format($cobro['subtotal_real'], 2);?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($cobro['total'], 2); ?></td>
                             <td class="px-4 py-2 border orden-status-cell" data-folio="<?php echo htmlspecialchars($cobro['code']); ?>" data-estatus="<?php echo htmlspecialchars($cobro['estatus_texto']); ?>">
                                 <span class="badge badge-<?php echo ($cobro['estatus_num'] == 1) ? 'success' : 'warning'; ?>">
-                                    <?php echo htmlspecialchars($cobro['estatus']); ?>
+                                    <?php echo htmlspecialchars($cobro['estatus_texto']); ?>
                                 </span>
                             </td>
                         </tr>

@@ -178,8 +178,9 @@ $sql_facturas = "
         items, 
         employee, 
         estatus,
+        clientid,
         (SELECT COUNT(*) FROM ordenes_backup WHERE estatus = 0) as pendientes_count
-    FROM ordenes_backup 
+    FROM ordenes_backup
     ORDER BY date DESC 
     LIMIT 10
 ";
@@ -189,10 +190,43 @@ $result_facturas = $conn_ayuntamiento->query($sql_facturas);
 $facturas = [];
 
 if ($result_facturas && $result_facturas->num_rows > 0) {
+    // Primero, recopilar todos los clientids únicos
+    $client_ids = [];
+    $ordenes_temp = [];
+    
     while ($row = $result_facturas->fetch_assoc()) {
+        $ordenes_temp[] = $row;
+        if (!empty($row['clientid']) && $row['clientid'] > 1) {
+            $client_ids[] = (int)$row['clientid'];
+        }
+    }
+    
+    // Obtener nombres de clientes en una sola consulta
+    $client_names = [];
+    if (!empty($client_ids)) {
+        $client_ids_unique = array_unique($client_ids);
+        $ids_placeholder = implode(',', $client_ids_unique);
+        $sql_clients = "SELECT id, name FROM clients WHERE id IN ($ids_placeholder)";
+        $result_clients = $conn_lycaios->query($sql_clients);
+        
+        if ($result_clients && $result_clients->num_rows > 0) {
+            while ($client = $result_clients->fetch_assoc()) {
+                $client_names[$client['id']] = $client['name'];
+            }
+        }
+    }
+    
+    // Procesar cada orden
+    foreach ($ordenes_temp as $row) {
         $descripciones_articulos = [];
         $subtotal_real = 0;
         $cantidad_articulos = 0;
+        
+        // Obtener nombre del cliente
+        $client_name = 'Cliente no registrado';
+        if (!empty($row['clientid']) && isset($client_names[$row['clientid']])) {
+            $client_name = $client_names[$row['clientid']];
+        }
 
         if (!empty($row['items'])) {
             $items_data = json_decode($row['items'], true);
@@ -239,7 +273,8 @@ if ($result_facturas && $result_facturas->num_rows > 0) {
             'estatus_texto' => ($row['estatus'] == 1) ? 'Pagado' : 'Pendiente',
             'descripcion_articulos' => $descripcion_texto,
             'subtotal_real' => $subtotal_real,
-            'cantidad_articulos' => $cantidad_articulos
+            'cantidad_articulos' => $cantidad_articulos,
+            'client_name' => $client_name
         ];
     }
 }

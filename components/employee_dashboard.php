@@ -42,6 +42,7 @@ if ($rol === 'Empleado'):
                     <tr class="bg-gray-200 text-left">
                         <th class="px-4 py-2 border">Folio</th>
                         <th class="px-4 py-2 border">Fecha y hora</th>
+                        <th class="px-4 py-2 border">Cliente</th>
                         <th class="px-4 py-2 border">Departamento</th>
                         <th class="px-4 py-2 border">Descripción</th>
                         <th class="px-4 py-2 border">Subtotal</th>
@@ -60,6 +61,7 @@ if ($rol === 'Empleado'):
                         <tr>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['code']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['date']); ?></td>
+                            <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['client_name']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['employee']); ?></td>
                             <td class="px-4 py-2 border"><?php echo htmlspecialchars($orden['descripcion_articulos']); ?></td>
                             <td class="px-4 py-2 border">$<?php echo number_format($orden['subtotal_real'], 2);?></td>
@@ -75,7 +77,7 @@ if ($rol === 'Empleado'):
                     else:
                     ?>
                         <tr>
-                            <td colspan="7" class="px-4 py-4 text-center text-gray-500 border">
+                            <td colspan="8" class="px-4 py-4 text-center text-gray-500 border">
                                 No hay órdenes para mostrar
                             </td>
                         </tr>
